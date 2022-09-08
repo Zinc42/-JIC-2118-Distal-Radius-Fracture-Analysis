@@ -62,16 +62,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   //Uses welcome_screen_button to make 3 buttons
                   WelcomeScreenButton(
                     buttonText: "Pre-Operation Analysis",
-                    pressFunction: () async  {
+                    pressFunction: () {
                       print("test");
-                      await availableCameras().then((cameras) => 
-                        Navigator.push(
-                          context, 
-                          MaterialPageRoute(
-                            builder: (context) => CameraScreen(cameras: cameras)
-                          )
-                        )
-                      );
+                      toCameraScreen();
                     },
                       //Code to navigate to next screen goes here
                       //might look like navigator.push(context, static id of next screen when its made
@@ -99,5 +92,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         ],
       ),
     ));
+  }
+
+  // temp button function to set to display Camera Screen
+  void toCameraScreen() async {
+    try {
+      await availableCameras().then((cameras) {
+          Navigator.push(
+          context, 
+          MaterialPageRoute(
+            builder: (context) => CameraScreen(cameras: cameras)
+          )
+        );
+      });
+    } on CameraException catch (e) {
+      print(e);
+    }
   }
 }
