@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
-class WelcomeScreenButton extends StatelessWidget {
-
-  const WelcomeScreenButton({required this.buttonText,
-    required this.pressFunction
-  });
+class ScreenButton extends StatelessWidget {
+  const ScreenButton({required this.buttonText, required this.pressFunction});
 
   final String buttonText;
   final VoidCallback pressFunction;
@@ -16,8 +13,7 @@ class WelcomeScreenButton extends StatelessWidget {
       width: 300.0,
       child: ElevatedButton(
         onPressed: pressFunction,
-        child: Text("$buttonText"),
-
+        child: Text(buttonText),
       ),
     );
   }
