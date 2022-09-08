@@ -1,5 +1,6 @@
+import 'package:distal_radius/image_upload_screen.dart';
 import 'package:flutter/material.dart';
-import "welcome_screen_button.dart";
+import 'screen_button.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -56,24 +57,25 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     textAlign: TextAlign.center,
                     textScaleFactor: 1.5,
                   ),
-                  //Uses welcome_screen_button to make 3 buttons
-                  WelcomeScreenButton(
+                  ScreenButton(
                     buttonText: "Pre-Operation Analysis",
                     pressFunction: () {
-                      print("test");
-                      //Code to navigate to next screen goes here
-                      //might look like navigator.push(context, static id of next screen when its made
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ImageUploadScreen()));
                     },
                   ),
-                  WelcomeScreenButton(
+                  ScreenButton(
                     buttonText: "Post-Operation Analysis",
                     pressFunction: () {
-                      print("test");
-                      //Code to navigate to next screen goes here
-                      //might look like navigator.push(context, static id of next screen when its made
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ImageUploadScreen()));
                     },
                   ),
-                  WelcomeScreenButton(
+                  ScreenButton(
                     buttonText: "Advanced Instructions",
                     pressFunction: () {
                       print("test");

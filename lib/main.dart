@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import "welcome_screen.dart";
+
 void main() {
   runApp(const DistalRadius());
 }
@@ -9,13 +10,8 @@ class DistalRadius extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: WelcomeScreen.id,
-      //routes to different screens
-      routes: {
-        WelcomeScreen.id: (context) => WelcomeScreen()
-      }
-    );
+    return MaterialApp(initialRoute: WelcomeScreen.id,
+        //routes to different screens
+        routes: {WelcomeScreen.id: (context) => WelcomeScreen()});
   }
 }
-
