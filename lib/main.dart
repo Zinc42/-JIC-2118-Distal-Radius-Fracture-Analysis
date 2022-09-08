@@ -17,7 +17,7 @@ class DistalRadius extends StatelessWidget {
       //routes to different screens
       routes: {
         WelcomeScreen.id: (context) => const WelcomeScreen(),
-        CameraScreen.id: (context) => CameraScreen(),
+        //CameraScreen.id: (context) => CameraScreen(),   // need to add support with passing arguments w/ named routes
         ImageUploadScreen.id: (context) => const ImageUploadScreen(),
       }
     );

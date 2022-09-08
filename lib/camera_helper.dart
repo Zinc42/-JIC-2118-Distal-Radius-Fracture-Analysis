@@ -1,3 +1,6 @@
+// // Failed Attempt to Implement Controller/Helper to Manage Camera
+// // can get back to in the future after basic page is working
+
 // import "package:camera/camera.dart";
 
 // //Camera functionality implemented in camera_screen for now.

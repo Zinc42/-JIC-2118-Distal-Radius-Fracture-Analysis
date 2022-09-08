@@ -3,10 +3,13 @@ import 'package:camera/camera.dart';
 //import "camera_helper.dart";
 
 class CameraScreen extends StatefulWidget {
-  late List<CameraDescription>? cameras;
-  CameraScreen({this.cameras, super.key});
+  CameraScreen({required this.cameras, super.key});
+
+  late List<CameraDescription> cameras;
 
   static const String id = "camera_screen";
+
+  
 
   @override
   State<CameraScreen> createState() => _CameraScreenState();
@@ -20,7 +23,7 @@ class _CameraScreenState extends State<CameraScreen> {
   void initState() {
     super.initState();
     controller = CameraController(
-      widget.cameras![0], 
+      widget.cameras[0], 
       ResolutionPreset.max,
     );
     controller.initialize().then((_) {
@@ -29,6 +32,7 @@ class _CameraScreenState extends State<CameraScreen> {
       }
       setState(() {});
     });
+  
   }
 
   @override
@@ -39,6 +43,9 @@ class _CameraScreenState extends State<CameraScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.symmetric(vertical: 35.0),
@@ -46,31 +53,7 @@ class _CameraScreenState extends State<CameraScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CameraPreview(controller, 
-              child: Column(
-                
-                mainAxisAlignment: MainAxisAlignment.center,
-                children:  [
-                  const Text(
-                    "Center on Line", 
-                    style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  const SizedBox(height: 30),
-                  Container(
-                    alignment: Alignment.center,
-                    constraints: const BoxConstraints(minHeight: 100, maxHeight: 100),
-                    child: const VerticalDivider(
-                      color: Colors.red,
-                      width: 5, 
-                      thickness: 5,
-                      indent: 0,
-                      endIndent: 0,
-                    )
-                  ),
-                  const SizedBox(height: 30),
-                ],
-              )
-            ),
+            getCameraPreview(),
             const SizedBox(height: 30),
             SizedBox(
               height: 50.0,
@@ -95,4 +78,30 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
+  Widget getCameraPreview() {
+    return CameraPreview(controller, 
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children:  [
+          const Text(
+            "Center on Line", 
+            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          const SizedBox(height: 30),
+          Container(
+            alignment: Alignment.center,
+            constraints: const BoxConstraints(minHeight: 100, maxHeight: 100),
+            child: const VerticalDivider(
+              color: Colors.red,
+              width: 5, 
+              thickness: 5,
+              indent: 0,
+              endIndent: 0,
+            )
+          ),
+          const SizedBox(height: 30),
+        ],
+      )
+    );
+  }
 }
