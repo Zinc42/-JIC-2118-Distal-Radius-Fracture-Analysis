@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import 'package:camera/camera.dart';
+import "camera_screen.dart";
 import "welcome_screen_button.dart";
 
 class WelcomeScreen extends StatefulWidget {
@@ -15,7 +18,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+      body: Container(
       margin: EdgeInsets.symmetric(vertical: 35.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -59,11 +62,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   //Uses welcome_screen_button to make 3 buttons
                   WelcomeScreenButton(
                     buttonText: "Pre-Operation Analysis",
-                    pressFunction: () {
+                    pressFunction: () async  {
                       print("test");
+                      await availableCameras().then((cameras) => 
+                        Navigator.push(
+                          context, 
+                          MaterialPageRoute(
+                            builder: (context) => CameraScreen(cameras: cameras)
+                          )
+                        )
+                      );
+                    },
                       //Code to navigate to next screen goes here
                       //might look like navigator.push(context, static id of next screen when its made
-                    },
                   ),
                   WelcomeScreenButton(
                     buttonText: "Post-Operation Analysis",
