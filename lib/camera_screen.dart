@@ -48,13 +48,25 @@ class _CameraScreenState extends State<CameraScreen> {
 
     return Scaffold(
       body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 35.0),
+        margin: const EdgeInsets.symmetric(vertical: 35),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            getCameraPreview(),
-            const SizedBox(height: 30),
+            Stack(
+              alignment: Alignment.center, 
+              children: const [
+                Positioned(left: 10, child: BackButton()),
+                Align(
+                  child: Text(
+                    "From Camera",
+                    textAlign: TextAlign.center,
+                    textScaleFactor: 1.5,
+                  )
+                ),
+              ]
+            ),
+            const SizedBox(height: 20),
+            getCameraPreview(screenWidth, screenHeight),
+            const SizedBox(height: 10),
             SizedBox(
               height: 50.0,
               width: 50.0,
@@ -78,30 +90,39 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
-  Widget getCameraPreview() {
-    return CameraPreview(controller, 
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children:  [
-          const Text(
-            "Center on Line", 
-            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-          const SizedBox(height: 30),
-          Container(
-            alignment: Alignment.center,
-            constraints: const BoxConstraints(minHeight: 100, maxHeight: 100),
-            child: const VerticalDivider(
-              color: Colors.red,
-              width: 5, 
-              thickness: 5,
-              indent: 0,
-              endIndent: 0,
-            )
-          ),
-          const SizedBox(height: 30),
-        ],
-      )
+  Widget getCameraPreview(var screenWidth, var screenHeight) {
+    return Align(
+      alignment: Alignment.center,
+      child: Container(
+        decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                ),
+        height: screenHeight - 175,
+        width: screenWidth - 60,
+        child: CameraPreview(controller, 
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:  [
+              const Text(
+                "Center on Line", 
+                style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              const SizedBox(height: 30),
+              Container(
+                alignment: Alignment.center,
+                constraints: BoxConstraints(minHeight: screenHeight - 350, maxHeight: screenHeight - 350),
+                child: const VerticalDivider(
+                  color: Colors.red,
+                  width: 5, 
+                  thickness: 5,
+                  indent: 0,
+                  endIndent: 0,
+                )
+              ),
+            ],
+          )
+        ),
+      ),
     );
   }
 }

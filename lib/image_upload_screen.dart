@@ -18,20 +18,24 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-      margin: EdgeInsets.symmetric(vertical: 35.0),
+      margin: const EdgeInsets.symmetric(vertical: 35.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Stack(alignment: Alignment.center, children: [
-            Positioned(left: 10, child: BackButton()),
-            Align(
+          Stack(
+            alignment: Alignment.center, 
+            children: const [
+              Positioned(left: 10, child: BackButton()),
+              Align(
                 child: Text(
-              "Choose Analysis Type",
-              textAlign: TextAlign.center,
-              textScaleFactor: 1.5,
-            )),
-            SizedBox(height: 80)
-          ]),
+                  "Choose Analysis Type",
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1.5,
+                )
+              ),
+              SizedBox(height: 40)
+            ]
+          ),
           Expanded(
             child: Container(
               child: Column(
