@@ -1,5 +1,8 @@
 import 'package:distal_radius/image_upload_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'package:camera/camera.dart';
+import "camera_screen.dart";
 import 'screen_button.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -16,7 +19,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+      body: Container(
       margin: EdgeInsets.symmetric(vertical: 35.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -60,19 +63,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ScreenButton(
                     buttonText: "Pre-Operation Analysis",
                     pressFunction: () {
-                      Navigator.push(
+                      Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const ImageUploadScreen()));
+                          ImageUploadScreen.id);
                     },
                   ),
                   ScreenButton(
                     buttonText: "Post-Operation Analysis",
                     pressFunction: () {
-                      Navigator.push(
+                      Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const ImageUploadScreen()));
+                          ImageUploadScreen.id);
                     },
                   ),
                   ScreenButton(

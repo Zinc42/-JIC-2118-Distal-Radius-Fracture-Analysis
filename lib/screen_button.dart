@@ -13,7 +13,7 @@ class ScreenButton extends StatelessWidget {
       width: 300.0,
       child: ElevatedButton(
         onPressed: pressFunction,
-        child: Text("$buttonText"),
+        child: Text(buttonText),
       ),
     );
   }
