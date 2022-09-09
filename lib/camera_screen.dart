@@ -23,6 +23,7 @@ class _CameraScreenState extends State<CameraScreen> {
   late CameraController controller;
 
   @override
+  // set up camera controller cameras
   void initState() {
     super.initState();
     controller = CameraController(
@@ -94,6 +95,7 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
+  // generates the CameraPreview widget to place in the screen
   Widget getCameraPreview(var screenWidth, var screenHeight) {
     return Align(
       alignment: Alignment.center,
@@ -130,24 +132,31 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
+  // takes a picture from camera and displays it on a temporary placeholder screen
   void takeImage() async {
+    print("pic1");
     try {
-      final image = await controller.takePicture();
+      if (controller.value.isInitialized) {
+        final image = await controller.takePicture();
 
-      if (!mounted) {
-        return;
-      }
+        print("pic");
+        if (!mounted) {
+          print("not mounted");
+          return;
+        }
 
-      await Navigator.push(
-        context, 
-        MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: image.path))
-      );
+        await Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: image.path))
+        );
+      } 
     } catch (e) {
+      print("error");
       print(e);
     }
   }
 }
 
+// temporary screen to display any images taken.
 class DisplayPictureScreen extends StatelessWidget {
   final String imagePath;
 
@@ -156,9 +165,7 @@ class DisplayPictureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Display the Picture')),
-      // The image is stored as a file on the device. Use the `Image.file`
-      // constructor with the given path to display the image.
+      appBar: AppBar(title: const Text('Image Taken')),
       body: Image.file(File(imagePath)),
     );
   }
