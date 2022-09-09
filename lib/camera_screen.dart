@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+
+import 'dart:async';
+import 'dart:io';
 //import "camera_helper.dart";
 
 class CameraScreen extends StatefulWidget {
@@ -80,6 +83,7 @@ class _CameraScreenState extends State<CameraScreen> {
                 ),
                 onPressed: () {
                   print("Shutter");
+                  takeImage();
                 },  
                 child: null,
               ),
@@ -123,6 +127,39 @@ class _CameraScreenState extends State<CameraScreen> {
           )
         ),
       ),
+    );
+  }
+
+  void takeImage() async {
+    try {
+      final image = await controller.takePicture();
+
+      if (!mounted) {
+        return;
+      }
+
+      await Navigator.push(
+        context, 
+        MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: image.path))
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
+}
+
+class DisplayPictureScreen extends StatelessWidget {
+  final String imagePath;
+
+  const DisplayPictureScreen({super.key, required this.imagePath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Display the Picture')),
+      // The image is stored as a file on the device. Use the `Image.file`
+      // constructor with the given path to display the image.
+      body: Image.file(File(imagePath)),
     );
   }
 }
