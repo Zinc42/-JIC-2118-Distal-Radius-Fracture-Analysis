@@ -33,49 +33,46 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                   textScaleFactor: 1.5,
                 )
               ),
-              SizedBox(height: 40)
-            ]
+            ],
           ),
           Expanded(
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  ScreenButton(
-                    buttonText: "From Camera",
-                    pressFunction: () {
-                      print("Camera");
-                      toCameraScreen();
-                      //Code to navigate to next screen goes here
-                      //might look like navigator.push(context, static id of next screen when its made
-                    },
-                  ),
-                  ScreenButton(
-                    buttonText: "From Camera Roll",
-                    pressFunction: () {
-                      print("Camera Roll");
-                      //Code to navigate to next screen goes here
-                      //might look like navigator.push(context, static id of next screen when its made
-                    },
-                  ),
-                  ScreenButton(
-                    buttonText: "From Files",
-                    pressFunction: () {
-                      print("Files");
-                      //Code to navigate to next screen goes here
-                      //might look like navigator.push(context, static id of next screen when its made
-                    },
-                  ),
-                  ScreenButton(
-                    buttonText: "From Google Drive",
-                    pressFunction: () {
-                      print("Google Drive");
-                      //Code to navigate to next screen goes here
-                      //might look like navigator.push(context, static id of next screen when its made
-                    },
-                  ),
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                ScreenButton(
+                  buttonText: "From Camera",
+                  pressFunction: () {
+                    print("Camera");
+                    toCameraScreen();
+                    //Code to navigate to next screen goes here
+                    //might look like navigator.push(context, static id of next screen when its made
+                  },
+                ),
+                ScreenButton(
+                  buttonText: "From Camera Roll",
+                  pressFunction: () {
+                    print("Camera Roll");
+                    //Code to navigate to next screen goes here
+                    //might look like navigator.push(context, static id of next screen when its made
+                  },
+                ),
+                ScreenButton(
+                  buttonText: "From Files",
+                  pressFunction: () {
+                    print("Files");
+                    //Code to navigate to next screen goes here
+                    //might look like navigator.push(context, static id of next screen when its made
+                  },
+                ),
+                ScreenButton(
+                  buttonText: "From Google Drive",
+                  pressFunction: () {
+                    print("Google Drive");
+                    //Code to navigate to next screen goes here
+                    //might look like navigator.push(context, static id of next screen when its made
+                  },
+                ),
+              ],
             ),
           ),
         ],
@@ -83,7 +80,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
     ));
   }
 
-  // temp button function to set to display Camera Screen
+  // button function to set to display Camera Screen
   void toCameraScreen() async {
     try {
       await availableCameras().then((cameras) {

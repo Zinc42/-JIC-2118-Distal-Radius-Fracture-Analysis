@@ -29,6 +29,7 @@ class _CameraScreenState extends State<CameraScreen> {
     controller = CameraController(
       widget.cameras[0], 
       ResolutionPreset.max,
+      enableAudio: false,
     );
     controller.initialize().then((_) {
       if (!mounted) {
@@ -36,7 +37,6 @@ class _CameraScreenState extends State<CameraScreen> {
       }
       setState(() {});
     });
-  
   }
 
   @override
@@ -52,7 +52,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
     return Scaffold(
       body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 35),
+        margin: const EdgeInsets.fromLTRB(0, 35, 0, 20),
         child: Column(
           children: [
             Stack(
@@ -71,22 +71,22 @@ class _CameraScreenState extends State<CameraScreen> {
             const SizedBox(height: 20),
             getCameraPreview(screenWidth, screenHeight),
             const SizedBox(height: 10),
-            SizedBox(
-              height: 50.0,
-              width: 50.0,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    const CircleBorder(
-                      side: BorderSide(color: Colors.black),
-                    )),
-                  backgroundColor: MaterialStateProperty.all(const Color(0x00a3a3a3)),
-                ),
-                onPressed: () {
-                  print("Shutter");
-                  takeImage();
-                },  
-                child: null,
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(50, 50),
+                shape: const CircleBorder(side: BorderSide(color: Colors.black)),
+                backgroundColor: Colors.grey.shade600,
+                foregroundColor: Colors.grey.shade300,
+              ),
+              onPressed: () {
+                print("Shutter");
+                takeImage();
+              },  
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade500, 
+                  shape: BoxShape.circle,
+                )
               ),
             ),
           ],
@@ -101,9 +101,9 @@ class _CameraScreenState extends State<CameraScreen> {
       alignment: Alignment.center,
       child: Container(
         decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                ),
-        height: screenHeight - 175,
+          border: Border.all(color: Colors.black),
+        ),
+        height: screenHeight - 160,
         width: screenWidth - 60,
         child: CameraPreview(controller, 
           child: Column(
@@ -111,7 +111,7 @@ class _CameraScreenState extends State<CameraScreen> {
             children:  [
               const Text(
                 "Center on Line", 
-                style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 20),
+                style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 25),
               ),
               const SizedBox(height: 30),
               Container(
@@ -134,14 +134,11 @@ class _CameraScreenState extends State<CameraScreen> {
 
   // takes a picture from camera and displays it on a temporary placeholder screen
   void takeImage() async {
-    print("pic1");
     try {
       if (controller.value.isInitialized) {
         final image = await controller.takePicture();
 
-        print("pic");
         if (!mounted) {
-          print("not mounted");
           return;
         }
 
@@ -150,7 +147,6 @@ class _CameraScreenState extends State<CameraScreen> {
         );
       } 
     } catch (e) {
-      print("error");
       print(e);
     }
   }
