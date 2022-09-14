@@ -9,7 +9,7 @@ Licensed under the MIT License.
 
 ## Release Notes
 
-### v0.1.0
+### Version 0.1.0
 
 #### New Features
 
