@@ -12,14 +12,11 @@ class CameraScreen extends StatefulWidget {
 
   static const String id = "camera_screen";
 
-  
-
   @override
   State<CameraScreen> createState() => _CameraScreenState();
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-
   late CameraController controller;
 
   @override
@@ -27,7 +24,7 @@ class _CameraScreenState extends State<CameraScreen> {
   void initState() {
     super.initState();
     controller = CameraController(
-      widget.cameras[0], 
+      widget.cameras[0],
       ResolutionPreset.max,
       enableAudio: false,
     );
@@ -55,39 +52,34 @@ class _CameraScreenState extends State<CameraScreen> {
         margin: const EdgeInsets.fromLTRB(0, 35, 0, 20),
         child: Column(
           children: [
-            Stack(
-              alignment: Alignment.center, 
-              children: const [
-                Positioned(left: 10, child: BackButton()),
-                Align(
+            Stack(alignment: Alignment.center, children: const [
+              Positioned(left: 10, child: BackButton()),
+              Align(
                   child: Text(
-                    "From Camera",
-                    textAlign: TextAlign.center,
-                    textScaleFactor: 1.5,
-                  )
-                ),
-              ]
-            ),
+                "From Camera",
+                textAlign: TextAlign.center,
+                textScaleFactor: 1.5,
+              )),
+            ]),
             const SizedBox(height: 20),
             getCameraPreview(screenWidth, screenHeight),
             const SizedBox(height: 10),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 fixedSize: const Size(50, 50),
-                shape: const CircleBorder(side: BorderSide(color: Colors.black)),
-                backgroundColor: Colors.grey.shade600,
-                foregroundColor: Colors.grey.shade300,
+                shape:
+                    const CircleBorder(side: BorderSide(color: Colors.black)),
+
               ),
               onPressed: () {
                 print("Shutter");
                 takeImage();
-              },  
+              },
               child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade500, 
-                  shape: BoxShape.circle,
-                )
-              ),
+                  decoration: BoxDecoration(
+                color: Colors.grey.shade500,
+                shape: BoxShape.circle,
+              )),
             ),
           ],
         ),
@@ -105,29 +97,32 @@ class _CameraScreenState extends State<CameraScreen> {
         ),
         height: screenHeight - 160,
         width: screenWidth - 60,
-        child: CameraPreview(controller, 
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children:  [
-              const Text(
-                "Center on Line", 
-                style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 25),
-              ),
-              const SizedBox(height: 30),
-              Container(
-                alignment: Alignment.center,
-                constraints: BoxConstraints(minHeight: screenHeight - 350, maxHeight: screenHeight - 350),
-                child: const VerticalDivider(
-                  color: Colors.red,
-                  width: 5, 
-                  thickness: 5,
-                  indent: 0,
-                  endIndent: 0,
-                )
-              ),
-            ],
-          )
-        ),
+        child: CameraPreview(controller,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Center on Line",
+                  style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25),
+                ),
+                const SizedBox(height: 30),
+                Container(
+                    alignment: Alignment.center,
+                    constraints: BoxConstraints(
+                        minHeight: screenHeight - 350,
+                        maxHeight: screenHeight - 350),
+                    child: const VerticalDivider(
+                      color: Colors.red,
+                      width: 5,
+                      thickness: 5,
+                      indent: 0,
+                      endIndent: 0,
+                    )),
+              ],
+            )),
       ),
     );
   }
@@ -142,10 +137,9 @@ class _CameraScreenState extends State<CameraScreen> {
           return;
         }
 
-        await Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => DisplayPictureScreen(imagePath: image.path))
-        );
-      } 
+        await Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => DisplayPictureScreen(imagePath: image.path)));
+      }
     } catch (e) {
       print(e);
     }

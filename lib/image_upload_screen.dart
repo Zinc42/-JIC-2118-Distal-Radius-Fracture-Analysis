@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'screen_button.dart';
 import "package:camera/camera.dart";
 import "camera_screen.dart";
+import "camera_roll_screen.dart";
 
 class ImageUploadScreen extends StatefulWidget {
   const ImageUploadScreen({Key? key}) : super(key: key);
@@ -51,7 +52,8 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                 ScreenButton(
                   buttonText: "From Camera Roll",
                   pressFunction: () {
-                    print("Camera Roll");
+                    print("to camera roll");
+                    Navigator.pushNamed(context, CameraRollScreen.id);
                     //Code to navigate to next screen goes here
                     //might look like navigator.push(context, static id of next screen when its made
                   },
