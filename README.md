@@ -1,16 +1,24 @@
-# distal_radius
+# Application for Critical Examination of Distal Radius Fractures
 
-A new Flutter project.
+A mobile application desiged to automatically analyze x-ray images of the distal radius (wrist).
 
-## Getting Started
+It is able to take measurements for volar tilt, radial tilt, and radial height for both pre-operation and post-operation x-rays.
+Users can import images via the camera for analysis. 
 
-This project is a starting point for a Flutter application.
+Licensed under the MIT License.
 
-A few resources to get you started if this is your first Flutter project:
+## Release Notes
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### v0.1.0
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### New Features
+
+- Added Application landing page with options for pre-op and post-op analyses
+- Added menu to select method of importing an image
+- Added camera screen 
+- Added camera functionality
+
+#### Bugfixes
+
+- N/A
+
