@@ -34,6 +34,7 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(title: const Text('Camera roll Image')),
         body: SafeArea(
       child: Container(
           child: Column(
@@ -49,8 +50,7 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: 200,
+              Flexible(
                 child: ScreenButton(
                     buttonText: "Select an Image",
                     pressFunction: () {
@@ -60,8 +60,7 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
               SizedBox(
                 width: 10,
               ),
-              Container(
-                width: 200,
+              Flexible(
                 child:
                     ScreenButton(buttonText: "Confirm", pressFunction: () {}),
               ),
