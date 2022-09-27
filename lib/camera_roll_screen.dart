@@ -17,6 +17,21 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
   @override
   File? image;
 
+  Future pickImage() async {
+    try {
+      final imagePicked =
+      await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (imagePicked == null) return;
+      final temporaryImageFile = File(imagePicked.path);
+      setState(() {
+        this.image = temporaryImageFile;
+      });
+    } on PlatformException catch (e) {
+      //To do: Handle exception when user does not allow permission to camera roll
+      print("Failed to pick image: $e");
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text('Camera roll Image')),
@@ -39,7 +54,7 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
                     child: ScreenButton(
                         buttonText: "Select an Image",
                         pressFunction: () {
-                          //pickImage();
+                          pickImage();
                         }),
                   ),
                   SizedBox(
