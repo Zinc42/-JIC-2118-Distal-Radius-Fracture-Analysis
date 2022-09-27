@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:flutter/material.dart';
 
 import "screen_button.dart";
@@ -14,14 +16,15 @@ class MenuScreen extends StatefulWidget {
   State<MenuScreen> createState() => _MenuScreenState();
 }
 
-// argument class that contains arguments for the screen
+// argument class to encapsulate arguments that can be passed to the screen
 class MenuScreenArguments {
   MenuScreenArguments({required this.analysisType});
 
   final String analysisType;
 }
 
-// state class that handles logic in the screen
+// State class that handles logic in the screen
+// contains all functions relevant to business logic
 class _MenuScreenState extends State<MenuScreen> {
 
   String? frontImagePath;
@@ -53,9 +56,42 @@ class _MenuScreenState extends State<MenuScreen> {
   void setFrontImagePath(String newFrontImagePath) {
     frontImagePath = newFrontImagePath;
   }
+
+  void runAnalysis() {
+    if (frontImagePath != null && sideImagePath != null) {
+      // run analysis only if both images have been uploaded
+      print("Run Analysis");
+      // code to run analysis 
+    } else {
+      _showNoImageAlert();
+    }
+  }
+
+  Future<void> _showNoImageAlert() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return  AlertDialog(
+          title: const Text("Missing Image"),
+          content: const SingleChildScrollView(
+            child: Text("Required Images are Missing."),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ]
+        );
+      }
+    );
+  }
 }
 
-// view class that purely builds the UI elements
+// View class that purely builds the UI elements
 class _MenuScreenView extends StatelessWidget {
   const _MenuScreenView({super.key, required this.state});
 
@@ -100,7 +136,7 @@ class _MenuScreenView extends StatelessWidget {
               width: 200,
               image: state.getFrontImageDisplay(),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             ScreenButton(
@@ -117,14 +153,12 @@ class _MenuScreenView extends StatelessWidget {
               width: 200,
               image: state.getSideImageDisplay(),
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             ScreenButton(
               buttonText: "Run Analysis",
-              pressFunction: () {
-                print("Run Analysis");
-              },
+              pressFunction: state.runAnalysis,
             ),
             
           ],
