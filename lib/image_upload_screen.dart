@@ -3,6 +3,8 @@ import 'screen_button.dart';
 import "package:camera/camera.dart";
 import "camera_screen.dart";
 
+import 'package:permission_handler/permission_handler.dart';
+
 class ImageUploadScreen extends StatefulWidget {
   const ImageUploadScreen({Key? key}) : super(key: key);
 
@@ -19,24 +21,66 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
 
   // button function to set to display Camera Screen
   void toCameraScreen() async {
-    try {
-      await availableCameras().then((cameras) {
-          Navigator.push(
-          context, 
-          MaterialPageRoute(
-            builder: (context) => CameraScreen(cameras: cameras)
-          )
-        );
-      });
-    } on CameraException catch (e) {
-      print("Camera Exception: $e");
-    }
+    await getCameraPerms().then(
+      (permStatus) async {
+        if (permStatus.isGranted) {
+          await availableCameras().then(
+            (cameras) {
+              Navigator.push(
+                context, 
+                MaterialPageRoute(
+                  builder: (context) => CameraScreen(cameras: cameras)
+                )
+              );
+            }
+          );
+        }
+      }
+    );
   }
 
   void toCameraRollScreen() {
     print("Camera Roll");
     //Code to navigate to next screen goes here
     //might look like navigator.push(context, static id of next screen when its made
+  }
+
+  Future<PermissionStatus> getCameraPerms() async {
+    PermissionStatus cameraPermStatus = await Permission.camera.request();
+
+    if (!cameraPermStatus.isGranted) {
+      showCameraPermsAlert();
+    }
+
+    return cameraPermStatus;
+  }
+
+  Future<void> showCameraPermsAlert() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Camera Access Denied"),
+          content: const SingleChildScrollView(
+            child: Text("Enable camera to continue."),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                openAppSettings();
+                Navigator.pop(context);
+              },
+              child: const Text("Settings"),
+            ),
+          ]
+        );
+      }
+    );
   }
 
 }
