@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:crop/crop.dart';
+import 'image_confirm_screen.dart';
 
 class ImageEditScreen extends StatefulWidget {
   final String imagePath;
@@ -28,33 +29,12 @@ class _ImageEditScreenState extends State<ImageEditScreen> {
   Future<void> cropImage() async {
     final pixelRatio = MediaQuery.of(context).devicePixelRatio;
     final cropped = await controller.crop(pixelRatio: pixelRatio);
+    final finalImage = RawImage(image: cropped);
 
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => Scaffold(
-          appBar: AppBar(
-            title: const Text('Crop Result'),
-            centerTitle: true,
-            actions: [
-              Builder(
-                builder: (context) => IconButton(
-                  icon: const Icon(Icons.save),
-                  onPressed: () async {
-                    print("here");
-                  },
-                ),
-              ),
-            ],
-          ),
-          body: Center(
-            child: RawImage(
-              image: cropped,
-            ),
-          ),
-        ),
-        fullscreenDialog: true,
-      ),
-    );
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ImageConfirmScreen(image: finalImage)));
   }
 
   void cancelImage() {
@@ -70,7 +50,7 @@ class _ImageEditScreenState extends State<ImageEditScreen> {
           onPressed: cancelImage,
         ),
         ElevatedButton(
-          child: const Text('Confirm Image'),
+          child: const Text('Crop Image'),
           onPressed: cropImage,
         )
       ],
