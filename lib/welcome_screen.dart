@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import "camera_screen.dart";
 import 'screen_button.dart';
+import "menu_screen.dart";
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-      margin: EdgeInsets.symmetric(vertical: 35.0),
+      margin: const EdgeInsets.fromLTRB(0, 35, 0, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -65,7 +66,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     pressFunction: () {
                       Navigator.pushNamed(
                           context,
-                          ImageUploadScreen.id);
+                          MenuScreen.id,
+                          arguments: MenuScreenArguments(analysisType: "Pre-Operation Analysis"));
                     },
                   ),
                   ScreenButton(
@@ -73,7 +75,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     pressFunction: () {
                       Navigator.pushNamed(
                           context,
-                          ImageUploadScreen.id);
+                          MenuScreen.id,
+                          arguments: MenuScreenArguments(analysisType: "Post-Operation Analysis"));
                     },
                   ),
                   ScreenButton(
