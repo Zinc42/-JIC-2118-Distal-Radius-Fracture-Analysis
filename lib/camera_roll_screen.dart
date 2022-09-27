@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import "screen_button.dart";
 
