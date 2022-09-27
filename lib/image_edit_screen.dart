@@ -27,6 +27,7 @@ class _ImageEditScreenState extends State<ImageEditScreen> {
   }
 
   Future<void> cropImage() async {
+    if (!mounted) return;
     final pixelRatio = MediaQuery.of(context).devicePixelRatio;
     final cropped = await controller.crop(pixelRatio: pixelRatio);
     final finalImage = RawImage(image: cropped);
@@ -149,7 +150,7 @@ class _ImageEditScreenState extends State<ImageEditScreen> {
         },
         controller: controller,
         shape: shape,
-        child: Image.asset(path, fit: BoxFit.cover),
+        child: Image.file(File(path), fit: BoxFit.cover),
         foreground: IgnorePointer(
           ignoring: false,
           child: Container(
