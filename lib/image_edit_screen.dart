@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
+import 'package:crop/crop.dart';
 
 class ImageEditScreen extends StatefulWidget {
   final String imagePath;
@@ -14,7 +14,11 @@ class ImageEditScreen extends StatefulWidget {
 }
 
 class _ImageEditScreenState extends State<ImageEditScreen> {
-  CroppedFile? croppedFile;
+  final controller = CropController(aspectRatio: 9.0 / 16.0);
+  double rotation = 0;
+  BoxShape shape = BoxShape.rectangle;
+
+  RawImage? croppedImage;
   File? originaFile;
 
   void initState() {
@@ -22,55 +26,127 @@ class _ImageEditScreenState extends State<ImageEditScreen> {
   }
 
   Future<void> cropImage() async {
-    CroppedFile? croppedImage = await ImageCropper().cropImage(
-      sourcePath: widget.imagePath,
-      uiSettings: [
-        AndroidUiSettings(
-            toolbarTitle: 'Cropper',
-            toolbarColor: Colors.deepOrange,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        IOSUiSettings(title: 'Cropper', aspectRatioLockEnabled: false),
-        WebUiSettings(
-          context: context,
-          presentStyle: CropperPresentStyle.dialog,
-          boundary: const CroppieBoundary(
-            width: 520,
-            height: 520,
+    final pixelRatio = MediaQuery.of(context).devicePixelRatio;
+    final cropped = await controller.crop(pixelRatio: pixelRatio);
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: const Text('Crop Result'),
+            centerTitle: true,
+            actions: [
+              Builder(
+                builder: (context) => IconButton(
+                  icon: const Icon(Icons.save),
+                  onPressed: () async {
+                    print("here");
+                  },
+                ),
+              ),
+            ],
           ),
-          viewPort:
-              const CroppieViewPort(width: 480, height: 480, type: 'circle'),
-          enableExif: true,
-          enableZoom: true,
-          showZoomer: true,
+          body: Center(
+            child: RawImage(
+              image: cropped,
+            ),
+          ),
         ),
+        fullscreenDialog: true,
+      ),
+    );
+  }
+
+  void cancelImage() {
+    Navigator.of(context).popUntil(ModalRoute.withName("image_upload_screen"));
+  }
+
+  Widget getBottomButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        ElevatedButton(
+          child: const Text('Cancel Upload'),
+          onPressed: cancelImage,
+        ),
+        ElevatedButton(
+          child: const Text('Confirm Image'),
+          onPressed: cropImage,
+        )
       ],
     );
-    if (croppedImage != null)
-      setState(() {
-        croppedFile = croppedImage;
-      });
   }
 
   Widget getMenu() {
-    return Row(mainAxisSize: MainAxisSize.min, children: [
-      FloatingActionButton(
+    return Row(
+      children: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.undo),
+          tooltip: 'Undo',
           onPressed: () {
-            print("Clear");
+            controller.rotation = 0;
+            controller.scale = 1;
+            controller.offset = Offset.zero;
+            setState(() {
+              rotation = 0;
+            });
           },
-          backgroundColor: Colors.amber,
-          tooltip: 'Clear',
-          child: const Icon(Icons.clear)),
-      FloatingActionButton(
-          onPressed: () async {
-            await cropImage();
-            print("Cropped");
+        ),
+        Expanded(
+          child: SliderTheme(
+            data: ThemeData(primarySwatch: Colors.blue).sliderTheme,
+            child: Slider(
+              divisions: 360,
+              value: rotation,
+              min: -180,
+              max: 180,
+              label: '$rotation°',
+              onChanged: (n) {
+                setState(() {
+                  rotation = n.roundToDouble();
+                  controller.rotation = rotation;
+                });
+              },
+            ),
+          ),
+        ),
+        PopupMenuButton<double>(
+          icon: const Icon(Icons.aspect_ratio),
+          itemBuilder: (context) => [
+            const PopupMenuItem(
+              child: Text("Original"),
+              value: 1000 / 667.0,
+            ),
+            const PopupMenuDivider(),
+            const PopupMenuItem(
+              child: Text("16:9"),
+              value: 16.0 / 9.0,
+            ),
+            const PopupMenuItem(
+              child: Text("4:3"),
+              value: 4.0 / 3.0,
+            ),
+            const PopupMenuItem(
+              child: Text("1:1"),
+              value: 1,
+            ),
+            const PopupMenuItem(
+              child: Text("3:4"),
+              value: 3.0 / 4.0,
+            ),
+            const PopupMenuItem(
+              child: Text("9:16"),
+              value: 9.0 / 16.0,
+            ),
+          ],
+          tooltip: 'Aspect Ratio',
+          onSelected: (x) {
+            controller.aspectRatio = x;
+            setState(() {});
           },
-          backgroundColor: Colors.amberAccent,
-          tooltip: 'Crop',
-          child: const Icon(Icons.crop))
-    ]);
+        ),
+      ],
+    );
   }
 
   Widget getImage() {
@@ -79,15 +155,65 @@ class _ImageEditScreenState extends State<ImageEditScreen> {
     final path = widget.imagePath;
 
     return ConstrainedBox(
-        constraints: BoxConstraints(
-          maxWidth: 0.8 * screenWidth,
-          maxHeight: 0.7 * screenHeight,
+      constraints: BoxConstraints(
+        maxWidth: 0.9 * screenWidth,
+        maxHeight: 0.7 * screenHeight,
+      ),
+      child: Crop(
+        onChanged: (decomposition) {
+          if (rotation != decomposition.rotation) {
+            setState(() {
+              rotation = ((decomposition.rotation + 180) % 360) - 180;
+            });
+          }
+        },
+        controller: controller,
+        shape: shape,
+        child: Image.asset(path, fit: BoxFit.cover),
+        foreground: IgnorePointer(
+          ignoring: false,
+          child: Container(
+            alignment: Alignment.bottomRight,
+          ),
         ),
-        child: kIsWeb ? Image.network(path) : Image.file(File(path)));
+        helper: shape == BoxShape.rectangle
+            ? Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white, width: 1),
+                ),
+              )
+            : null,
+      ),
+    );
+  }
+
+  Widget getHeader() {
+    return Stack(
+      alignment: Alignment.center,
+      children: const [
+        Positioned(left: 10, child: BackButton()),
+        Align(
+            child: Text(
+          "Align Image",
+          textAlign: TextAlign.center,
+          textScaleFactor: 1.5,
+        )),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: ListView(children: [getImage(), getMenu()]));
+    return Scaffold(
+        body: Container(
+            margin: const EdgeInsets.symmetric(vertical: 35.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  getHeader(),
+                  getImage(),
+                  getMenu(),
+                  getBottomButtons()
+                ])));
   }
 }
