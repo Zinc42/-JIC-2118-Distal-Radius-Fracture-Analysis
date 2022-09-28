@@ -1,3 +1,4 @@
+import 'package:distal_radius/image_edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
@@ -69,6 +70,8 @@ class _CameraScreenState extends State<CameraScreen> {
                 fixedSize: const Size(50, 50),
                 shape:
                     const CircleBorder(side: BorderSide(color: Colors.black)),
+                backgroundColor: Colors.grey.shade600,
+                foregroundColor: Colors.grey.shade300,
 
               ),
               onPressed: () {
@@ -138,7 +141,7 @@ class _CameraScreenState extends State<CameraScreen> {
         }
 
         await Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => DisplayPictureScreen(imagePath: image.path)));
+            builder: (context) => ImageEditScreen(imagePath: image.path)));
       }
     } catch (e) {
       print(e);
