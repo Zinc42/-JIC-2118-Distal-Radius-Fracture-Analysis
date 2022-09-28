@@ -24,7 +24,6 @@ class _ImageConfirmScreen extends State<ImageConfirmScreen> {
 
   void confirmImage() {
     print("Image ready to send back");
-    print("Needed to change something");
   }
 
   Widget getBottomButtons() {
