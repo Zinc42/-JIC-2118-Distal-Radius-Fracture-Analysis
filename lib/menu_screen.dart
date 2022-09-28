@@ -1,5 +1,3 @@
-import 'dart:js_util';
-
 import 'package:flutter/material.dart';
 
 import "screen_button.dart";
@@ -56,7 +54,7 @@ class _MenuScreenState extends State<MenuScreen> {
   void setFrontImagePath(String newFrontImagePath) {
     frontImagePath = newFrontImagePath;
   }
-
+  
   void runAnalysis() {
     if (frontImagePath != null && sideImagePath != null) {
       // run analysis only if both images have been uploaded
@@ -91,7 +89,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 }
 
-// View class that purely builds the UI elements
+// view class that purely builds the UI elements
 class _MenuScreenView extends StatelessWidget {
   const _MenuScreenView({super.key, required this.state});
 
