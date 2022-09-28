@@ -19,16 +19,14 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Camera roll Image')),
+        appBar: AppBar(title: const Text('Camera Roll Image')),
         body: SafeArea(
           child: Container(
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Center(
-                  child: image != null
-                      ? Image.file(image!)
-                      : Text("No image Selected")),
+                  child: image != null ? Image.file(image!) : Text("No image Selected")),
               SizedBox(
                 height: 10,
               ),
