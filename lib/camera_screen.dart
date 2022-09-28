@@ -57,10 +57,10 @@ class _CameraScreenState extends State<CameraScreen> {
               Positioned(left: 10, child: BackButton()),
               Align(
                   child: Text(
-                "From Camera",
-                textAlign: TextAlign.center,
-                textScaleFactor: 1.5,
-              )),
+                    "From Camera",
+                    textAlign: TextAlign.center,
+                    textScaleFactor: 1.5,
+                  )),
             ]),
             const SizedBox(height: 20),
             getCameraPreview(screenWidth, screenHeight),
@@ -69,10 +69,9 @@ class _CameraScreenState extends State<CameraScreen> {
               style: ElevatedButton.styleFrom(
                 fixedSize: const Size(50, 50),
                 shape:
-                    const CircleBorder(side: BorderSide(color: Colors.black)),
+                const CircleBorder(side: BorderSide(color: Colors.black)),
                 backgroundColor: Colors.grey.shade600,
                 foregroundColor: Colors.grey.shade300,
-
               ),
               onPressed: () {
                 print("Shutter");
@@ -80,9 +79,9 @@ class _CameraScreenState extends State<CameraScreen> {
               },
               child: Container(
                   decoration: BoxDecoration(
-                color: Colors.grey.shade500,
-                shape: BoxShape.circle,
-              )),
+                    color: Colors.grey.shade500,
+                    shape: BoxShape.circle,
+                  )),
             ),
           ],
         ),
