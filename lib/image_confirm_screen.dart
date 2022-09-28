@@ -33,12 +33,15 @@ class _ImageConfirmScreen extends State<ImageConfirmScreen> {
   }
 
   void confirmImage() async {
+    // overwrites original image path with new image
     writeToFile((await widget.image.image!.toByteData())!, widget.originalPath);
+
+    // updates path to images in imageHandler
     imageHandler.setCurrImagepath(widget.originalPath);
+
     if(!mounted) return;
     Navigator.of(context).popUntil(ModalRoute.withName(MenuScreen.id));
   }
-
 
   // function write new image data to the same file path as old uncropped image
   Future<File> writeToFile(ByteData data, String path) {
