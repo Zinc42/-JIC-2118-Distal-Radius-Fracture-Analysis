@@ -57,6 +57,14 @@ class _MenuScreenState extends State<MenuScreen> {
     }
   }
 
+  void toImageUploadScreen(bool isFront) {
+    imageHandler.isFrontImage = isFront;
+    Navigator.pushNamed(
+      context,
+      ImageUploadScreen.id
+    ).then((value) => setState(() {}));
+  }
+
   Future<void> _showNoImageAlert() async {
     return showDialog<void>(
       context: context,
@@ -114,11 +122,7 @@ class _MenuScreenView extends StatelessWidget {
             const SizedBox(height: 40),
             ScreenButton(
               buttonText: "Import Frontal View",
-              pressFunction: () {
-                Navigator.pushNamed(
-                  context,
-                  ImageUploadScreen.id);
-              },
+              pressFunction: () => state.toImageUploadScreen(true),
             ),
             const SizedBox(height: 20),
             Image(
@@ -131,11 +135,7 @@ class _MenuScreenView extends StatelessWidget {
             ),
             ScreenButton(
               buttonText: "Import Side View",
-              pressFunction: () {
-                Navigator.pushNamed(
-                  context,
-                  ImageUploadScreen.id);
-              },
+              pressFunction: () => state.toImageUploadScreen(false),
             ),
             const SizedBox(height: 20),
             Image(
