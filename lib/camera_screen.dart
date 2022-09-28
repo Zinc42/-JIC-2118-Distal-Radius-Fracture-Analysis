@@ -1,3 +1,4 @@
+import 'package:distal_radius/image_edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
@@ -56,10 +57,10 @@ class _CameraScreenState extends State<CameraScreen> {
               Positioned(left: 10, child: BackButton()),
               Align(
                   child: Text(
-                "From Camera",
-                textAlign: TextAlign.center,
-                textScaleFactor: 1.5,
-              )),
+                    "From Camera",
+                    textAlign: TextAlign.center,
+                    textScaleFactor: 1.5,
+                  )),
             ]),
             const SizedBox(height: 20),
             getCameraPreview(screenWidth, screenHeight),
@@ -77,9 +78,9 @@ class _CameraScreenState extends State<CameraScreen> {
               },
               child: Container(
                   decoration: BoxDecoration(
-                color: Colors.grey.shade500,
-                shape: BoxShape.circle,
-              )),
+                    color: Colors.grey.shade500,
+                    shape: BoxShape.circle,
+                  )),
             ),
           ],
         ),
@@ -138,7 +139,7 @@ class _CameraScreenState extends State<CameraScreen> {
         }
 
         await Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => DisplayPictureScreen(imagePath: image.path)));
+            builder: (context) => ImageEditScreen(imagePath: image.path)));
       }
     } catch (e) {
       print(e);
