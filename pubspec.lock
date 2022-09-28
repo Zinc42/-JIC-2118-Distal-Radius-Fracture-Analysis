@@ -84,13 +84,8 @@ packages:
       name: crop
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.3.3+2"
-  crypto:
-=======
     version: "0.5.2"
   cross_file:
->>>>>>> camera-roll-screen-image-picker-implementation
     dependency: transitive
     description:
       name: cross_file
