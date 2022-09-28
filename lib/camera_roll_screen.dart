@@ -20,7 +20,7 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
   Future pickImage() async {
     try {
       final imagePicked =
-      await ImagePicker().pickImage(source: ImageSource.gallery);
+          await ImagePicker().pickImage(source: ImageSource.gallery);
       if (imagePicked == null) return;
       final temporaryImageFile = File(imagePicked.path);
       setState(() {
@@ -41,9 +41,13 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Center(
-                  child: image != null
-                      ? Image.file(image!)
-                      : Text("No image Selected")),
+                child: image != null
+                    ? Image.file(image!)
+                    : Text(
+                        "No image Selected",
+                        style: TextStyle(fontSize: 25),
+                      ),
+              ),
               SizedBox(
                 height: 10,
               ),
