@@ -3,6 +3,7 @@ import "welcome_screen.dart";
 import "camera_screen.dart";
 import "image_upload_screen.dart";
 import "camera_roll_screen.dart";
+import "menu_screen.dart";
 
 void main() {
   runApp(const DistalRadius());
@@ -18,6 +19,7 @@ class DistalRadius extends StatelessWidget {
       //routes to different screens
       routes: {
         WelcomeScreen.id: (context) => const WelcomeScreen(),
+        MenuScreen.id : (context) => const MenuScreen(),
         //CameraScreen.id: (context) => CameraScreen(),   // need to add support with passing arguments w/ named routes
         ImageUploadScreen.id: (context) => const ImageUploadScreen(),
         CameraRollScreen.id: (context) => const CameraRollScreen(),
