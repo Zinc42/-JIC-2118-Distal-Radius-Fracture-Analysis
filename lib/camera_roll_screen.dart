@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import "screen_button.dart";
+import "image_edit_screen.dart";
 
 class CameraRollScreen extends StatefulWidget {
   const CameraRollScreen({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class CameraRollScreen extends StatefulWidget {
 
 class _CameraRollScreenState extends State<CameraRollScreen> {
   @override
-  File? image;
+  String imagePath = "lib/images/image_placeholder.png";
 
   Future pickImage() async {
     try {
@@ -24,11 +25,19 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
       if (imagePicked == null) return;
       final temporaryImageFile = File(imagePicked.path);
       setState(() {
-        this.image = temporaryImageFile;
+        this.imagePath = temporaryImageFile.path;
       });
     } on PlatformException catch (e) {
       //To do: Handle exception when user does not allow permission to camera roll
       print("Failed to pick image: $e");
+    }
+  }
+
+  void moveToEditScreen() {
+    if (imagePath != "lib/images/image_placeholder.png") {
+      print(imagePath);
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ImageEditScreen(imagePath: imagePath)));
     }
   }
 
@@ -41,11 +50,8 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Center(
-                child: image != null
-                    ? Image.file(image!)
-                    : Text(
-                        "No image Selected",
-                        style: TextStyle(fontSize: 25),
+                child: imagePath != "lib/images/image_placeholder.png" ? Image(image: FileImage(File(imagePath))) : Image(width: 200, height: 200,
+                  image: AssetImage("lib/images/image_placeholder.png"),
                       ),
               ),
               SizedBox(
@@ -66,7 +72,10 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
                   ),
                   Flexible(
                     child: ScreenButton(
-                        buttonText: "Confirm", pressFunction: () {}),
+                        buttonText: "Confirm",
+                        pressFunction: () {
+                          moveToEditScreen();
+                        }),
                   ),
                 ],
               )
