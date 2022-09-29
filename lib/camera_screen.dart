@@ -137,7 +137,6 @@ class _CameraScreenState extends State<CameraScreen> {
         if (!mounted) {
           return;
         }
-
         await Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ImageEditScreen(imagePath: image.path)));
       }

@@ -96,11 +96,12 @@ class _ImageUploadScreenView extends StatelessWidget {
                 children: const [
                   Positioned(left: 10, child: BackButton()),
                   Align(
-                      child: Text(
-                    "Choose Analysis Type",
-                    textAlign: TextAlign.center,
-                    textScaleFactor: 1.5,
-                  )),
+                    child: Text(
+                      "Choose Analysis Type",
+                      textAlign: TextAlign.center,
+                      textScaleFactor: 1.5,
+                    )
+                  ),
                 ],
               ),
               Expanded(
