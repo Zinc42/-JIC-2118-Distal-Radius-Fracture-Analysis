@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'dart:typed_data';
 
 import 'package:distal_radius/image_upload_screen.dart';
@@ -22,9 +23,6 @@ class ImageConfirmScreen extends StatefulWidget {
 }
 
 class _ImageConfirmScreen extends State<ImageConfirmScreen> {
-  void initState() {
-    super.initState();
-  }
 
   ImageHandler imageHandler = ImageHandler();
 
@@ -34,7 +32,7 @@ class _ImageConfirmScreen extends State<ImageConfirmScreen> {
 
   void confirmImage() async {
     // overwrites original image path with new image
-    writeToFile((await widget.image.image!.toByteData())!, widget.originalPath);
+    writeToFile((await widget.image.image!.toByteData(format: ImageByteFormat.png))!, widget.originalPath);
 
     // updates path to images in imageHandler
     imageHandler.setCurrImagepath(widget.originalPath);
@@ -48,10 +46,10 @@ class _ImageConfirmScreen extends State<ImageConfirmScreen> {
 
     // need to uncomment this for overwriting to take plate
     // otherwise, the uncropped image is unchanged.
-    // imageCache.clear();
+    imageCache.clear();
 
     final buffer = data.buffer;
-    return File(path).writeAsBytes(buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+    return File(path).writeAsBytes(buffer.asUint8List(data.offsetInBytes, data.lengthInBytes), flush: true);
   }
 
   Widget getBottomButtons() {

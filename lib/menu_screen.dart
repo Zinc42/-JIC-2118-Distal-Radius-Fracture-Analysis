@@ -43,7 +43,7 @@ class _MenuScreenState extends State<MenuScreen> {
     if (imageHandler.sideImagePath == null) {
       return AssetImage("lib/images/image_placeholder.png");
     } else {
-      return FileImage(File(imageHandler.frontImagePath!));
+      return FileImage(File(imageHandler.sideImagePath!));
     }
   }
 

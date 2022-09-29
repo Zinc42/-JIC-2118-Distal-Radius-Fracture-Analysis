@@ -22,9 +22,6 @@ class _ImageEditScreenState extends State<ImageEditScreen> {
   RawImage? croppedImage;
   File? originaFile;
 
-  void initState() {
-    super.initState();
-  }
 
   Future<void> cropImage() async {
     final pixelRatio = MediaQuery.of(context).devicePixelRatio;
