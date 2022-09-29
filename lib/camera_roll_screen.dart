@@ -70,6 +70,7 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
                   SizedBox(
                     width: 10,
                   ),
+
                   Flexible(
                     child: ScreenButton(
                         buttonText: "Confirm",
@@ -77,6 +78,7 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
                           moveToEditScreen();
                         }),
                   ),
+
                 ],
               )
 

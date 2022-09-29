@@ -20,7 +20,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+      body: SafeArea(
+        child: Container(
           margin: const EdgeInsets.fromLTRB(0, 35, 0, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -37,62 +38,64 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     //SPACEN BETWEEN LOGO AND TITLE TEXT
                     height: 10,
                   ),
-                  Container(
-                    child: Image(
-                      image: AssetImage("lib/images/emory.jpg"),
-                      width: 200.0,
-                      height: 200.0,
+                    Container(
+                      child: Image(
+                        image: AssetImage("lib/images/emory.jpg"),
+                        width: 200.0,
+                        height: 200.0,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  //SPACE BETWEEN LOGO AND BUTTON SECTION OF SCREEN
+                  height: 30.0,
+                ),
+                Expanded(
+                  child: Container(
+                    color: Colors.grey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(
+                          "Choose Analysis Type",
+                          textAlign: TextAlign.center,
+                          textScaleFactor: 1.5,
+                        ),
+                        ScreenButton(
+                          buttonText: "Pre-Operation Analysis",
+                          pressFunction: () {
+                            Navigator.pushNamed(
+                                context,
+                                MenuScreen.id,
+                                arguments: MenuScreenArguments(analysisType: "Pre-Operation Analysis"));
+                          },
+                        ),
+                        ScreenButton(
+                          buttonText: "Post-Operation Analysis",
+                          pressFunction: () {
+                            Navigator.pushNamed(
+                                context,
+                                MenuScreen.id,
+                                arguments: MenuScreenArguments(analysisType: "Post-Operation Analysis"));
+                          },
+                        ),
+                        ScreenButton(
+                          buttonText: "Advanced Instructions",
+                          pressFunction: () {
+                            print("test");
+                            //Code to navigate to next screen goes here
+                            //might look like navigator.push(context, static id of next screen when its made
+                          },
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-              SizedBox(
-                //SPACE BETWEEN LOGO AND BUTTON SECTION OF SCREEN
-                height: 30.0,
-              ),
-              Expanded(
-                child: Container(
-                  color: Colors.grey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text(
-                        "Choose Analysis Type",
-                        textAlign: TextAlign.center,
-                        textScaleFactor: 1.5,
-                      ),
-                      ScreenButton(
-                        buttonText: "Pre-Operation Analysis",
-                        pressFunction: () {
-                          Navigator.pushNamed(
-                              context,
-                              MenuScreen.id,
-                              arguments: MenuScreenArguments(analysisType: "Pre-Operation Analysis"));
-                        },
-                      ),
-                      ScreenButton(
-                        buttonText: "Post-Operation Analysis",
-                        pressFunction: () {
-                          Navigator.pushNamed(
-                              context,
-                              MenuScreen.id,
-                              arguments: MenuScreenArguments(analysisType: "Post-Operation Analysis"));
-                        },
-                      ),
-                      ScreenButton(
-                        buttonText: "Advanced Instructions",
-                        pressFunction: () {
-                          print("test");
-                          //Code to navigate to next screen goes here
-                          //might look like navigator.push(context, static id of next screen when its made
-                        },
-                      ),
-                    ],
-                  ),
                 ),
-              ),
-            ],
-          ),
-        ));
+              ],
+            ),
+          )
+      )
+    );
   }
 }
