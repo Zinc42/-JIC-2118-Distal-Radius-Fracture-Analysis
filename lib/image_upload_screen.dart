@@ -15,6 +15,38 @@ class ImageUploadScreen extends StatefulWidget {
 
 class _ImageUploadScreenState extends State<ImageUploadScreen> {
   @override
+  Widget build(BuildContext context) => _ImageUploadScreenView(state: this);
+
+  // button function to set to display Camera Screen
+  void toCameraScreen() async {
+    try {
+      await availableCameras().then((cameras) {
+          Navigator.push(
+          context, 
+          MaterialPageRoute(
+            builder: (context) => CameraScreen(cameras: cameras)
+          )
+        );
+      });
+    } on CameraException catch (e) {
+      print("Camera Exception: $e");
+    }
+  }
+
+  void toCameraRollScreen() {
+    print("Camera Roll");
+    //Code to navigate to next screen goes here
+    //might look like navigator.push(context, static id of next screen when its made
+  }
+
+}
+
+class _ImageUploadScreenView extends StatelessWidget {
+  const _ImageUploadScreenView({super.key, required this.state});
+
+  final _ImageUploadScreenState state;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -41,35 +73,24 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
               children: <Widget>[
                 ScreenButton(
                   buttonText: "From Camera",
-                  pressFunction: () {
-                    print("Camera");
-                    toCameraScreen();
-                    //Code to navigate to next screen goes here
-                    //might look like navigator.push(context, static id of next screen when its made
-                  },
+                  pressFunction: state.toCameraScreen,
                 ),
                 ScreenButton(
                   buttonText: "From Camera Roll",
-                  pressFunction: () {
-                    print("Camera Roll");
-                    //Code to navigate to next screen goes here
-                    //might look like navigator.push(context, static id of next screen when its made
-                  },
+                  pressFunction: state.toCameraRollScreen
                 ),
                 ScreenButton(
                   buttonText: "From Files",
                   pressFunction: () {
                     print("Files");
-                    //Code to navigate to next screen goes here
-                    //might look like navigator.push(context, static id of next screen when its made
+                    // Implementation TBD
                   },
                 ),
                 ScreenButton(
                   buttonText: "From Google Drive",
                   pressFunction: () {
                     print("Google Drive");
-                    //Code to navigate to next screen goes here
-                    //might look like navigator.push(context, static id of next screen when its made
+                    // Implementation TBD
                   },
                 ),
               ],
@@ -78,21 +99,5 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
         ],
       ),
     ));
-  }
-
-  // button function to set to display Camera Screen
-  void toCameraScreen() async {
-    try {
-      await availableCameras().then((cameras) {
-          Navigator.push(
-          context, 
-          MaterialPageRoute(
-            builder: (context) => CameraScreen(cameras: cameras)
-          )
-        );
-      });
-    } on CameraException catch (e) {
-      print(e);
-    }
   }
 }
