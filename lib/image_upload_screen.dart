@@ -1,3 +1,4 @@
+import 'package:distal_radius/camera_roll_screen.dart';
 import 'package:flutter/material.dart';
 import 'screen_button.dart';
 import "package:camera/camera.dart";
@@ -35,6 +36,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
 
   void toCameraRollScreen() {
     print("Camera Roll");
+    Navigator.pushNamed(context, CameraRollScreen.id);
     //Code to navigate to next screen goes here
     //might look like navigator.push(context, static id of next screen when its made
   }

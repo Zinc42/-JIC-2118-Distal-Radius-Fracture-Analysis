@@ -27,6 +27,7 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
             children: <Widget>[
               Center(
                   child: image != null ? Image.file(image!) : Text("No image Selected")),
+
               SizedBox(
                 height: 10,
               ),
@@ -43,10 +44,12 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
                   SizedBox(
                     width: 10,
                   ),
+
                   Flexible(
                     child: ScreenButton(
                         buttonText: "Confirm", pressFunction: () {}),
                   ),
+
                 ],
               )
 
