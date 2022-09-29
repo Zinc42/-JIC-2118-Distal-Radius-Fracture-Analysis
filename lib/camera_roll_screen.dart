@@ -15,7 +15,7 @@ class CameraRollScreen extends StatefulWidget {
 }
 
 class _CameraRollScreenState extends State<CameraRollScreen> {
-  @override
+
   String imagePath = "lib/images/image_placeholder.png";
 
   Future pickImage() async {
@@ -25,7 +25,7 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
       if (imagePicked == null) return;
       final temporaryImageFile = File(imagePicked.path);
       setState(() {
-        this.imagePath = temporaryImageFile.path;
+        imagePath = temporaryImageFile.path;
       });
     } on PlatformException catch (e) {
       //To do: Handle exception when user does not allow permission to camera roll
@@ -35,56 +35,74 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
 
   void moveToEditScreen() {
     if (imagePath != "lib/images/image_placeholder.png") {
-      print(imagePath);
+      // print(imagePath);
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => ImageEditScreen(imagePath: imagePath)));
     }
   }
 
+  @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-        appBar: AppBar(title: const Text('Camera Roll Image')),
-        body: SafeArea(
-          child: Container(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Center(
-                child: imagePath != "lib/images/image_placeholder.png" ? Image(image: FileImage(File(imagePath))) : Image(width: 200, height: 200,
-                  image: AssetImage("lib/images/image_placeholder.png"),
-                      ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    child: ScreenButton(
-                        buttonText: "Select an Image",
-                        pressFunction: () {
-                          pickImage();
-                        }),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Stack(
+              alignment: Alignment.center,
+              children: const [
+                Positioned(left: 10, child: BackButton()),
+                Align(
+                  child: Text(
+                    "From Camera Roll",
+                    textAlign: TextAlign.center,
+                    textScaleFactor: 1.5,
+                  )
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            Center(
+              child: imagePath != "lib/images/image_placeholder.png" ? 
+                Image(width: screenWidth - 40, height: screenHeight - 250, image: FileImage(File(imagePath))) : 
+                Image(width: screenWidth - 40, height: screenHeight - 250, image: const AssetImage("lib/images/image_placeholder.png")),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: ScreenButton(
+                    width: (screenWidth - 60) / 2,
+                    buttonText: "Select an Image",
+                    pressFunction: () {
+                      pickImage();
+                    }),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Flexible(
+                  child: ScreenButton(
+                    width: (screenWidth - 60) / 2,
+                    buttonText: "Confirm",
+                    pressFunction: () {
+                      moveToEditScreen();
+                    }),
+                ),
 
-                  Flexible(
-                    child: ScreenButton(
-                        buttonText: "Confirm",
-                        pressFunction: () {
-                          moveToEditScreen();
-                        }),
-                  ),
-
-                ],
-              )
-
-              //
-            ],
-          )),
-        ));
+              ],
+            )
+          ],
+        )
+      ),
+    );
   }
 }
