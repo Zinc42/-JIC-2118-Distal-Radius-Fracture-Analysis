@@ -21,22 +21,16 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
 
   // button function to set to display Camera Screen
   void toCameraScreen() async {
-    await getCameraPerms().then(
-      (permStatus) async {
-        if (permStatus.isGranted) {
-          await availableCameras().then(
-            (cameras) {
-              Navigator.push(
-                context, 
-                MaterialPageRoute(
-                  builder: (context) => CameraScreen(cameras: cameras)
-                )
-              );
-            }
-          );
-        }
+    await getCameraPerms().then((permStatus) async {
+      if (permStatus.isGranted) {
+        await availableCameras().then((cameras) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CameraScreen(cameras: cameras)));
+        });
       }
-    );
+    });
   }
 
   void toCameraRollScreen() {
@@ -47,7 +41,6 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
 
   Future<PermissionStatus> getCameraPerms() async {
     PermissionStatus cameraPermStatus = await Permission.camera.request();
-
     if (!cameraPermStatus.isGranted) {
       showCameraPermsAlert();
     }
@@ -57,32 +50,29 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
 
   Future<void> showCameraPermsAlert() async {
     return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Camera Access Denied"),
-          content: const SingleChildScrollView(
-            child: Text("Enable camera to continue."),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                openAppSettings();
-                Navigator.pop(context);
-              },
-              child: const Text("Settings"),
-            ),
-          ]
-        );
-      }
-    );
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: const Text("Camera Access Denied"),
+              content: const SingleChildScrollView(
+                child: Text("Enable camera to continue."),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Cancel"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    openAppSettings();
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Settings"),
+                ),
+              ]);
+        });
   }
-
 }
 
 class _ImageUploadScreenView extends StatelessWidget {
@@ -93,22 +83,21 @@ class _ImageUploadScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+        body: Container(
       margin: const EdgeInsets.symmetric(vertical: 35.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Stack(
-            alignment: Alignment.center, 
+            alignment: Alignment.center,
             children: const [
               Positioned(left: 10, child: BackButton()),
               Align(
-                child: Text(
-                  "Choose Analysis Type",
-                  textAlign: TextAlign.center,
-                  textScaleFactor: 1.5,
-                )
-              ),
+                  child: Text(
+                "Choose Analysis Type",
+                textAlign: TextAlign.center,
+                textScaleFactor: 1.5,
+              )),
             ],
           ),
           Expanded(
@@ -120,9 +109,8 @@ class _ImageUploadScreenView extends StatelessWidget {
                   pressFunction: state.toCameraScreen,
                 ),
                 ScreenButton(
-                  buttonText: "From Camera Roll",
-                  pressFunction: state.toCameraRollScreen
-                ),
+                    buttonText: "From Camera Roll",
+                    pressFunction: state.toCameraRollScreen),
                 ScreenButton(
                   buttonText: "From Files",
                   pressFunction: () {
