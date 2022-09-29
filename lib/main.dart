@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import "welcome_screen.dart";
 import "camera_screen.dart";
 import "image_upload_screen.dart";
-import "menu_screen.dart";
 import "camera_roll_screen.dart";
+import "menu_screen.dart";
 
 void main() {
   runApp(const DistalRadius());

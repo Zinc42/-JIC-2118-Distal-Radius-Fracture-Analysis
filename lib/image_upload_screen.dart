@@ -86,7 +86,7 @@ class _ImageUploadScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child:Container(
+        child: Container(
           margin: const EdgeInsets.symmetric(vertical: 35.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -133,7 +133,7 @@ class _ImageUploadScreenView extends StatelessWidget {
                 ),
               ),
             ]
-          )
+          ),
         )
       )
     );

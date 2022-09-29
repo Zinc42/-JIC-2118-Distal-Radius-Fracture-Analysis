@@ -20,7 +20,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+      body: SafeArea(
+        child: Container(
           margin: const EdgeInsets.fromLTRB(0, 35, 0, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -93,6 +94,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
             ],
           ),
-        ));
+        ),
+      ) 
+    );
   }
 }
