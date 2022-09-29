@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'screen_button.dart';
 import "package:camera/camera.dart";
 import "camera_screen.dart";
+import "camera_roll_screen.dart";
 
 import 'package:permission_handler/permission_handler.dart';
 
@@ -35,10 +36,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
   }
 
   void toCameraRollScreen() {
-    print("Camera Roll");
     Navigator.pushNamed(context, CameraRollScreen.id);
-    //Code to navigate to next screen goes here
-    //might look like navigator.push(context, static id of next screen when its made
   }
 
   Future<PermissionStatus> getCameraPerms() async {
@@ -97,7 +95,7 @@ class _ImageUploadScreenView extends StatelessWidget {
                   Positioned(left: 10, child: BackButton()),
                   Align(
                     child: Text(
-                      "Choose Analysis Type",
+                      "Choose Import Method",
                       textAlign: TextAlign.center,
                       textScaleFactor: 1.5,
                     )
