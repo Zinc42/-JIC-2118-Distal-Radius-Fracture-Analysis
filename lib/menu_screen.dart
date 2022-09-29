@@ -1,3 +1,4 @@
+import 'package:distal_radius/image_handler.dart';
 import 'package:flutter/material.dart';
 
 import "screen_button.dart";
@@ -25,38 +26,29 @@ class MenuScreenArguments {
 // contains all functions relevant to business logic
 class _MenuScreenState extends State<MenuScreen> {
 
-  String? frontImagePath;
-  String? sideImagePath;
+  ImageHandler imageHandler = ImageHandler();
 
   @override
   Widget build(BuildContext context) => _MenuScreenView(state: this);
 
   ImageProvider getFrontImageDisplay() {
-    if (frontImagePath == null) {
+    if (imageHandler.frontImagePath == null) {
       return AssetImage("lib/images/image_placeholder.png");
     } else {
-      return FileImage(File(frontImagePath!));
+      return FileImage(File(imageHandler.frontImagePath!));
     }
   }
 
   ImageProvider getSideImageDisplay() {
-    if (sideImagePath == null) {
+    if (imageHandler.sideImagePath == null) {
       return AssetImage("lib/images/image_placeholder.png");
     } else {
-      return FileImage(File(frontImagePath!));
+      return FileImage(File(imageHandler.frontImagePath!));
     }
   }
 
-  void setSideImagePath(String newSideImagePath) {
-    sideImagePath = newSideImagePath;
-  }
-
-  void setFrontImagePath(String newFrontImagePath) {
-    frontImagePath = newFrontImagePath;
-  }
-  
   void runAnalysis() {
-    if (frontImagePath != null && sideImagePath != null) {
+    if (!imageHandler.isMissingImages()) {
       // run analysis only if both images have been uploaded
       print("Run Analysis");
       // code to run analysis 
@@ -89,7 +81,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 }
 
-// view class that purely builds the UI elements
+// View class that purely builds the UI elements
 class _MenuScreenView extends StatelessWidget {
   const _MenuScreenView({super.key, required this.state});
 
