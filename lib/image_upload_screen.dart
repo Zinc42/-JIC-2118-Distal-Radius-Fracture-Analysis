@@ -95,7 +95,7 @@ class _ImageUploadScreenView extends StatelessWidget {
                   Positioned(left: 10, child: BackButton()),
                   Align(
                     child: Text(
-                      "Choose Analysis Type",
+                      "Choose Import Method",
                       textAlign: TextAlign.center,
                       textScaleFactor: 1.5,
                     )
