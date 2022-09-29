@@ -49,5 +49,8 @@
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>to pick an x-ray from saved images on the phone</string>
+
 </dict>
 </plist>

@@ -69,9 +69,9 @@ class _CameraScreenState extends State<CameraScreen> {
               style: ElevatedButton.styleFrom(
                 fixedSize: const Size(50, 50),
                 shape:
-                    const CircleBorder(side: BorderSide(color: Colors.black)),
-                backgroundColor: Colors.grey.shade600,
-                foregroundColor: Colors.grey.shade300,
+                  const CircleBorder(side: BorderSide(color: Colors.black)),
+                  backgroundColor: Colors.grey.shade600,
+                  foregroundColor: Colors.grey.shade300,
               ),
               onPressed: () {
                 print("Shutter");
