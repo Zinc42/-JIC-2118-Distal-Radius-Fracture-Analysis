@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import "screen_button.dart";
 import "image_upload_screen.dart";
+import "loading_screen.dart";
+import "welcome_screen.dart";
 
 import 'dart:io';
 
@@ -148,7 +150,11 @@ class _MenuScreenView extends StatelessWidget {
             ),
             ScreenButton(
               buttonText: "Run Analysis",
-              pressFunction: state.runAnalysis,
+              pressFunction: () {
+                Navigator.pushNamed(
+                  context,
+                  LoadingScreen.id);
+              },
             ),
             
           ],
