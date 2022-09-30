@@ -22,20 +22,17 @@ class _ImageEditScreenState extends State<ImageEditScreen> {
   RawImage? croppedImage;
   File? originaFile;
 
-  void initState() {
-    super.initState();
-  }
 
   Future<void> cropImage() async {
-    if (!mounted) return;
     final pixelRatio = MediaQuery.of(context).devicePixelRatio;
     final cropped = await controller.crop(pixelRatio: pixelRatio);
     final finalImage = RawImage(image: cropped);
 
+    if (!mounted) return;
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ImageConfirmScreen(image: finalImage)));
+            builder: (context) => ImageConfirmScreen(image: finalImage, originalPath: widget.imagePath)));
   }
 
   void cancelImage() {

@@ -10,6 +10,10 @@ class ImageHandler {
   // boolean value indicating which image is currently
   // selected for upload
   bool isFrontImage = true;
+
+  // a number tag to add at the end of file paths/names so that
+  // new images can be saved (if user retakes an image)
+  int fileID = 0;
  
   factory ImageHandler() {
     return _instance;
@@ -17,6 +21,11 @@ class ImageHandler {
   
   ImageHandler._internal();
 
+  String getNewFileID() {
+    String newFileID = fileID.toString();
+    fileID++;
+    return newFileID;
+  }
 
   // basic getters/setters
   void setCurrImagepath(String newImagePath) {

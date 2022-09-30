@@ -1,5 +1,10 @@
 import 'dart:io';
+import 'dart:ui';
+import 'dart:typed_data';
 
+import 'package:distal_radius/image_upload_screen.dart';
+import 'package:distal_radius/menu_screen.dart';
+import 'image_handler.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:crop/crop.dart';
@@ -7,24 +12,44 @@ import 'package:crop/crop.dart';
 class ImageConfirmScreen extends StatefulWidget {
   final RawImage image;
 
-  const ImageConfirmScreen({super.key, required this.image});
+  // added originalPath as a parameter so pass the original path
+  // of the image files to then write new file/image into.
+  final String originalPath;
+
+  const ImageConfirmScreen({super.key, required this.image, required this.originalPath});
 
   @override
   State<ImageConfirmScreen> createState() => _ImageConfirmScreen();
 }
 
 class _ImageConfirmScreen extends State<ImageConfirmScreen> {
-  void initState() {
-    super.initState();
-  }
+
+  ImageHandler imageHandler = ImageHandler();
 
   void cancelImage() {
-    Navigator.of(context).popUntil(ModalRoute.withName("image_upload_screen"));
+    Navigator.of(context).popUntil(ModalRoute.withName(ImageUploadScreen.id));
   }
 
-  void confirmImage() {
-    print("Image ready to send back");
-    print("Needed to change something");
+  void confirmImage() async {
+    // overwrites original image path with new image
+    writeToFile((await widget.image.image!.toByteData(format: ImageByteFormat.png))!, widget.originalPath);
+
+    // updates path to images in imageHandler
+    imageHandler.setCurrImagepath(widget.originalPath);
+
+    if(!mounted) return;
+    Navigator.of(context).popUntil(ModalRoute.withName(MenuScreen.id));
+  }
+
+  // function write new image data to the same file path as old uncropped image
+  Future<File> writeToFile(ByteData data, String path) {
+
+    // need to uncomment this for overwriting to take plate
+    // otherwise, the uncropped image is unchanged.
+    imageCache.clear();
+
+    final buffer = data.buffer;
+    return File(path).writeAsBytes(buffer.asUint8List(data.offsetInBytes, data.lengthInBytes), flush: true);
   }
 
   Widget getBottomButtons() {
