@@ -22,6 +22,10 @@ Licensed under the MIT License.
 
 - Added error message when camera permissions are denied on the device
 
+#### Known Issues
+
+- Some key UI elements are not fixed in place and can end up with incorrect vertical alignment based on sizes of other elements, mainly in the image alignment screen after the image is cropped to a small aspect ratio.
+
 ### Version 0.1.0
 
 #### New Features
