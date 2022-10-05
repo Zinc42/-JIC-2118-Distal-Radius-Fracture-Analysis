@@ -9,6 +9,19 @@ Licensed under the MIT License.
 
 ## Release Notes
 
+### Version 0.2.0
+
+### New Features
+
+- Added analysis menu screen to view and manage images currently uploaded/needed for an analysis
+- Added check to prevent analysis from starting with missing images
+- Added camera roll functionality
+- Added image alignment screen to zoom/pan/rotate images
+
+### Bugfixes
+
+- Added error message when camera permissions are denied on the device
+
 ### Version 0.1.0
 
 #### New Features
