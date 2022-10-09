@@ -34,7 +34,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                     Positioned(left: 10, child: BackButton()),
                     Align(
                         child: Text(
-                          "Loading Screen",
+                          "Loading",
                           textAlign: TextAlign.center,
                           textScaleFactor: 1.5,
                         )),
