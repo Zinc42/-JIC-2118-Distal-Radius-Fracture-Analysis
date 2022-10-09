@@ -50,13 +50,13 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   void runAnalysis() {
-    Navigator.pushNamed(
-      context,
-      LoadingScreen.id);
     if (!imageHandler.isMissingImages()) {
       // run analysis only if both images have been uploaded
       print("Run Analysis");
       // code to run analysis 
+      Navigator.pushNamed(
+        context,
+        LoadingScreen.id);
     } else {
       _showNoImageAlert();
     }
