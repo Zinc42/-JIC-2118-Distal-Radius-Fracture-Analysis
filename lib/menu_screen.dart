@@ -50,6 +50,9 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   void runAnalysis() {
+    Navigator.pushNamed(
+      context,
+      LoadingScreen.id);
     if (!imageHandler.isMissingImages()) {
       // run analysis only if both images have been uploaded
       print("Run Analysis");
@@ -150,11 +153,7 @@ class _MenuScreenView extends StatelessWidget {
             ),
             ScreenButton(
               buttonText: "Run Analysis",
-              pressFunction: () {
-                Navigator.pushNamed(
-                  context,
-                  LoadingScreen.id);
-              },
+              pressFunction: state.runAnalysis,
             ),
             
           ],
