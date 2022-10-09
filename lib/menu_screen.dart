@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import "screen_button.dart";
 import "image_upload_screen.dart";
+import "loading_screen.dart";
+import "welcome_screen.dart";
 
 import 'dart:io';
 
@@ -52,6 +54,9 @@ class _MenuScreenState extends State<MenuScreen> {
       // run analysis only if both images have been uploaded
       print("Run Analysis");
       // code to run analysis 
+      Navigator.pushNamed(
+        context,
+        LoadingScreen.id);
     } else {
       _showNoImageAlert();
     }
