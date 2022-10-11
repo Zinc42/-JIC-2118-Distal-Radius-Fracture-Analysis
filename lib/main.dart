@@ -6,6 +6,7 @@ import "camera_roll_screen.dart";
 import "menu_screen.dart";
 import "loading_screen.dart";
 
+
 void main() {
   runApp(const DistalRadius());
 }
@@ -25,6 +26,7 @@ class DistalRadius extends StatelessWidget {
         ImageUploadScreen.id: (context) => const ImageUploadScreen(),
         CameraRollScreen.id: (context) => const CameraRollScreen(),
         LoadingScreen.id: (context) => const LoadingScreen(),
+
 
       }
     );

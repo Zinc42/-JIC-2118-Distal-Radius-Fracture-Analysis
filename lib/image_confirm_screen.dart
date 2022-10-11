@@ -8,6 +8,7 @@ import 'image_handler.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:crop/crop.dart';
+import "drag_screen.dart";
 
 class ImageConfirmScreen extends StatefulWidget {
   final RawImage image;
@@ -38,7 +39,11 @@ class _ImageConfirmScreen extends State<ImageConfirmScreen> {
     imageHandler.setCurrImagepath(widget.originalPath);
 
     if(!mounted) return;
-    Navigator.of(context).popUntil(ModalRoute.withName(MenuScreen.id));
+    //TEMPORAIRLY MAKING THIS BUTTON NAVIGATE TO DRAG SCREEN
+    //Navigator.of(context).popUntil(ModalRoute.withName(MenuScreen.id));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => DragScreen(passedImagePath: widget.originalPath)));
+
   }
 
   // function write new image data to the same file path as old uncropped image
