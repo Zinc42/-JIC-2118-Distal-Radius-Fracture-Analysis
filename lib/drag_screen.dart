@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
+import "dragable.dart";
 
 class DragScreen extends StatefulWidget {
   final String passedImagePath;
@@ -19,6 +20,12 @@ class _DragScreenState extends State<DragScreen> {
 
   String getImage() {
     return widget.passedImagePath;
+  }
+
+  DragableUpdateCallback(details) {
+    print(details);
+    setState(() {
+    });
   }
 }
 
@@ -42,6 +49,7 @@ class _DragScreenView extends StatelessWidget {
               Image.file(
                 File(state.getImage()),
               ),
+              Drag_Button(pressFunction: state.DragableUpdateCallback),
             ],
           ),
         ),
