@@ -14,12 +14,29 @@ class ImageHandler {
   // a number tag to add at the end of file paths/names so that
   // new images can be saved (if user retakes an image)
   int fileID = 0;
+
+  // length of the scale line(s) in cm (IRL)
+  double? frontalLineLength;
+  double? sideLineLength;
+  // length of the scale line(s) in pixels
+  double? frontalLineScreenLength;
+  double? sideLineScreenLength;
  
   factory ImageHandler() {
     return _instance;
   }
   
   ImageHandler._internal();
+
+  void setInputScale(double? lineLength, double? lineScreenLength, ) {
+    if (isFrontImage) {
+      frontalLineLength = lineLength;
+      frontalLineScreenLength = lineScreenLength;
+    } else {
+      sideLineLength = lineLength;
+      sideLineScreenLength = lineScreenLength;
+    }
+  }
 
   String getNewFileID() {
     String newFileID = fileID.toString();

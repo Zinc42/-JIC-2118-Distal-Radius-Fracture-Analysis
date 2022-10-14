@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:distal_radius/image_upload_screen.dart';
 import 'package:distal_radius/menu_screen.dart';
+import 'package:flutter/services.dart';
 import 'image_handler.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -26,11 +27,19 @@ class _ImageConfirmScreen extends State<ImageConfirmScreen> {
 
   ImageHandler imageHandler = ImageHandler();
 
+  final textController = TextEditingController();
+
+  final double lineScreenLength = 150;
+
   void cancelImage() {
     Navigator.of(context).popUntil(ModalRoute.withName(ImageUploadScreen.id));
   }
 
   void confirmImage() async {
+    // set scale input (length of lines in px and cm stored in ImageHandler)
+    // sets value to null is nothing is entered
+    imageHandler.setInputScale(double.tryParse(textController.text), lineScreenLength);
+
     // overwrites original image path with new image
     writeToFile((await widget.image.image!.toByteData(format: ImageByteFormat.png))!, widget.originalPath);
 
@@ -77,7 +86,24 @@ class _ImageConfirmScreen extends State<ImageConfirmScreen> {
           maxWidth: 0.9 * screenWidth,
           maxHeight: 0.7 * screenHeight,
         ),
-        child: widget.image);
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            widget.image,
+            Container(
+              alignment: Alignment.center,
+              height: lineScreenLength,
+              child: const VerticalDivider(
+                color: Colors.red,
+                width: 5,
+                thickness: 5,
+                indent: 0,
+                endIndent: 0,
+              ),
+            ),
+          ]
+        ),
+    );
   }
 
   Widget getHeader() {
@@ -86,12 +112,41 @@ class _ImageConfirmScreen extends State<ImageConfirmScreen> {
       children: const [
         Positioned(left: 10, child: BackButton()),
         Align(
-            child: Text(
-          "Confirm Align",
-          textAlign: TextAlign.center,
-          textScaleFactor: 1.5,
-        )),
+          child: Text(
+            "Confirm Align",
+            textAlign: TextAlign.center,
+            textScaleFactor: 1.5,
+          )
+        ),
       ],
+    );
+  }
+  
+  Widget getScaleInputField() {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // text field only accepts strings that can parse into a double (i.e. valid decimal values)
+    return Container(
+      width: screenWidth - 60,
+      height: 40,
+      child: TextField(
+        controller: textController,
+        decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "Length of Red Line (cm)"),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: false),
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
+          TextInputFormatter.withFunction((oldValue, newValue) {
+            try {
+              final text = newValue.text;
+              if (text.isNotEmpty) double.parse(text);
+              return newValue;
+            } catch (e) {
+              print(e);
+            }
+            return oldValue;
+          }),
+        ],
+      )
     );
   }
 
@@ -99,9 +154,22 @@ class _ImageConfirmScreen extends State<ImageConfirmScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            margin: const EdgeInsets.symmetric(vertical: 35.0),
+          margin: const EdgeInsets.symmetric(vertical: 35.0),
+          child: SingleChildScrollView(
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [getHeader(), getImage(), getBottomButtons()])));
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                getHeader(), 
+                const SizedBox(height: 20),
+                getImage(), 
+                const SizedBox(height: 20),
+                getScaleInputField(),
+                const SizedBox(height: 10),
+                getBottomButtons(),
+              ]
+            )
+          )
+        )
+      );
   }
 }
