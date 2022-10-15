@@ -8,7 +8,9 @@ import "coordinate.dart";
 How this scruffed ass proof of concept even works
 start from the bottom build function at step 1
 -----------------------------------------------------
+ISSUES:
 Still have to draw lines between squares on the screen
+i did not set constraints for where u can drag the draggable so dont drag it off the screen it will not come back
 */
 
 class DragScreen extends StatefulWidget {
@@ -87,6 +89,8 @@ class _DragScreenState extends State<DragScreen> {
 
     //This is a temporary line to create a point that would normally be held in image handler when we get there
     //This point is calculated to be in the middle of the image file in its native resolution
+    //This is also used to determine where the dragable initially spawns. We use math to convert where the point is in
+    //the native image resolution to figure out where the dragable should roughly be in screen resolution
     pointInImageResolution = Coordinate(x: img.width! / 2, y: img.height! / 2);
 
     //This function call sets the scalars that allow us to go from the image file's resolution to the screen resolution and back
