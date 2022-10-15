@@ -54,7 +54,8 @@ class _MenuScreenState extends State<MenuScreen> {
       // run analysis only if both images have been uploaded
       print("Run Analysis");
       // code to run analysis
-      Navigator.pushNamed(context, ResultsScreen.id);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => ResultsScreen()));
     } else {
       _showNoImageAlert();
     }

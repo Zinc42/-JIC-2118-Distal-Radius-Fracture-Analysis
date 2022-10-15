@@ -8,17 +8,10 @@ import 'dart:io';
 class ResultsScreen extends StatefulWidget {
   const ResultsScreen({super.key});
 
-  static const String id = "menu_screen";
+  static const String id = "results_screen";
 
   @override
   State<ResultsScreen> createState() => _ResultsScreenState();
-}
-
-// argument class to encapsulate arguments that can be passed to the screen
-class MenuScreenArguments {
-  MenuScreenArguments({required this.analysisType});
-
-  final String analysisType;
 }
 
 // State class that handles logic in the screen
