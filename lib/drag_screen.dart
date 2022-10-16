@@ -139,8 +139,8 @@ class _DragScreenState extends State<DragScreen> {
   void DragableUpdateCallback(details) {
     if (drag != null) {
       //values for where to redraw the draggable widget after set state
-      double newTop = max(0, drag.getTop() + details.delta.dy);
-      double newLeft = max(0, drag.getLeft() + details.delta.dx);
+      double newTop = min(imgContainerHeight - (imgContainerHeight * 0.035), max(0, drag.getTop() + details.delta.dy));
+      double newLeft = min(imgContainerWidth - (imgContainerWidth * 0.08) , max(0, drag.getLeft() + details.delta.dx));
       //update the draggable reference
       drag = Drag_Button(
           pressFunction: DragableUpdateCallback,

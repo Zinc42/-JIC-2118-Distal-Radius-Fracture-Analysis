@@ -5,7 +5,7 @@ class Drag_Button extends StatefulWidget {
   const Drag_Button(
       {super.key,
       required this.pressFunction,
-        required this. endDragFunction,
+      required this.endDragFunction,
       required this.topPos,
       required this.leftPos});
 
@@ -15,6 +15,7 @@ class Drag_Button extends StatefulWidget {
 
   //Determines the y position of the draggable on screen
   final double topPos;
+
   //Determines the x position of the draggable on screen
   final double leftPos;
 
@@ -25,7 +26,6 @@ class Drag_Button extends StatefulWidget {
   double getLeft() {
     return leftPos;
   }
-
 
   @override
   State<Drag_Button> createState() => _Drag_ButtonState();
