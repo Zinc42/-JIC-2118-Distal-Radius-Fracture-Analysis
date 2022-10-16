@@ -27,10 +27,6 @@ class _ResultsScreenState extends State<ResultsScreen> {
     print("Send to export");
   }
 
-  TextEditingController textController(text) {
-    return TextEditingController(text: text);
-  }
-
   Widget getHeader() {
     return Stack(
       alignment: Alignment.center,
@@ -55,7 +51,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
           onTap: () {},
           child: Image(height: 200, width: 200, image: frontImage)),
       Image(
-        height: 200,
+        height: 300,
         width: 200,
         image: sideImage,
       ),
@@ -63,12 +59,53 @@ class _ResultsScreenState extends State<ResultsScreen> {
   }
 
   Widget getResultsInfo() {
-    return Column(children: [
-      TextField(
-          enabled: false,
-          style: TextStyle(color: Colors.green),
-          controller: textController("here"))
-    ]);
+    return Container(
+        margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
+        child: Column(children: [
+          getResultValue("Volar Tilt", 1.0, 0.5, 1.5),
+          SizedBox(height: 20),
+          getResultValue("Radial Height", 0.3, 0.5, 1.5),
+          SizedBox(height: 20),
+          getResultValue("Radial Inclination", 0.0, 2.0, 3.5)
+        ]));
+  }
+
+  Column getResultValue(String title, double value, double min, double max) {
+    Color color;
+
+    double difference = (value - min).abs();
+    if (value <= max && value >= min)
+      color = Colors.green;
+    else if (difference < 1.0)
+      color = Colors.yellow;
+    else
+      color = Colors.red;
+
+    String rangeText = '$min - $max';
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(title, textAlign: TextAlign.left),
+        Container(
+            padding:
+                const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(15.0)),
+            child: Row(
+              children: [
+                Text(value.toString(), style: TextStyle(color: color)),
+                Spacer(),
+                Text(rangeText, style: TextStyle(color: Colors.green))
+              ],
+            ))
+      ],
+    );
+  }
+
+  TextEditingController textController(text) {
+    return TextEditingController(text: text);
   }
 
   Widget getBottomButtons() {
