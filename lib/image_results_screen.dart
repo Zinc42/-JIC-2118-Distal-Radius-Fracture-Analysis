@@ -5,18 +5,18 @@ import "screen_button.dart";
 
 import 'dart:io';
 
-class ResultsScreen extends StatefulWidget {
-  const ResultsScreen({super.key});
+class ImageResultsScreen extends StatefulWidget {
+  const ImageResultsScreen({super.key});
 
   static const String id = "results_screen";
 
   @override
-  State<ResultsScreen> createState() => _ResultsScreenState();
+  State<ImageResultsScreen> createState() => _ImageResultsScreen();
 }
 
 // State class that handles logic in the screen
 // contains all functions relevant to business logic
-class _ResultsScreenState extends State<ResultsScreen> {
+class _ImageResultsScreen extends State<ImageResultsScreen> {
   ImageHandler imageHandler = ImageHandler();
 
   void cancelResults() {
@@ -51,9 +51,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
     var sideImage = FileImage(File(imageHandler.sideImagePath!));
 
     return Row(children: [
-      GestureDetector(
-          onTap: () {},
-          child: Image(height: 200, width: 200, image: frontImage)),
+      Image(height: 200, width: 200, image: frontImage),
       Image(
         height: 200,
         width: 200,
