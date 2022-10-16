@@ -1,44 +1,40 @@
 import 'package:distal_radius/image_handler.dart';
 import 'package:flutter/material.dart';
 
-import "screen_button.dart";
-
 import 'dart:io';
 
 class ImageResultsScreen extends StatefulWidget {
-  const ImageResultsScreen({super.key});
+  final bool isFrontImage;
 
-  static const String id = "results_screen";
+  const ImageResultsScreen({super.key, required this.isFrontImage});
+
+  static const String id = "image_results_screen";
 
   @override
   State<ImageResultsScreen> createState() => _ImageResultsScreen();
 }
 
-// State class that handles logic in the screen
-// contains all functions relevant to business logic
 class _ImageResultsScreen extends State<ImageResultsScreen> {
   ImageHandler imageHandler = ImageHandler();
 
-  void cancelResults() {
-    print("Cancelled");
-  }
-
-  void toExport() {
-    print("Send to export");
-  }
-
-  TextEditingController textController(text) {
-    return TextEditingController(text: text);
+  void toEditImage() {
+    print("Edit Image");
   }
 
   Widget getHeader() {
+    String title;
+    if (widget.isFrontImage)
+      title = "Main Image";
+    else
+      title = "Side Image";
+
     return Stack(
       alignment: Alignment.center,
-      children: const [
+      children: [
         Positioned(left: 10, child: BackButton()),
         Align(
             child: Text(
-          "Results",
+          title,
           textAlign: TextAlign.center,
           textScaleFactor: 1.5,
         )),
@@ -46,27 +42,31 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
     );
   }
 
-  Widget getImages() {
-    var frontImage = FileImage(File(imageHandler.frontImagePath!));
-    var sideImage = FileImage(File(imageHandler.sideImagePath!));
+  Widget getImageInfo() {
+    final screenWidth = 0.9 * MediaQuery.of(context).size.width;
+    final screenHeight = 0.7 * MediaQuery.of(context).size.height;
 
-    return Row(children: [
-      Image(height: 200, width: 200, image: frontImage),
-      Image(
-        height: 200,
-        width: 200,
-        image: sideImage,
-      ),
-    ]);
-  }
+    var image;
+    if (widget.isFrontImage)
+      image = FileImage(File(imageHandler.frontImagePath!));
+    else
+      image = FileImage(File(imageHandler.sideImagePath!));
 
-  Widget getResultsInfo() {
-    return Column(children: [
-      TextField(
-          enabled: false,
-          style: TextStyle(color: Colors.green),
-          controller: textController("here"))
-    ]);
+    return ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: screenWidth,
+          maxHeight: screenHeight,
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Image(image: image),
+            CustomPaint(
+              size: Size(screenWidth, screenHeight),
+              painter: ResultsPainter(),
+            )
+          ],
+        ));
   }
 
   Widget getBottomButtons() {
@@ -74,13 +74,9 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         ElevatedButton(
-          child: const Text('Return Home'),
-          onPressed: cancelResults,
+          child: const Text('Edit Image'),
+          onPressed: toEditImage,
         ),
-        ElevatedButton(
-          child: const Text('Export'),
-          onPressed: toExport,
-        )
       ],
     );
   }
@@ -92,11 +88,32 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
             margin: const EdgeInsets.symmetric(vertical: 35.0),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  getHeader(),
-                  getImages(),
-                  getResultsInfo(),
-                  getBottomButtons()
-                ])));
+                children: [getHeader(), getImageInfo(), getBottomButtons()])));
+  }
+}
+
+// Handles painting the circles and lines of the measurements
+class ResultsPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final p1 = Offset(10, 10);
+    final p2 = Offset(size.width - 20, size.height - 20);
+
+    final p3 = Offset(50, 50);
+
+    final paint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = 4;
+
+    canvas.drawLine(p1, p2, paint);
+
+    canvas.drawCircle(p1, 10, paint);
+    canvas.drawCircle(p2, 10, paint);
+    canvas.drawCircle(p3, 10, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter old) {
+    return false;
   }
 }
