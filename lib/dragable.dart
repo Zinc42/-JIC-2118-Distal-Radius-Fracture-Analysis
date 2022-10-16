@@ -5,11 +5,13 @@ class Drag_Button extends StatefulWidget {
   const Drag_Button(
       {super.key,
       required this.pressFunction,
+        required this. endDragFunction,
       required this.topPos,
       required this.leftPos});
 
   //Call back function that gets called on tick whenever the user is dragging the draggable
   final Function(DragUpdateDetails) pressFunction;
+  final Function(DragEndDetails) endDragFunction;
 
   //Determines the y position of the draggable on screen
   final double topPos;
@@ -23,6 +25,7 @@ class Drag_Button extends StatefulWidget {
   double getLeft() {
     return leftPos;
   }
+
 
   @override
   State<Drag_Button> createState() => _Drag_ButtonState();
@@ -39,6 +42,7 @@ class _Drag_ButtonState extends State<Drag_Button> {
       child: GestureDetector(
         //OnPanUpdate gesture allows us to click and drag stuff
         onPanUpdate: widget.pressFunction,
+        onPanEnd: widget.endDragFunction,
         child: Container(
           width: screenWidth * 0.08,
           height: screenHeight * 0.035,

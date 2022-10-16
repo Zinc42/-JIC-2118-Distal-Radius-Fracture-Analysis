@@ -52,6 +52,8 @@ class _DragScreenState extends State<DragScreen> {
 
   bool initialized = false;
 
+  Offset currLocalOffset = Offset(0, 0);
+
   /*
   ------------------------STEP 2-----------------------------------------------------------------------------------------------------
   ImgDetails img parameter just contains info about the image provided to the builder
@@ -73,9 +75,11 @@ class _DragScreenState extends State<DragScreen> {
         height: imgContainerHeight,
         child: Stack(
           fit: StackFit.expand,
-          children: [Image.file(File(widget.passedImagePath)),
+          children: [
+            Image.file(File(widget.passedImagePath)),
             //the draggable button
-            drag],
+            drag
+          ],
         ),
       );
     }
@@ -85,7 +89,7 @@ class _DragScreenState extends State<DragScreen> {
 
   //The function that initializes data for the screen
   void dataInitializer(BuildContext context, ImgDetails img) {
-    //print("Width of image: ${img.width} Height of img: ${img.height}");
+    print("Width of image: ${img.width} Height of img: ${img.height}");
 
     //This is a temporary line to create a point that would normally be held in image handler when we get there
     //This point is calculated to be in the middle of the image file in its native resolution
@@ -98,9 +102,11 @@ class _DragScreenState extends State<DragScreen> {
 
     drag = Drag_Button(
       pressFunction: DragableUpdateCallback,
+      endDragFunction: DragableEndDragCallback,
       leftPos: pointInImageResolution.x * cameraToScreenRatioX,
       topPos: pointInImageResolution.y * cameraToScreenRatioY,
     );
+
     initialized = true;
   }
 
@@ -112,15 +118,16 @@ class _DragScreenState extends State<DragScreen> {
     screenToCameraRatioX = imgWidth / imgContainerWidth;
     screenToCameraRatioY = imgHeight / imgContainerHeight;
   }
+
 //-------STEP 3 ----------------------------------------------------------------------------------
   /*
   tldr,
   This is called every tick user is draging.
-  every tick it takes the dx and dy of the movement in screen pixels ranging from -1 to 1 for both
+  every tick it takes it stores the local offset(in pixles) from where it started in currLocalOffset
   image file native resolution > screen resolution on all iphones, so pixel distance on screen != pixel distance on native image resolution
    to get around this
-  we take this dx and dy in our screen resolution, then pass it into a function that updates the coordinates of the point in
-  the image files native resolution by multiplying the dx and dy by scalars we made to simulate the point moving across the higher resolution image
+  we take this offset in dx and dy in our screen resolution, and use it in the callback for when the user stops dragging the dragable
+
    */
   void DragableUpdateCallback(details) {
     if (drag != null) {
@@ -130,24 +137,31 @@ class _DragScreenState extends State<DragScreen> {
       //update the draggable reference
       drag = Drag_Button(
           pressFunction: DragableUpdateCallback,
+          endDragFunction: DragableEndDragCallback,
           topPos: newTop,
           leftPos: newLeft);
 
-      //Prints the DX and DY of draggable for that tick
-      print("dx: ${details.delta.dx.round()} dy: ${details.delta.dy.round()}");
-
-      //calulates the change in coordinates in image file native resolution based on (dx,dy) * scalar
-      pointInImageResolution.UpdateCordinate(details.delta.dx.round(),
-          details.delta.dy.round(), screenToCameraRatioX, screenToCameraRatioY);
-      //shows new coordinates in console
-      print(
-          "New point in camera resolution: ${pointInImageResolution.x} ${pointInImageResolution.y}");
+      currLocalOffset = details.localPosition;
     }
 
     setState(() {});
   }
+/*
+Here the currLocalOffset is used to update the coordinates in the native image resolution by multiplying the offset by scalars we generated
+ */
+  void DragableEndDragCallback(DragEndDetails) {
 
-
+    print(currLocalOffset);
+    //calulates the change in coordinates in image file native resolution based on (dx,dy) * scalar
+    pointInImageResolution.UpdateCordinate(
+        currLocalOffset, screenToCameraRatioX, screenToCameraRatioY);
+    //shows new coordinates in console
+    print(
+        "New point in camera resolution: ${pointInImageResolution.x} ${pointInImageResolution.y}");
+    //Set local offset varable back to 0 otherwise if u just click but dont drag, it will use same offset that was used in last
+    //drag end despite not actually moving
+    currLocalOffset = Offset(0,0);
+  }
 }
 
 class _DragScreenView extends StatelessWidget {
