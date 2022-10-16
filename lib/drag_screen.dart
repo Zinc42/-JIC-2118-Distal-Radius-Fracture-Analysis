@@ -50,6 +50,12 @@ class _DragScreenState extends State<DragScreen> {
   late double imgContainerWidth;
   late double imgContainerHeight;
 
+  //width and height of passed image
+  //this is needed to make sure if the offset calculated is going to move the coordinate OUTSIDE
+  //the image, then leave coordinate at edge.
+  late int widthOfImage;
+  late int heightOfImage;
+
   bool initialized = false;
 
   Offset currLocalOffset = Offset(0, 0);
@@ -90,7 +96,8 @@ class _DragScreenState extends State<DragScreen> {
   //The function that initializes data for the screen
   void dataInitializer(BuildContext context, ImgDetails img) {
     print("Width of image: ${img.width} Height of img: ${img.height}");
-
+    widthOfImage = img.width!;
+    heightOfImage = img.height!;
     //This is a temporary line to create a point that would normally be held in image handler when we get there
     //This point is calculated to be in the middle of the image file in its native resolution
     //This is also used to determine where the dragable initially spawns. We use math to convert where the point is in
@@ -154,7 +161,7 @@ Here the currLocalOffset is used to update the coordinates in the native image r
     print(currLocalOffset);
     //calulates the change in coordinates in image file native resolution based on (dx,dy) * scalar
     pointInImageResolution.UpdateCordinate(
-        currLocalOffset, screenToCameraRatioX, screenToCameraRatioY);
+        currLocalOffset, screenToCameraRatioX, screenToCameraRatioY, widthOfImage, heightOfImage);
     //shows new coordinates in console
     print(
         "New point in camera resolution: ${pointInImageResolution.x} ${pointInImageResolution.y}");
