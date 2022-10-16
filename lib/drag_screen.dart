@@ -10,7 +10,12 @@ start from the bottom build function at step 1
 -----------------------------------------------------
 ISSUES:
 Still have to draw lines between squares on the screen
-i did not set constraints for where u can drag the draggable so dont drag it off the screen it will not come back
+
+If u drag the dragable outside the container with the image, but NOT OFF THE PHONE, the values for offset are still actually being changed.
+possible fixes:
+1. make it so container that image is in touches the edge of the phone screen
+2. Some other bs
+
 */
 
 class DragScreen extends StatefulWidget {
