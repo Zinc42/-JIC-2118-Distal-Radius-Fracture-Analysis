@@ -40,8 +40,8 @@ class _Drag_ButtonState extends State<Drag_Button> {
         //OnPanUpdate gesture allows us to click and drag stuff
         onPanUpdate: widget.pressFunction,
         child: Container(
-          width: screenWidth - 363,
-          height: screenHeight - 800,
+          width: screenWidth * 0.08,
+          height: screenHeight * 0.035,
           color: Colors.red,
         ),
       ),
