@@ -1,5 +1,6 @@
 import 'package:distal_radius/image_handler.dart';
 import 'package:flutter/material.dart';
+import 'image_results_screen.dart';
 
 import "screen_button.dart";
 
@@ -27,6 +28,15 @@ class _ResultsScreenState extends State<ResultsScreen> {
     print("Send to export");
   }
 
+  void toImageResults(isFront) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ImageResultsScreen(
+                  isFrontImage: isFront,
+                )));
+  }
+
   Widget getHeader() {
     return Stack(
       alignment: Alignment.center,
@@ -47,12 +57,12 @@ class _ResultsScreenState extends State<ResultsScreen> {
     var sideImage = FileImage(File(imageHandler.sideImagePath!));
 
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Image(height: 300, width: 200, image: frontImage),
-      Image(
-        height: 300,
-        width: 200,
-        image: sideImage,
-      ),
+      GestureDetector(
+          onTap: () => toImageResults(true),
+          child: Image(height: 200, width: 200, image: frontImage)),
+      GestureDetector(
+          onTap: () => toImageResults(false),
+          child: Image(height: 200, width: 200, image: sideImage))
     ]);
   }
 
