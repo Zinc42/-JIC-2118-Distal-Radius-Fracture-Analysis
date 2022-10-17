@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 class Drag_Button extends StatefulWidget {
   const Drag_Button(
       {super.key,
+        required this.startDragFunction,
       required this.pressFunction,
       required this.endDragFunction,
       required this.topPos,
       required this.leftPos});
 
   //Call back function that gets called on tick whenever the user is dragging the draggable
+  final Function(DragStartDetails) startDragFunction;
   final Function(DragUpdateDetails) pressFunction;
   final Function(DragEndDetails) endDragFunction;
 
@@ -41,6 +43,7 @@ class _Drag_ButtonState extends State<Drag_Button> {
       left: widget.leftPos,
       child: GestureDetector(
         //OnPanUpdate gesture allows us to click and drag stuff
+        onPanStart: widget.startDragFunction,
         onPanUpdate: widget.pressFunction,
         onPanEnd: widget.endDragFunction,
         child: Container(

@@ -61,9 +61,13 @@ class _DragScreenState extends State<DragScreen> {
   late int widthOfImage;
   late int heightOfImage;
 
+  //Stores x and y coordinates of where Dragable was at start of pan
+  double prevDragableLocationX = 0;
+  double prevDragableLocationY = 0;
+
   bool initialized = false;
 
-  Offset currLocalOffset = Offset(0, 0);
+
 
   /*
   ------------------------STEP 2-----------------------------------------------------------------------------------------------------
@@ -113,6 +117,7 @@ class _DragScreenState extends State<DragScreen> {
     setScreenRatios(img.width!, img.height!);
 
     drag = Drag_Button(
+      startDragFunction: DragableStartCallback,
       pressFunction: DragableUpdateCallback,
       endDragFunction: DragableEndDragCallback,
       leftPos: pointInImageResolution.x * cameraToScreenRatioX,
@@ -132,47 +137,55 @@ class _DragScreenState extends State<DragScreen> {
   }
 
 //-------STEP 3 ----------------------------------------------------------------------------------
-  /*
-  tldr,
-  This is called every tick user is draging.
-  every tick it takes it stores the local offset(in pixles) from where it started in currLocalOffset
-  image file native resolution > screen resolution on all iphones, so pixel distance on screen != pixel distance on native image resolution
-   to get around this
-  we take this offset in dx and dy in our screen resolution, and use it in the callback for when the user stops dragging the dragable
 
+
+  /*
+  When the user starts dragging start callback is called. Stores location of dragable in stack
+  on update callback just updates the location of the dragable on screen
+  On end drag callback takes the difference between where dragable started and where it ended after the pan and uses that offset in the math with scalars
    */
+  void DragableStartCallback(dragStartDetails) {
+    prevDragableLocationX = drag.getLeft();
+    prevDragableLocationY = drag.getTop();
+    print("Started Drag");
+  }
+
   void DragableUpdateCallback(details) {
     if (drag != null) {
       //values for where to redraw the draggable widget after set state
       double newTop = min(imgContainerHeight - (imgContainerHeight * 0.035), max(0, drag.getTop() + details.delta.dy));
       double newLeft = min(imgContainerWidth - (imgContainerWidth * 0.08) , max(0, drag.getLeft() + details.delta.dx));
+
       //update the draggable reference
       drag = Drag_Button(
+        startDragFunction: DragableStartCallback,
           pressFunction: DragableUpdateCallback,
           endDragFunction: DragableEndDragCallback,
           topPos: newTop,
           leftPos: newLeft);
-
-      currLocalOffset = details.localPosition;
     }
 
     setState(() {});
   }
+
 /*
-Here the currLocalOffset is used to update the coordinates in the native image resolution by multiplying the offset by scalars we generated
+Here the offset is calculted and used to update the coordinates in the native image resolution by multiplying the offset by scalars we generated
  */
   void DragableEndDragCallback(DragEndDetails) {
+    //Where the dragable is now - where it was when dragging started
+    double newXOffset =  (drag.getLeft() - prevDragableLocationX);
+    double newYOffset =  (drag.getTop() - prevDragableLocationY);
 
-    print(currLocalOffset);
+    //print("$newXOffset $newYOffset");
     //calulates the change in coordinates in image file native resolution based on (dx,dy) * scalar
     pointInImageResolution.UpdateCordinate(
-        currLocalOffset, screenToCameraRatioX, screenToCameraRatioY, widthOfImage, heightOfImage);
+        Offset(newXOffset,newYOffset), screenToCameraRatioX, screenToCameraRatioY, widthOfImage, heightOfImage);
     //shows new coordinates in console
     print(
         "New point in camera resolution: ${pointInImageResolution.x} ${pointInImageResolution.y}");
     //Set local offset varable back to 0 otherwise if u just click but dont drag, it will use same offset that was used in last
     //drag end despite not actually moving
-    currLocalOffset = Offset(0,0);
+
   }
 }
 

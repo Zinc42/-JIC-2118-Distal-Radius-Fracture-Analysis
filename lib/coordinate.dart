@@ -13,6 +13,7 @@ class Coordinate {
      double tempX = x + (offset.dx * scalarX).round();
      double tempY = y + (offset.dy * scalarY).round();
 
+
      //Checking to make sure that coordinate with offset change is in bounds
      if (tempX > nativeResWidth) {
        x = nativeResWidth.toDouble();
