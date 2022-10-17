@@ -20,7 +20,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
   ImageHandler imageHandler = ImageHandler();
 
   void cancelResults() {
-    print("Cancelled");
+    Navigator.of(context).popUntil(ModalRoute.withName("welcome_screen"));
   }
 
   void toExport() {
@@ -35,7 +35,6 @@ class _ResultsScreenState extends State<ResultsScreen> {
     return Stack(
       alignment: Alignment.center,
       children: const [
-        Positioned(left: 10, child: BackButton()),
         Align(
             child: Text(
           "Results",
@@ -47,14 +46,16 @@ class _ResultsScreenState extends State<ResultsScreen> {
   }
 
   Widget getImages() {
+    final imageWidth = 0.3 * MediaQuery.of(context).size.width;
+
     var frontImage = FileImage(File(imageHandler.frontImagePath!));
     var sideImage = FileImage(File(imageHandler.sideImagePath!));
 
     return Row(children: [
-      Image(height: 200, width: 200, image: frontImage),
+      Image(height: 300, width: imageWidth, image: frontImage),
       Image(
-        height: 200,
-        width: 200,
+        height: 300,
+        width: imageWidth,
         image: sideImage,
       ),
     ]);
