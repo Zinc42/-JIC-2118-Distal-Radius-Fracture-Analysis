@@ -60,10 +60,10 @@ class _ResultsScreenState extends State<ResultsScreen> {
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         GestureDetector(
             onTap: () => toImageResults(true),
-            child: Image(height: 200, width: imageWidth, image: frontImage)),
+            child: Image(height: 300, width: imageWidth, image: frontImage)),
         GestureDetector(
             onTap: () => toImageResults(false),
-            child: Image(height: 200, width: imageWidth, image: sideImage))
+            child: Image(height: 300, width: imageWidth, image: sideImage))
       ]),
       SizedBox(height: 20),
       Container(
