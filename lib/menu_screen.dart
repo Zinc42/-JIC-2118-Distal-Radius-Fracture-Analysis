@@ -5,6 +5,7 @@ import "screen_button.dart";
 import "image_upload_screen.dart";
 import "loading_screen.dart";
 import "welcome_screen.dart";
+import "results_screen.dart";
 
 import 'dart:io';
 
@@ -27,7 +28,6 @@ class MenuScreenArguments {
 // State class that handles logic in the screen
 // contains all functions relevant to business logic
 class _MenuScreenState extends State<MenuScreen> {
-
   ImageHandler imageHandler = ImageHandler();
 
   @override
@@ -53,10 +53,9 @@ class _MenuScreenState extends State<MenuScreen> {
     if (!imageHandler.isMissingImages()) {
       // run analysis only if both images have been uploaded
       print("Run Analysis");
-      // code to run analysis 
-      Navigator.pushNamed(
-        context,
-        LoadingScreen.id);
+      // code to run analysis
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => ResultsScreen()));
     } else {
       _showNoImageAlert();
     }
@@ -64,33 +63,29 @@ class _MenuScreenState extends State<MenuScreen> {
 
   void toImageUploadScreen(bool isFront) {
     imageHandler.isFrontImage = isFront;
-    Navigator.pushNamed(
-      context,
-      ImageUploadScreen.id
-    ).then((value) => setState(() {}));
+    Navigator.pushNamed(context, ImageUploadScreen.id)
+        .then((value) => setState(() {}));
   }
 
   Future<void> _showNoImageAlert() async {
     return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return  AlertDialog(
-          title: const Text("Missing Image"),
-          content: const SingleChildScrollView(
-            child: Text("Required Images are Missing."),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ]
-        );
-      }
-    );
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: const Text("Missing Image"),
+              content: const SingleChildScrollView(
+                child: Text("Required Images are Missing."),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ]);
+        });
   }
 }
 
@@ -102,63 +97,58 @@ class _MenuScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final MenuScreenArguments args = ModalRoute.of(context)!.settings.arguments as MenuScreenArguments;
+    final MenuScreenArguments args =
+        ModalRoute.of(context)!.settings.arguments as MenuScreenArguments;
 
     return Scaffold(
-      body: Container(
-        margin: const EdgeInsets.fromLTRB(0, 35, 0, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Stack(
-              alignment: Alignment.center, 
-              children: [
-                const Positioned(left: 10, child: BackButton()),
-                Align(
-                  child: Text(
-                    args.analysisType,
-                    textScaleFactor: 1.5,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ]
+        body: Container(
+      margin: const EdgeInsets.fromLTRB(0, 35, 0, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Stack(alignment: Alignment.center, children: [
+            const Positioned(left: 10, child: BackButton()),
+            Align(
+              child: Text(
+                args.analysisType,
+                textScaleFactor: 1.5,
+                textAlign: TextAlign.center,
+              ),
             ),
-            const SizedBox(height: 40),
-            ScreenButton(
-              buttonText: "Import Frontal View",
-              pressFunction: () => state.toImageUploadScreen(true),
-            ),
-            const SizedBox(height: 20),
-            Image(
-              height: 200,
-              width: 200,
-              image: state.getFrontImageDisplay(),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            ScreenButton(
-              buttonText: "Import Side View",
-              pressFunction: () => state.toImageUploadScreen(false),
-            ),
-            const SizedBox(height: 20),
-            Image(
-              height: 200,
-              width: 200,
-              image: state.getSideImageDisplay(),
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            ScreenButton(
-              buttonText: "Run Analysis",
-              pressFunction: state.runAnalysis,
-            ),
-            
-          ],
-        ),
-      ) 
-    );
+          ]),
+          const SizedBox(height: 40),
+          ScreenButton(
+            buttonText: "Import Frontal View",
+            pressFunction: () => state.toImageUploadScreen(true),
+          ),
+          const SizedBox(height: 20),
+          Image(
+            height: 200,
+            width: 200,
+            image: state.getFrontImageDisplay(),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          ScreenButton(
+            buttonText: "Import Side View",
+            pressFunction: () => state.toImageUploadScreen(false),
+          ),
+          const SizedBox(height: 20),
+          Image(
+            height: 200,
+            width: 200,
+            image: state.getSideImageDisplay(),
+          ),
+          const SizedBox(
+            height: 50,
+          ),
+          ScreenButton(
+            buttonText: "Run Analysis",
+            pressFunction: state.runAnalysis,
+          ),
+        ],
+      ),
+    ));
   }
 }
