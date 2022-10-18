@@ -1,5 +1,6 @@
 import 'package:distal_radius/image_handler.dart';
 import 'package:flutter/material.dart';
+import 'image_results_screen.dart';
 
 import "screen_button.dart";
 
@@ -27,6 +28,15 @@ class _ResultsScreenState extends State<ResultsScreen> {
     print("Send to export");
   }
 
+  void toImageResults(isFront) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ImageResultsScreen(
+                  isFrontImage: isFront,
+                )));
+  }
+
   Widget getHeader() {
     return Stack(
       alignment: Alignment.center,
@@ -46,13 +56,22 @@ class _ResultsScreenState extends State<ResultsScreen> {
     var frontImage = FileImage(File(imageHandler.frontImagePath!));
     var sideImage = FileImage(File(imageHandler.sideImagePath!));
 
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-      Image(height: 300, width: imageWidth, image: frontImage),
-      Image(
-        height: 300,
-        width: imageWidth,
-        image: sideImage,
-      ),
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        GestureDetector(
+            onTap: () => toImageResults(true),
+            child: Image(height: 300, width: imageWidth, image: frontImage)),
+        GestureDetector(
+            onTap: () => toImageResults(false),
+            child: Image(height: 300, width: imageWidth, image: sideImage))
+      ]),
+      SizedBox(height: 20),
+      Container(
+          padding: const EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(15.0)),
+          child: const Text('Press Image for More Info'))
     ]);
   }
 
