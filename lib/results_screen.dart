@@ -43,14 +43,15 @@ class _ResultsScreenState extends State<ResultsScreen> {
   }
 
   Widget getImages() {
+    final imageWidth = 0.4 * MediaQuery.of(context).size.width;
     var frontImage = FileImage(File(imageHandler.frontImagePath!));
     var sideImage = FileImage(File(imageHandler.sideImagePath!));
 
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Image(height: 300, width: 200, image: frontImage),
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+      Image(height: 300, width: imageWidth, image: frontImage),
       Image(
         height: 300,
-        width: 200,
+        width: imageWidth,
         image: sideImage,
       ),
     ]);
