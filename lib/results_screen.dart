@@ -20,7 +20,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
   ImageHandler imageHandler = ImageHandler();
 
   void cancelResults() {
-    print("Cancelled");
+    Navigator.of(context).popUntil(ModalRoute.withName("welcome_screen"));
   }
 
   void toExport() {
@@ -31,7 +31,6 @@ class _ResultsScreenState extends State<ResultsScreen> {
     return Stack(
       alignment: Alignment.center,
       children: const [
-        Positioned(left: 10, child: BackButton()),
         Align(
             child: Text(
           "Results",
