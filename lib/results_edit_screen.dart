@@ -14,6 +14,11 @@ class ResultsEditScreen extends StatefulWidget {
 class _ResultsEditScreenState extends State<ResultsEditScreen> {
   ImageHandler imageHandler = ImageHandler();
 
+  // whether or not the current image for analysis is Front/Side is updated in the Image Handler
+  // you can get the image path via imageHandler.getCurrImagepath()
+
+  // the returned path can technically be a null string, but it shoudln't be actually possible
+  // since the paths are initialized in earlier screens in the app
 
   double getScreenWidth() {
     return MediaQuery.of(context).size.width;
