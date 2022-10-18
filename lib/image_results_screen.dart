@@ -20,6 +20,7 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
 
   void toEditImage() {
     print("Edit Image");
+    // Update the current image to analyse in Image Handler
     imageHandler.isFrontImage = widget.isFrontImage;
     Navigator.of(context).pushNamed(ResultsEditScreen.id);
   }
