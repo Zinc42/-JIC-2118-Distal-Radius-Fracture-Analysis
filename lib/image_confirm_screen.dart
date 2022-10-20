@@ -39,10 +39,13 @@ class _ImageConfirmScreen extends State<ImageConfirmScreen> {
     imageHandler.setCurrImagepath(widget.originalPath);
 
     if(!mounted) return;
-    //TEMPORAIRLY MAKING THIS BUTTON NAVIGATE TO DRAG SCREEN
-    //Navigator.of(context).popUntil(ModalRoute.withName(MenuScreen.id));
-    Navigator.of(context).push(MaterialPageRoute(
+ 
+    Navigator.of(context).popUntil(ModalRoute.withName(MenuScreen.id));
+    /*
+        Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => DragScreen(passedImagePath: widget.originalPath)));
+     */
+
 
   }
 
