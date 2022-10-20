@@ -210,6 +210,7 @@ Here the offset is calculted and used to update the coordinates in the native im
   //TODO: Make a class that contains the callback functions that can be used for both buttons rather than having different callbacks like this
   //Will make code cleaner
   //TODO: Make the draggables actually update coordinate information in image handler rather than fake data
+  //TODO: add offset so that point is in middle of draggable
   void secondDragableStartCallback(dragStartDetails) {
     prevDragableTwoLocationX = draggableTwo.getLeft();
     prevDragableTwoLocationY = draggableTwo.getTop();
