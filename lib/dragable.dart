@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
+
 //This class creates a dragable point object on a screen
 class Drag_Button extends StatefulWidget {
   const Drag_Button(
       {super.key,
-        required this.startDragFunction,
+      required this.startDragFunction,
       required this.pressFunction,
       required this.endDragFunction,
       required this.topPos,
-      required this.leftPos});
+      required this.leftPos,
+      required this.color});
 
   //Call back function that gets called on tick whenever the user is dragging the draggable
   final Function(DragStartDetails) startDragFunction;
@@ -20,6 +22,10 @@ class Drag_Button extends StatefulWidget {
 
   //Determines the x position of the draggable on screen
   final double leftPos;
+
+  final Color color;
+
+
 
   double getTop() {
     return topPos;
@@ -47,9 +53,11 @@ class _Drag_ButtonState extends State<Drag_Button> {
         onPanUpdate: widget.pressFunction,
         onPanEnd: widget.endDragFunction,
         child: Container(
-          width: screenWidth * 0.08,
-          height: screenHeight * 0.035,
-          color: Colors.red,
+          decoration:
+              BoxDecoration(shape: BoxShape.circle, color: widget.color),
+          width: screenWidth * 0.065,
+          height: screenHeight * 0.027,
+          //color: widget.color,
         ),
       ),
     );

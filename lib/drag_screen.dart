@@ -33,7 +33,8 @@ class _DragScreenState extends State<DragScreen> {
   Widget build(BuildContext context) => _DragScreenView(state: this);
 
   //REFERENCE TO DRAGGABLE WIDGET
-  late Drag_Button drag;
+  late Drag_Button draggableOne;
+  late Drag_Button draggableTwo;
 
   //Passed image from last screen
   late FileImage imageFile = FileImage(File((widget.passedImagePath)));
@@ -41,6 +42,7 @@ class _DragScreenState extends State<DragScreen> {
   //These X and Y coordinates are the middle of
   late Coordinate pointInImageResolution;
 
+  //TODO Move some of theses variables to a diff/class file to make top of file more clean
   //primitive implementation of a camera resolution TO screen scalar
   late double cameraToScreenRatioX;
   late double cameraToScreenRatioY;
@@ -60,12 +62,15 @@ class _DragScreenState extends State<DragScreen> {
   late int heightOfImage;
 
   //Stores x and y coordinates of where Dragable was at start of pan
-  double prevDragableLocationX = 0;
-  double prevDragableLocationY = 0;
+  double prevDragableOneLocationX = 0;
+  double prevDragableOneLocationY = 0;
+
+  double prevDragableTwoLocationX = 0;
+  double prevDragableTwoLocationY = 0;
+
+
 
   bool initialized = false;
-
-
 
   /*
   ------------------------STEP 2-----------------------------------------------------------------------------------------------------
@@ -91,7 +96,8 @@ class _DragScreenState extends State<DragScreen> {
           children: [
             Image.file(File(widget.passedImagePath)),
             //the draggable button
-            drag
+            draggableOne,
+            draggableTwo
           ],
         ),
       );
@@ -114,13 +120,21 @@ class _DragScreenState extends State<DragScreen> {
     //This function call sets the scalars that allow us to go from the image file's resolution to the screen resolution and back
     setScreenRatios(img.width!, img.height!);
 
-    drag = Drag_Button(
-      startDragFunction: DragableStartCallback,
-      pressFunction: DragableUpdateCallback,
-      endDragFunction: DragableEndDragCallback,
-      leftPos: pointInImageResolution.x * cameraToScreenRatioX,
-      topPos: pointInImageResolution.y * cameraToScreenRatioY,
-    );
+    draggableOne = Drag_Button(
+        startDragFunction: firstDragableStartCallback,
+        pressFunction: firstDragableUpdateCallback,
+        endDragFunction: firstDragableEndDragCallback,
+        leftPos: pointInImageResolution.x * cameraToScreenRatioX,
+        topPos: pointInImageResolution.y * cameraToScreenRatioY,
+        color: Colors.red);
+
+    draggableTwo = Drag_Button(
+        startDragFunction: secondDragableStartCallback,
+        pressFunction: secondDragableUpdateCallback,
+        endDragFunction: secondDragableEndDragCallback,
+        leftPos: pointInImageResolution.x * cameraToScreenRatioX + 50,
+        topPos: pointInImageResolution.y * cameraToScreenRatioY + 50,
+        color: Colors.blue);
 
     initialized = true;
   }
@@ -136,31 +150,33 @@ class _DragScreenState extends State<DragScreen> {
 
 //-------STEP 3 ----------------------------------------------------------------------------------
 
-
   /*
   When the user starts dragging start callback is called. Stores location of dragable in stack
   on update callback just updates the location of the dragable on screen
   On end drag callback takes the difference between where dragable started and where it ended after the pan and uses that offset in the math with scalars
    */
-  void DragableStartCallback(dragStartDetails) {
-    prevDragableLocationX = drag.getLeft();
-    prevDragableLocationY = drag.getTop();
+  void firstDragableStartCallback(dragStartDetails) {
+    prevDragableOneLocationX = draggableOne.getLeft();
+    prevDragableOneLocationY = draggableOne.getTop();
     print("Started Drag");
   }
 
-  void DragableUpdateCallback(details) {
-    if (drag != null) {
+  void firstDragableUpdateCallback(details) {
+    if (draggableOne != null) {
       //values for where to redraw the draggable widget after set state
-      double newTop = min(imgContainerHeight - (imgContainerHeight * 0.035), max(0, drag.getTop() + details.delta.dy));
-      double newLeft = min(imgContainerWidth - (imgContainerWidth * 0.08) , max(0, drag.getLeft() + details.delta.dx));
+      double newTop = min(imgContainerHeight - (imgContainerHeight * 0.035),
+          max(0, draggableOne.getTop() + details.delta.dy));
+      double newLeft = min(imgContainerWidth - (imgContainerWidth * 0.08),
+          max(0, draggableOne.getLeft() + details.delta.dx));
 
       //update the draggable reference
-      drag = Drag_Button(
-        startDragFunction: DragableStartCallback,
-          pressFunction: DragableUpdateCallback,
-          endDragFunction: DragableEndDragCallback,
+      draggableOne = Drag_Button(
+          startDragFunction: firstDragableStartCallback,
+          pressFunction: firstDragableUpdateCallback,
+          endDragFunction: firstDragableEndDragCallback,
           topPos: newTop,
-          leftPos: newLeft);
+          leftPos: newLeft,
+          color: Colors.red);
     }
 
     setState(() {});
@@ -169,23 +185,82 @@ class _DragScreenState extends State<DragScreen> {
 /*
 Here the offset is calculted and used to update the coordinates in the native image resolution by multiplying the offset by scalars we generated
  */
-  void DragableEndDragCallback(DragEndDetails) {
+  void firstDragableEndDragCallback(DragEndDetails) {
     //Where the dragable is now - where it was when dragging started
-    double newXOffset =  (drag.getLeft() - prevDragableLocationX);
-    double newYOffset =  (drag.getTop() - prevDragableLocationY);
+    //Now also moves the point of the coordinate to the center of the draggable square rather than the top left
+    double newXOffset = (draggableOne.getLeft() - prevDragableOneLocationX);
+    double newYOffset = (draggableOne.getTop() - prevDragableOneLocationY);
 
     //print("$newXOffset $newYOffset");
     //calulates the change in coordinates in image file native resolution based on (dx,dy) * scalar
+
     pointInImageResolution.UpdateCordinate(
-        Offset(newXOffset,newYOffset), screenToCameraRatioX, screenToCameraRatioY, widthOfImage, heightOfImage);
+        Offset(newXOffset, newYOffset),
+        screenToCameraRatioX,
+        screenToCameraRatioY,
+        widthOfImage,
+        heightOfImage);
     //shows new coordinates in console
     print(
         "New point in camera resolution: ${pointInImageResolution.x} ${pointInImageResolution.y}");
     //Set local offset varable back to 0 otherwise if u just click but dont drag, it will use same offset that was used in last
     //drag end despite not actually moving
+  }
 
+  //TODO: Make a class that contains the callback functions that can be used for both buttons rather than having different callbacks like this
+  //Will make code cleaner
+  //TODO: Make the draggables actually update coordinate information in image handler rather than fake data
+  void secondDragableStartCallback(dragStartDetails) {
+    prevDragableTwoLocationX = draggableTwo.getLeft();
+    prevDragableTwoLocationY = draggableTwo.getTop();
+    print("Started Drag");
+  }
+  void secondDragableUpdateCallback(details) {
+    if (draggableTwo != null) {
+      //values for where to redraw the draggable widget after set state
+      double newTop = min(imgContainerHeight - (imgContainerHeight * 0.035),
+          max(0, draggableTwo.getTop() + details.delta.dy));
+      double newLeft = min(imgContainerWidth - (imgContainerWidth * 0.08),
+          max(0, draggableTwo.getLeft() + details.delta.dx));
+
+      //update the draggable reference
+      draggableTwo = Drag_Button(
+          startDragFunction: secondDragableStartCallback,
+          pressFunction: secondDragableUpdateCallback,
+          endDragFunction: secondDragableEndDragCallback,
+          topPos: newTop,
+          leftPos: newLeft,
+          color: Colors.blue);
+    }
+
+    setState(() {});
+  }
+  void secondDragableEndDragCallback(DragEndDetails) {
+    //Where the dragable is now - where it was when dragging started
+    double newXOffset = (draggableTwo.getLeft() - prevDragableTwoLocationX);
+    double newYOffset = (draggableTwo.getTop() - prevDragableTwoLocationY);
+
+    //print("$newXOffset $newYOffset");
+    //calulates the change in coordinates in image file native resolution based on (dx,dy) * scalar
+    /*
+        pointInImageResolution.UpdateCordinate(
+        Offset(newXOffset, newYOffset),
+        screenToCameraRatioX,
+        screenToCameraRatioY,
+        widthOfImage,
+        heightOfImage);
+     */
+
+    //shows new coordinates in console
+    print(
+        "New point in camera resolution: ${pointInImageResolution.x} ${pointInImageResolution.y}");
+    //Set local offset varable back to 0 otherwise if u just click but dont drag, it will use same offset that was used in last
+    //drag end despite not actually moving
   }
 }
+
+
+
 
 class _DragScreenView extends StatelessWidget {
   const _DragScreenView({super.key, required this.state});
