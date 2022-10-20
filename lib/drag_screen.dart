@@ -8,12 +8,12 @@ import "coordinate.dart";
 How this scruffed ass proof of concept even works
 start from the bottom build function at step 1
 -----------------------------------------------------
-ISSUES:
+Still needed:
 Still have to draw lines between squares on the screen
-
-(FIXED?) If u drag the dragable outside the container with the image, but NOT OFF THE PHONE, the values for offset are still actually being changed.
-
-
+//TODO: Make the blue draggable also update coordinate info
+  //TODO: Make the draggables actually update coordinate information in image handler rather than fake data
+  //TODO: add offset so that point is in middle of draggable
+   //TODO: Make a class that contains the callback functions that can be used for both buttons rather than having a bunch of diff callbacks
 */
 
 class DragScreen extends StatefulWidget {
@@ -55,6 +55,10 @@ class _DragScreenState extends State<DragScreen> {
   late double imgContainerWidth;
   late double imgContainerHeight;
 
+  //These are used to push the point for coordinate calculation from top left of draggable widget to the center
+  late double widthOfDraggable;
+  late double heightOfDraggable;
+
   //width and height of passed image
   //this is needed to make sure if the offset calculated is going to move the coordinate OUTSIDE
   //the image, then leave coordinate at edge.
@@ -67,8 +71,6 @@ class _DragScreenState extends State<DragScreen> {
 
   double prevDragableTwoLocationX = 0;
   double prevDragableTwoLocationY = 0;
-
-
 
   bool initialized = false;
 
@@ -111,6 +113,11 @@ class _DragScreenState extends State<DragScreen> {
     print("Width of image: ${img.width} Height of img: ${img.height}");
     widthOfImage = img.width!;
     heightOfImage = img.height!;
+
+    //These values should be the same as the width and height of the widget in dragable.dart
+    heightOfDraggable = imgContainerHeight * 0.027;
+    widthOfDraggable = imgContainerWidth * 0.065;
+
     //This is a temporary line to create a point that would normally be held in image handler when we get there
     //This point is calculated to be in the middle of the image file in its native resolution
     //This is also used to determine where the dragable initially spawns. We use math to convert where the point is in
@@ -164,9 +171,10 @@ class _DragScreenState extends State<DragScreen> {
   void firstDragableUpdateCallback(details) {
     if (draggableOne != null) {
       //values for where to redraw the draggable widget after set state
-      double newTop = min(imgContainerHeight - (imgContainerHeight * 0.035),
+      // min(container X or y - widthX or Y of the draggable it self, max(0 x and y, draggablelocation)
+      double newTop = min(imgContainerHeight - (heightOfDraggable),
           max(0, draggableOne.getTop() + details.delta.dy));
-      double newLeft = min(imgContainerWidth - (imgContainerWidth * 0.08),
+      double newLeft = min(imgContainerWidth - (widthOfDraggable),
           max(0, draggableOne.getLeft() + details.delta.dx));
 
       //update the draggable reference
@@ -188,8 +196,8 @@ Here the offset is calculted and used to update the coordinates in the native im
   void firstDragableEndDragCallback(DragEndDetails) {
     //Where the dragable is now - where it was when dragging started
     //Now also moves the point of the coordinate to the center of the draggable square rather than the top left
-    double newXOffset = (draggableOne.getLeft() - prevDragableOneLocationX);
-    double newYOffset = (draggableOne.getTop() - prevDragableOneLocationY);
+    double newXOffset = ((draggableOne.getLeft()) - (prevDragableOneLocationX));
+    double newYOffset = ((draggableOne.getTop()) - (prevDragableOneLocationY));
 
     //print("$newXOffset $newYOffset");
     //calulates the change in coordinates in image file native resolution based on (dx,dy) * scalar
@@ -207,21 +215,20 @@ Here the offset is calculted and used to update the coordinates in the native im
     //drag end despite not actually moving
   }
 
-  //TODO: Make a class that contains the callback functions that can be used for both buttons rather than having different callbacks like this
   //Will make code cleaner
-  //TODO: Make the draggables actually update coordinate information in image handler rather than fake data
-  //TODO: add offset so that point is in middle of draggable
+
   void secondDragableStartCallback(dragStartDetails) {
     prevDragableTwoLocationX = draggableTwo.getLeft();
     prevDragableTwoLocationY = draggableTwo.getTop();
     print("Started Drag");
   }
+
   void secondDragableUpdateCallback(details) {
     if (draggableTwo != null) {
       //values for where to redraw the draggable widget after set state
-      double newTop = min(imgContainerHeight - (imgContainerHeight * 0.035),
+      double newTop = min(imgContainerHeight - (heightOfDraggable),
           max(0, draggableTwo.getTop() + details.delta.dy));
-      double newLeft = min(imgContainerWidth - (imgContainerWidth * 0.08),
+      double newLeft = min(imgContainerWidth - (widthOfDraggable),
           max(0, draggableTwo.getLeft() + details.delta.dx));
 
       //update the draggable reference
@@ -236,6 +243,7 @@ Here the offset is calculted and used to update the coordinates in the native im
 
     setState(() {});
   }
+
   void secondDragableEndDragCallback(DragEndDetails) {
     //Where the dragable is now - where it was when dragging started
     double newXOffset = (draggableTwo.getLeft() - prevDragableTwoLocationX);
@@ -260,9 +268,6 @@ Here the offset is calculted and used to update the coordinates in the native im
   }
 }
 
-
-
-
 class _DragScreenView extends StatelessWidget {
   const _DragScreenView({super.key, required this.state});
 
@@ -273,22 +278,28 @@ class _DragScreenView extends StatelessWidget {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
 
-    state.imgContainerWidth = (screenWidth * 0.9);
-    state.imgContainerHeight = (screenHeight * 0.8);
+    //width and height of container from result_edit_screen.dart
+    state.imgContainerWidth = screenWidth - 20;
+    state.imgContainerHeight = screenHeight - 220;
 
-    return (Scaffold(
-      appBar: AppBar(title: const Text('Image Taken')),
-      body: Center(
-        //-------------STEP 1------------------------------------------------------------:
-        // makes an image pixels widget. comes from package.
-        // we use this to get width and height of image to use for math
-        //there is probably a better way to do this
-        child: ImagePixels(
-            imageProvider: state.imageFile,
-            defaultColor: Colors.black,
-            //calls imagePixelBuilder Method(step 2 scroll up)
-            builder: state.imagePixelsBuilder),
-      ),
+    /*
+        state.imgContainerWidth = (screenWidth * 0.9);
+    state.imgContainerHeight = (screenHeight * 0.8);
+    --------------------------------------------
+          height: state.getScreenHeight() - 220,
+      width: state.getScreenWidth() - 20,
+     */
+
+    return (Center(
+      //-------------STEP 1------------------------------------------------------------:
+      // makes an image pixels widget. comes from package.
+      // we use this to get width and height of image to use for math
+      //there is probably a better way to do this
+      child: ImagePixels(
+          imageProvider: state.imageFile,
+          defaultColor: Colors.black,
+          //calls imagePixelBuilder Method(step 2 scroll up)
+          builder: state.imagePixelsBuilder),
     ));
   }
 }

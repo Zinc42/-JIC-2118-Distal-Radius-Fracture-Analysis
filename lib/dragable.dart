@@ -25,8 +25,6 @@ class Drag_Button extends StatefulWidget {
 
   final Color color;
 
-
-
   double getTop() {
     return topPos;
   }
@@ -35,11 +33,15 @@ class Drag_Button extends StatefulWidget {
     return leftPos;
   }
 
+
+
+
   @override
   State<Drag_Button> createState() => _Drag_ButtonState();
 }
 
 class _Drag_ButtonState extends State<Drag_Button> {
+
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -54,7 +56,7 @@ class _Drag_ButtonState extends State<Drag_Button> {
         onPanEnd: widget.endDragFunction,
         child: Container(
           decoration:
-              BoxDecoration(shape: BoxShape.circle, color: widget.color),
+              BoxDecoration(shape: BoxShape.circle, color: widget.color, border: Border.all(color: Colors.black)),
           width: screenWidth * 0.065,
           height: screenHeight * 0.027,
           //color: widget.color,
