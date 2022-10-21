@@ -40,7 +40,9 @@ class _DragScreenState extends State<DragScreen> {
   late FileImage imageFile = FileImage(File((widget.passedImagePath)));
 
   //These X and Y coordinates are the middle of
-  late Coordinate pointInImageResolution;
+  late Coordinate firstPointInImageResolution;
+  //These X and Y coordinates are the middle of
+  late Coordinate secondPointInImageResolution;
 
   //TODO Move some of theses variables to a diff/class file to make top of file more clean
   //primitive implementation of a camera resolution TO screen scalar
@@ -122,7 +124,8 @@ class _DragScreenState extends State<DragScreen> {
     //This point is calculated to be in the middle of the image file in its native resolution
     //This is also used to determine where the dragable initially spawns. We use math to convert where the point is in
     //the native image resolution to figure out where the dragable should roughly be in screen resolution
-    pointInImageResolution = Coordinate(x: img.width! / 2, y: img.height! / 2);
+    firstPointInImageResolution = Coordinate(x: img.width! / 2, y: img.height! / 2);
+    secondPointInImageResolution = Coordinate(x: firstPointInImageResolution.x + 50, y: firstPointInImageResolution.y + 50);
 
     //This function call sets the scalars that allow us to go from the image file's resolution to the screen resolution and back
     setScreenRatios(img.width!, img.height!);
@@ -131,16 +134,16 @@ class _DragScreenState extends State<DragScreen> {
         startDragFunction: firstDragableStartCallback,
         pressFunction: firstDragableUpdateCallback,
         endDragFunction: firstDragableEndDragCallback,
-        leftPos: pointInImageResolution.x * cameraToScreenRatioX,
-        topPos: pointInImageResolution.y * cameraToScreenRatioY,
+        leftPos: firstPointInImageResolution.x * cameraToScreenRatioX,
+        topPos: firstPointInImageResolution.y * cameraToScreenRatioY,
         color: Colors.red);
 
     draggableTwo = Drag_Button(
         startDragFunction: secondDragableStartCallback,
         pressFunction: secondDragableUpdateCallback,
         endDragFunction: secondDragableEndDragCallback,
-        leftPos: pointInImageResolution.x * cameraToScreenRatioX + 50,
-        topPos: pointInImageResolution.y * cameraToScreenRatioY + 50,
+        leftPos: secondPointInImageResolution.x * cameraToScreenRatioX,
+        topPos: secondPointInImageResolution.y * cameraToScreenRatioY,
         color: Colors.blue);
 
     initialized = true;
@@ -202,7 +205,7 @@ Here the offset is calculted and used to update the coordinates in the native im
     //print("$newXOffset $newYOffset");
     //calulates the change in coordinates in image file native resolution based on (dx,dy) * scalar
 
-    pointInImageResolution.UpdateCordinate(
+    firstPointInImageResolution.UpdateCordinate(
         Offset(newXOffset, newYOffset),
         screenToCameraRatioX,
         screenToCameraRatioY,
@@ -210,7 +213,7 @@ Here the offset is calculted and used to update the coordinates in the native im
         heightOfImage);
     //shows new coordinates in console
     print(
-        "New point in camera resolution: ${pointInImageResolution.x} ${pointInImageResolution.y}");
+        "New first point in camera resolution: ${firstPointInImageResolution.x} ${firstPointInImageResolution.y}");
     //Set local offset varable back to 0 otherwise if u just click but dont drag, it will use same offset that was used in last
     //drag end despite not actually moving
   }
@@ -251,18 +254,18 @@ Here the offset is calculted and used to update the coordinates in the native im
 
     //print("$newXOffset $newYOffset");
     //calulates the change in coordinates in image file native resolution based on (dx,dy) * scalar
-    /*
-        pointInImageResolution.UpdateCordinate(
+
+        secondPointInImageResolution.UpdateCordinate(
         Offset(newXOffset, newYOffset),
         screenToCameraRatioX,
         screenToCameraRatioY,
         widthOfImage,
         heightOfImage);
-     */
+
 
     //shows new coordinates in console
     print(
-        "New point in camera resolution: ${pointInImageResolution.x} ${pointInImageResolution.y}");
+        "New second point in camera resolution: ${secondPointInImageResolution.x} ${secondPointInImageResolution.y}");
     //Set local offset varable back to 0 otherwise if u just click but dont drag, it will use same offset that was used in last
     //drag end despite not actually moving
   }
