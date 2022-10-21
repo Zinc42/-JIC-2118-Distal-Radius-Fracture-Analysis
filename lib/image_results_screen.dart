@@ -1,5 +1,6 @@
 import 'package:distal_radius/image_handler.dart';
 import 'package:flutter/material.dart';
+import 'results_edit_screen.dart';
 
 import 'dart:io';
 
@@ -19,6 +20,9 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
 
   void toEditImage() {
     print("Edit Image");
+    // Update the current image to analyse in Image Handler
+    imageHandler.isFrontImage = widget.isFrontImage;
+    Navigator.of(context).pushNamed(ResultsEditScreen.id);
   }
 
   Widget getHeader() {

@@ -36,6 +36,16 @@ class ImageHandler {
     }
   }
 
+  // gets the current image path based on the currnt "mode"/image
+  // that is set in isFrontImage
+  String? getCurrImagepath() {
+    if (isFrontImage) {
+      return frontImagePath;
+    } else {
+      return sideImagePath;
+    }
+  }
+
   void setFrontImagePath(String newFrontImagePath) {
     frontImagePath = newFrontImagePath;
   }
