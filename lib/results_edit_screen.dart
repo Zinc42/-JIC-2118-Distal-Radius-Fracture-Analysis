@@ -1,8 +1,10 @@
 import 'package:distal_radius/image_handler.dart';
 import 'package:flutter/material.dart';
 import "screen_button.dart";
+import "drag_screen.dart";
 
 class ResultsEditScreen extends StatefulWidget {
+
   const ResultsEditScreen({super.key});
 
   static const String id = "results_edit_screen";
@@ -71,7 +73,7 @@ class _ResultsEditScreenView extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black),
       ),
-      child: const Text("Insert Drag and Drop Edit Area")
+      child: DragScreen(passedImagePath: state.imageHandler.getCurrImagepath()!)
     );
   }
 
