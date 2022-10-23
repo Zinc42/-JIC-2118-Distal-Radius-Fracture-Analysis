@@ -25,7 +25,7 @@ Licensed under the MIT License.
 
 #### Known Issues
 
-- Measurement values (and their acceptable ranges) are fixed defaults for testing purposes
+- Measurement values (and their acceptable ranges) are fixed default values
 - Changes made in the measurement edit screen are not saved
 - Current analysis images/results are not cleared when exiting the results screen/returning home
 
