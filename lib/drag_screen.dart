@@ -143,8 +143,6 @@ class _DragScreenState extends State<DragScreen> {
       secondPointInImageResolution = Coordinate(x: firstPointInImageResolution.x + 50, y: firstPointInImageResolution.y + 50);
     } 
     
-
-
     draggableOne = Drag_Button(
         startDragFunction: firstDragableStartCallback,
         pressFunction: firstDragableUpdateCallback,

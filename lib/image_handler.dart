@@ -63,17 +63,17 @@ class ImageHandler {
     return radialStyloidY;
   }
 
-  // calculates Radial Inclucnation (angle of inclination) in DEGREES
+  // calculates Radial Inclination (angle of inclination) in DEGREES
   double getRadialInclination() {
     if (isMissingPoints()) {
       print("Missing Point Coords");
       return 0;
     } else {
-      print(atan(radialStyloidY / radialStyloidX));
       return atan(radialStyloidY / radialStyloidX) * 180 / pi;
     }
   }
 
+  // calcualtes Radial Height - currently still in pixels, not converted to IRL measurements
   double getRadialHeight() {
     if (isMissingPoints()) {
       print("Missing Point Coords");
