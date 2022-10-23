@@ -9,6 +9,26 @@ Licensed under the MIT License.
 
 ## Release Notes
 
+### Version 0.3.0
+
+#### New Features
+
+- Added results screen to display x-ray images and measurement values
+- Added color-coded measurement value displays on results
+- Added popup screens to display the identified points and reference lines over each x-ray image
+- Implemented an initial measurement edit screen
+- Added ability to drag and drop points over x-ray image
+
+#### Bugfixes
+
+- Fixed some UI sizing issues in the image alignment screen
+
+#### Known Issues
+
+- Measurement values (and their acceptable ranges) are fixed defaults for testing purposes
+- Changes made in the measurement edit screen are not saved
+- Current analysis images/results are not cleared when exiting the results screen/returning home
+
 ### Version 0.2.0
 
 #### New Features
