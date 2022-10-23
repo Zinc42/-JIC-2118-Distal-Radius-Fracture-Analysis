@@ -17,7 +17,7 @@ Licensed under the MIT License.
 - Added color-coded measurement value displays on results
 - Added popup screens to display the identified points and reference lines over each x-ray image
 - Implemented an initial measurement edit screen
-- Added ability to drag and drop points over x-ray image
+- Added ability to drag and drop points over x-ray image in the meausurement edit screen
 
 #### Bugfixes
 
