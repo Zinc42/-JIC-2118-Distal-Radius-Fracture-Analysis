@@ -47,8 +47,11 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
   }
 
   Widget getImageInfo() {
-    final screenWidth = 0.9 * MediaQuery.of(context).size.width;
-    final screenHeight = 0.7 * MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    final displayWidth = screenWidth - 40;
+    final displayHeight = screenHeight - 220;
 
     var image;
     if (widget.isFrontImage)
@@ -58,15 +61,17 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
 
     return ConstrainedBox(
         constraints: BoxConstraints(
-          maxWidth: screenWidth,
-          maxHeight: screenHeight,
+          minWidth: displayWidth,
+          maxWidth: displayWidth,
+          minHeight: displayHeight,
+          maxHeight: displayHeight,
         ),
         child: Stack(
           alignment: Alignment.center,
           children: [
             Image(image: image),
             CustomPaint(
-              size: Size(screenWidth, screenHeight),
+              size: Size(displayWidth, displayHeight),
               painter: ResultsPainter(),
             )
           ],
@@ -98,22 +103,50 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
 
 // Handles painting the circles and lines of the measurements
 class ResultsPainter extends CustomPainter {
+  ImageHandler imageHandler = ImageHandler();
+
   @override
   void paint(Canvas canvas, Size size) {
-    final p1 = Offset(10, 10);
-    final p2 = Offset(size.width - 20, size.height - 20);
+    final p1;
+    final p2;
+    final p1l;
+    final p1r;
+    final p2l; // reference point used to draw horizontal line
+    final p2r;
+    if (imageHandler.isFrontImage) {
+      p1 = Offset(imageHandler.getRadialStyloidX(), imageHandler.getRadialStyloidY());
+      p2 = Offset(imageHandler.getMinArticularSurfaceX(), imageHandler.getMinArticularSurfaceY());
 
-    final p3 = Offset(50, 50);
 
-    final paint = Paint()
+      p1l = Offset(0, imageHandler.getRadialStyloidY());
+      p1r = Offset(size.width, imageHandler.getRadialStyloidY());
+      p2l = Offset(0, imageHandler.getMinArticularSurfaceY());
+      p2r = Offset(size.width, imageHandler.getMinArticularSurfaceY());
+    } else {
+      // Side Image not yet Implemented
+      // random default values used
+      p1 = Offset(0, 0);
+      p2 = Offset(size.width - 20, size.height - 20);
+      p1l = Offset(0, 0);
+      p1r = Offset(size.width, 0);
+      p2l = Offset(0, size.height - 2);
+      p2r = Offset(size.width, size.height - 2);
+    }
+
+    final paintRed = Paint()
+      ..color = Colors.red
+      ..strokeWidth = 2;
+
+      final paintBlack = Paint()
       ..color = Colors.black
-      ..strokeWidth = 4;
+      ..strokeWidth = 2;
 
-    canvas.drawLine(p1, p2, paint);
+    canvas.drawLine(p1, p2, paintRed);
+    canvas.drawLine(p1l, p1r, paintRed);
+    canvas.drawLine(p2l, p2r, paintRed);
 
-    canvas.drawCircle(p1, 10, paint);
-    canvas.drawCircle(p2, 10, paint);
-    canvas.drawCircle(p3, 10, paint);
+    canvas.drawCircle(p1, 8, paintBlack);
+    canvas.drawCircle(p2, 8, paintBlack);
   }
 
   @override
