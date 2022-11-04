@@ -29,6 +29,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
   }
 
   void toImageResults(isFront) {
+    imageHandler.isFrontImage = isFront;
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -76,18 +77,26 @@ class _ResultsScreenState extends State<ResultsScreen> {
   }
 
   Widget getResultsInfo() {
+    double volarTilt = 1.0;
+    double radialHeight = imageHandler.getRadialHeight();
+    double radialInclination = imageHandler.getRadialInclination();
+
     return Container(
         margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
         child: Column(children: [
-          getResultValue("Volar Tilt", 1.0, 0.5, 1.5),
+          getResultValue("Volar Tilt", volarTilt, 0.5, 1.5),
           SizedBox(height: 20),
-          getResultValue("Radial Height", 0.3, 0.5, 1.5),
+          getResultValue("Radial Height", radialHeight, 0.5, 1.5),
           SizedBox(height: 20),
-          getResultValue("Radial Inclination", 0.0, 2.0, 3.5)
+          getResultValue("Radial Inclination", radialInclination, 2.0, 3.5)
         ]));
   }
 
   Column getResultValue(String title, double value, double min, double max) {
+
+    // parses a double as a string rounded to 1 decimal place
+    String valueString = value.toStringAsFixed(1);
+
     Color color;
 
     double difference = (value - min).abs();
@@ -112,7 +121,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
                 borderRadius: BorderRadius.circular(15.0)),
             child: Row(
               children: [
-                Text(value.toString(), style: TextStyle(color: color)),
+                Text(valueString, style: TextStyle(color: color)),
                 Spacer(),
                 Text(rangeText, style: TextStyle(color: Colors.green))
               ],
