@@ -1,6 +1,7 @@
 import 'package:distal_radius/image_handler.dart';
 import 'package:flutter/material.dart';
 import 'image_results_screen.dart';
+import 'export_screen.dart';
 
 import "screen_button.dart";
 
@@ -25,7 +26,8 @@ class _ResultsScreenState extends State<ResultsScreen> {
   }
 
   void toExport() {
-    print("Send to export");
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const ExportScreen()));
   }
 
   void toImageResults(isFront) {
