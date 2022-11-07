@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sms/flutter_sms.dart';
 import 'screen_button.dart';
+import "text_message.dart";
 
 import 'package:permission_handler/permission_handler.dart';
 
@@ -22,8 +24,10 @@ class _ExportScreenState extends State<ExportScreen> {
   }
 
   void toTextMessageScreen() {
-    print("Send through text message");
+    //see text_message.dart
+    TextMsg.buildTextMsg();
   }
+
 
   void toEmailScreen() {
     print("Send through email");
