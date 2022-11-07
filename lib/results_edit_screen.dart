@@ -36,7 +36,7 @@ class _ResultsEditScreenState extends State<ResultsEditScreen> {
     Navigator.of(context).pop();
   }
 
-    void confirmEdit() {
+  void confirmEdit() {
     // save edited measurement poiunts and return to results screen
     print("Confirm Edit");
   }

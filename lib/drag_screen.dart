@@ -3,6 +3,7 @@ import 'dart:io';
 import "dragable.dart";
 import 'dart:math';
 import 'package:image_pixels/image_pixels.dart';
+import 'image_handler.dart';
 import "coordinate.dart";
 /*
 How this scruffed ass proof of concept even works
@@ -31,6 +32,8 @@ class DragScreen extends StatefulWidget {
 class _DragScreenState extends State<DragScreen> {
   @override
   Widget build(BuildContext context) => _DragScreenView(state: this);
+
+  ImageHandler imageHandler = ImageHandler();
 
   //REFERENCE TO DRAGGABLE WIDGET
   late Drag_Button draggableOne;
@@ -120,16 +123,26 @@ class _DragScreenState extends State<DragScreen> {
     heightOfDraggable = imgContainerHeight * 0.027;
     widthOfDraggable = imgContainerWidth * 0.065;
 
+    //This function call sets the scalars that allow us to go from the image file's resolution to the screen resolution and back
+    setScreenRatios(img.width!, img.height!);
+
     //This is a temporary line to create a point that would normally be held in image handler when we get there
     //This point is calculated to be in the middle of the image file in its native resolution
     //This is also used to determine where the dragable initially spawns. We use math to convert where the point is in
     //the native image resolution to figure out where the dragable should roughly be in screen resolution
-    firstPointInImageResolution = Coordinate(x: img.width! / 2, y: img.height! / 2);
-    secondPointInImageResolution = Coordinate(x: firstPointInImageResolution.x + 50, y: firstPointInImageResolution.y + 50);
 
-    //This function call sets the scalars that allow us to go from the image file's resolution to the screen resolution and back
-    setScreenRatios(img.width!, img.height!);
-
+    if (imageHandler.isFrontImage) {
+      // Point 1 = Radial Styloid (Front)
+      firstPointInImageResolution = Coordinate(x: imageHandler.getRadialStyloidX() * screenToCameraRatioX, y: imageHandler.getRadialStyloidY() * screenToCameraRatioY);
+      // Point 2 = Min Articular Surface (Front)
+      secondPointInImageResolution = Coordinate(x: imageHandler.getMinArticularSurfaceX() * screenToCameraRatioX, y: imageHandler.getMinArticularSurfaceY() * screenToCameraRatioY);
+    } else {
+      // Point 1 in Side Image
+      firstPointInImageResolution = Coordinate(x: img.width! / 2, y: img.height! / 2);
+      // Point 2 in Side Image
+      secondPointInImageResolution = Coordinate(x: firstPointInImageResolution.x + 50, y: firstPointInImageResolution.y + 50);
+    } 
+    
     draggableOne = Drag_Button(
         startDragFunction: firstDragableStartCallback,
         pressFunction: firstDragableUpdateCallback,
