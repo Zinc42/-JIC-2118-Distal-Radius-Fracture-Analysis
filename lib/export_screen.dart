@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:distal_radius/screenshot_handler.dart';
 import 'screen_button.dart';
 
 import 'package:permission_handler/permission_handler.dart';
@@ -14,11 +15,12 @@ class ExportScreen extends StatefulWidget {
 }
 
 class _ExportScreenState extends State<ExportScreen> {
+  ScreenshotHandler screenshotHandler = ScreenshotHandler();
   @override
   Widget build(BuildContext context) => _ExportScreenView(state: this);
 
   void toSaveCameraRollScreen() {
-    print("Save to Camera Roll");
+    screenshotHandler.saveAllFilesToCameraRoll();
   }
 
   void toTextMessageScreen() {

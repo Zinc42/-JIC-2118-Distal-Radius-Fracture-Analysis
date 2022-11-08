@@ -1,4 +1,5 @@
 import 'package:distal_radius/image_handler.dart';
+import 'package:distal_radius/screenshot_handler.dart';
 import 'package:flutter/material.dart';
 import 'image_results_screen.dart';
 import 'export_screen.dart';
@@ -20,12 +21,18 @@ class ResultsScreen extends StatefulWidget {
 // contains all functions relevant to business logic
 class _ResultsScreenState extends State<ResultsScreen> {
   ImageHandler imageHandler = ImageHandler();
+  ScreenshotHandler screenshotHandler = ScreenshotHandler();
 
   void cancelResults() {
     Navigator.of(context).popUntil(ModalRoute.withName("welcome_screen"));
   }
 
-  void toExport() {
+  void toExport() async {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    await screenshotHandler.saveBothImages(screenHeight, screenWidth);
+    await screenshotHandler.saveTextResults(getResultsInfo());
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const ExportScreen()));
   }
@@ -95,7 +102,6 @@ class _ResultsScreenState extends State<ResultsScreen> {
   }
 
   Column getResultValue(String title, double value, double min, double max) {
-
     // parses a double as a string rounded to 1 decimal place
     String valueString = value.toStringAsFixed(1);
 
