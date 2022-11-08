@@ -57,8 +57,8 @@ class _Drag_ButtonState extends State<Drag_Button> {
         child: Container(
           decoration:
               BoxDecoration(shape: BoxShape.circle, color: widget.color, border: Border.all(color: Colors.black)),
-          width: screenWidth * 0.065,
-          height: screenHeight * 0.027,
+          width: 20,
+          height: 20,
           //color: widget.color,
         ),
       ),

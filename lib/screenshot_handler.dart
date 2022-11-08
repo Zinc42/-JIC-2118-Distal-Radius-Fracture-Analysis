@@ -1,3 +1,3 @@
 class ScreenshotHandler {
-  static final ScreenshotHandler _instance = ScreenshotHandler._internal();
+  // static final ScreenshotHandler _instance = ScreenshotHandler._internal();
 }

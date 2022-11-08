@@ -50,8 +50,8 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    final displayWidth = screenWidth - 40;
-    final displayHeight = screenHeight - 220;
+    final displayWidth = screenWidth - 80;
+    final displayHeight = displayWidth / 9 * 16;
 
     var image;
     if (widget.isFrontImage)
@@ -94,7 +94,7 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            margin: const EdgeInsets.symmetric(vertical: 35.0),
+            margin: const EdgeInsets.symmetric(vertical: 15.0),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [getHeader(), getImageInfo(), getBottomButtons()])));
