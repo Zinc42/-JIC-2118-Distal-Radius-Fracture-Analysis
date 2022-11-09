@@ -23,6 +23,9 @@ class _ResultsScreenState extends State<ResultsScreen> {
   ImageHandler imageHandler = ImageHandler();
   ScreenshotHandler screenshotHandler = ScreenshotHandler();
 
+  //This tracks whether screenshot handler is building the export results
+  bool isScreenshotHandlerBuilding = false;
+
   void cancelResults() {
     Navigator.of(context).popUntil(ModalRoute.withName("welcome_screen"));
   }
@@ -31,10 +34,18 @@ class _ResultsScreenState extends State<ResultsScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
+    //This function changes the value of isScreenshotHandlerLoading to the passed value
+    //Then sets state depending on the value. true = display loading wheel. false = display the normal results screen
+    screenShotHandlerLoading(true);
+
     await screenshotHandler.saveBothImages(screenHeight, screenWidth);
     await screenshotHandler.saveTextResults(getResultsInfo());
+
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const ExportScreen()));
+
+    //changes results screen back to normal
+    screenShotHandlerLoading(false);
   }
 
   void toImageResults(isFront) {
@@ -159,18 +170,57 @@ class _ResultsScreenState extends State<ResultsScreen> {
     );
   }
 
+  screenShotHandlerLoading(bool isLoading) {
+    isScreenshotHandlerBuilding = isLoading;
+    setState(() {});
+  }
+//This returns all the widgets that are normally in the results screen
+  Widget getResultsScreen() {
+    return (Container(
+        margin: const EdgeInsets.symmetric(vertical: 35.0),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              getHeader(),
+              getImages(),
+              getResultsInfo(),
+              getBottomButtons()
+            ])));
+  }
+
+  Widget getLoadingIndicator() {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        //Progress indicator
+        SizedBox(
+          width: 175,
+          height: 175,
+          child: CircularProgressIndicator(
+            strokeWidth: 15,
+            backgroundColor: Colors.grey,
+          ),
+        ),
+        //Space between the text and the circular progress indicator
+        SizedBox(height: 50),
+        //Text
+        Text(
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+            "Getting results ready \n for export..."),
+      ],
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            margin: const EdgeInsets.symmetric(vertical: 35.0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  getHeader(),
-                  getImages(),
-                  getResultsInfo(),
-                  getBottomButtons()
-                ])));
+        body: isScreenshotHandlerBuilding
+            ? getLoadingIndicator()
+            : getResultsScreen());
   }
 }
