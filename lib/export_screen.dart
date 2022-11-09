@@ -19,10 +19,6 @@ class _ExportScreenState extends State<ExportScreen> {
   @override
   Widget build(BuildContext context) => _ExportScreenView(state: this);
 
-  void toSaveCameraRollScreen() {
-    screenshotHandler.saveAllFilesToCameraRoll();
-  }
-
   void toTextMessageScreen() {
     print("Send through text message");
   }
@@ -31,13 +27,53 @@ class _ExportScreenState extends State<ExportScreen> {
     print("Send through email");
   }
 
-  Future<PermissionStatus> getCameraPerms() async {
+  void returnHome() {
+    Navigator.of(context).popUntil(ModalRoute.withName("welcome_screen"));
+  }
+
+  void toSaveCameraRollScreen() async {
+    await getCameraPerms();
+
+    bool succeeded = await screenshotHandler.saveAllFilesToCameraRoll();
+    await showCameraResults(succeeded);
+  }
+
+  Future<void> showCameraResults(bool succeeded) async {
+    Text titleText =
+        succeeded ? const Text("Save Succeeded") : const Text("Save Failed");
+    Text childText = succeeded
+        ? const Text("All photos were saved.")
+        : const Text("There was an error with saving.");
+
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: titleText,
+              content: SingleChildScrollView(
+                child: childText,
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Cancel"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    returnHome();
+                  },
+                  child: const Text("To Home"),
+                )
+              ]);
+        });
+  }
+
+  Future<void> getCameraPerms() async {
     PermissionStatus cameraPermStatus = await Permission.camera.request();
     if (!cameraPermStatus.isGranted) {
       showCameraPermsAlert();
     }
-
-    return cameraPermStatus;
   }
 
   Future<void> showCameraPermsAlert() async {

@@ -75,7 +75,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
             onTap: () => toImageResults(false),
             child: Image(height: 300, width: imageWidth, image: sideImage))
       ]),
-      SizedBox(height: 20),
+      const SizedBox(height: 20),
       Container(
           padding: const EdgeInsets.all(10.0),
           decoration: BoxDecoration(
@@ -94,9 +94,9 @@ class _ResultsScreenState extends State<ResultsScreen> {
         margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
         child: Column(children: [
           getResultValue("Volar Tilt", volarTilt, 0.5, 1.5),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           getResultValue("Radial Height", radialHeight, 0.5, 1.5),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           getResultValue("Radial Inclination", radialInclination, 2.0, 3.5)
         ]));
   }
@@ -120,7 +120,8 @@ class _ResultsScreenState extends State<ResultsScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(title, textAlign: TextAlign.left),
+        Text(title,
+            textAlign: TextAlign.left, style: TextStyle(color: Colors.black)),
         Container(
             padding:
                 const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),

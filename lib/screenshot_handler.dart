@@ -22,10 +22,32 @@ class ScreenshotHandler {
     return _instance;
   }
 
+  String? getSideResultsPath() {
+    return sideResultsPath;
+  }
+
+  String? getFrontResultsPath() {
+    return frontResultsPath;
+  }
+
+  String? getTextResultsPath() {
+    return textResultsPath;
+  }
+
   ScreenshotHandler._internal();
 
   Future<void> saveTextResults(Widget textWidget) async {
-    Uint8List image = await screenshotController.captureFromWidget(textWidget);
+    Widget textContainer = Container(
+        color: Colors.white,
+        height: 600.0,
+        child: Column(children: [
+          const Text("Text Results",
+              style: TextStyle(color: Colors.black, fontSize: 20.0)),
+          const SizedBox(height: 20),
+          textWidget
+        ]));
+    Uint8List image =
+        await screenshotController.captureFromWidget(textContainer);
 
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path + '/textResults.png';
@@ -34,10 +56,12 @@ class ScreenshotHandler {
     textResultsPath = tempPath;
   }
 
-  void saveAllFilesToCameraRoll() {
-    GallerySaver.saveImage(sideResultsPath!);
-    GallerySaver.saveImage(frontResultsPath!);
-    GallerySaver.saveImage(textResultsPath!);
+  Future<bool> saveAllFilesToCameraRoll() async {
+    bool? savedSide = await GallerySaver.saveImage(sideResultsPath!);
+    bool? savedFront = await GallerySaver.saveImage(frontResultsPath!);
+    bool? savedText = await GallerySaver.saveImage(textResultsPath!);
+
+    return savedSide! && savedFront! && savedText!;
   }
 
   Future<void> saveBothImages(height, width) async {
@@ -51,7 +75,10 @@ class ScreenshotHandler {
   }
 
   Future<void> saveImageResults(width, height, imagePath) async {
-    Widget resultScreen = ResultsWidgets.getImageInfo(width, height, imagePath);
+    Widget resultScreen = Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+        child: ResultsWidgets.getImageInfo(width, height, imagePath));
 
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
