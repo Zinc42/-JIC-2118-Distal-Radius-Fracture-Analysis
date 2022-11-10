@@ -28,8 +28,8 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+    final displayWidth = imageHandler.getImageDisplayWidth();
+    final displayHeight = imageHandler.getImageDisplayHeight();
 
     String? imagePath = widget.isFrontImage
         ? imageHandler.frontImagePath
@@ -43,7 +43,7 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
                 children: [
                   ResultsWidgets.getHeader(widget.isFrontImage),
                   ResultsWidgets.getImageInfo(
-                      screenWidth, screenHeight, imagePath),
+                      displayWidth, displayHeight, imagePath),
                   ResultsWidgets.getBottomButtons(toEditImage)
                 ])));
   }
@@ -73,24 +73,22 @@ class ResultsWidgets {
   }
 
   static Widget getImageInfo(width, height, imagePath) {
-    final displayWidth = width - 80;
-    final displayHeight = displayWidth / 9 * 16;
 
     var image = FileImage(File(imagePath));
 
     return ConstrainedBox(
         constraints: BoxConstraints(
-          minWidth: displayWidth,
-          maxWidth: displayWidth,
-          minHeight: displayHeight,
-          maxHeight: displayHeight,
+          minWidth: width,
+          maxWidth: width,
+          minHeight: height,
+          maxHeight: height,
         ),
         child: Stack(
           alignment: Alignment.center,
           children: [
             Image(image: image),
             CustomPaint(
-              size: Size(displayWidth, displayHeight),
+              size: Size(width, height),
               painter: ResultsPainter(),
             )
           ],

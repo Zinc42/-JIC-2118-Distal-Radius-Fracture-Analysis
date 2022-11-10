@@ -54,6 +54,8 @@ class _MenuScreenState extends State<MenuScreen> {
       // run analysis only if both images have been uploaded
       print("Run Analysis");
       // code to run analysis
+      print(imageHandler.getImageDisplayHeight());
+      print(imageHandler.getImageDisplayWidth());
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => ResultsScreen()));
     } else {

@@ -1,4 +1,7 @@
+
+import 'package:flutter/material.dart';
 import 'dart:math';
+import "dart:io";
 
 // singleton Image Handler class
 class ImageHandler {
@@ -12,32 +15,38 @@ class ImageHandler {
   // selected for upload
   bool isFrontImage = true;
 
-  // a number tag to add at the end of file paths/names so that
-  // new images can be saved (if user retakes an image)
-  int fileID = 0;
+  // coordinates of Radial Styloid (in Image Pixels) (set to random default values for now)
+  late double radialStyloidFrontX = 200;
+  late double radialStyloidFrontY = 400;
 
-  // coordinates of Radial Styloid (in Pixels) (set to random default values for now)
-  late double RadialStyloidFrontX = 100;
-  late double RadialStyloidFrontY = 200;
-
-  // coordinates of minArticularSurface (in Pixels) (set to random default values for now)
-  late double minArticularSurfaceX = 300;
-  late double minArticularSurfaceY = 400;
-
-  // length of the scale line(s) in cm (IRL)
-  double? frontalLineLength;
-  // length of the scale line(s) in pixels
-  double? frontalLineScreenLength;
+  // coordinates of minArticularSurface (in Image Pixels) (set to random default values for now)
+  late double minArticularSurfaceX = 400;
+  late double minArticularSurfaceY = 800;
  
   // TODO：update variable names to reflect actual names for lateral projection
 
-  // coordinates of upper point in Lateral projection (in Pixels) (set to random default values for now)
-  late double lateralUpperX = 100;
-  late double lateralUpperY = 200;
+  // coordinates of upper point in Lateral projection (in Image Pixels) (set to random default values for now)
+  late double lateralUpperX = 300;
+  late double lateralUpperY = 500;
 
-  // coordinates of lower point in Lateral projection (in Pixels) (set to random default values for now)
-  late double lateralLowerX = 300;
-  late double lateralLowerY = 400;
+  // coordinates of lower point in Lateral projection (in Image Pixels) (set to random default values for now)
+  late double lateralLowerX = 700;
+  late double lateralLowerY = 700;
+
+  // length of the scale line(s) in cm (IRL)
+  double? frontalLineLength;
+  // length of the scale line(s) in Image
+  double? frontalLineScreenLength;
+
+  // width and height of currently displayed image widget (in Screen Pixels)
+  double? imageDisplayWidth;
+  double? imageDisplayHeight;
+
+  // screen pixels / image pixels
+  late double imageToScreenRatioFront;
+  late double imageToScreenRatioLateral;
+  // cm / screen pixels
+  late double screenToCmRatio;
 
   factory ImageHandler() {
     return _instance;
@@ -45,13 +54,21 @@ class ImageHandler {
   
   ImageHandler._internal();
 
-  // only need scale for frontal image
+  // only need set length scale for frontal image
   void setInputScale(double? lineLength, double? lineScreenLength) {
-    frontalLineLength = lineLength;
-    frontalLineScreenLength = lineScreenLength;
+    if (lineLength == null || lineScreenLength == null) {
+      print("Input Lengths Failed to Parse");
+      screenToCmRatio = 1;
+      return;
+    }
+    screenToCmRatio = lineLength / lineScreenLength;
   }
 
-  // get pixelToCm ratio (cm / pixels)
+  void setImageScreenDims(double width, double height) {
+    imageDisplayWidth = width;
+    imageDisplayHeight = height;
+  }
+
   double getPixelToCm() {
     if (frontalLineLength == null || frontalLineScreenLength == null) {
       print("Missing Scale Input Values");
@@ -61,16 +78,42 @@ class ImageHandler {
     }
   }
 
-  String getNewFileID() {
-    String newFileID = fileID.toString();
-    fileID++;
-    return newFileID;
+  void setFrontImageScreenRatio(double frontImageWidth) {
+    if (imageDisplayWidth == null) {
+      print("Image Display Size Not Set");
+      return;
+    }
+    imageToScreenRatioFront = imageDisplayWidth! / frontImageWidth;
   }
 
-  // Set coordinates of key points.
+  void setLateralImageScreenRatio(double lateralImageWidth) {
+    if (imageDisplayWidth == null) {
+      print("Image Display Size Not Set");
+      return;
+    }
+    imageToScreenRatioLateral = imageDisplayWidth! / lateralImageWidth;
+  }
+
+  double getImageDisplayWidth() {
+    if (imageDisplayHeight == null) {
+      print("Image Display Dims not Set");
+      return 0;
+    }
+    return imageDisplayWidth!;
+  }
+  
+  double getImageDisplayHeight() {
+    if (imageDisplayHeight == null) {
+      print("Image Display Dims not Set");
+      return 0;
+    }
+    return imageDisplayHeight!;
+  }
+
+  // Set coordinates of key points (in IMAGE PIXELS).
   void setRadialStyloidFront(double x, double y) {
-    RadialStyloidFrontX = x;
-    RadialStyloidFrontY = y;
+    radialStyloidFrontX = x;
+    radialStyloidFrontY = y;
   }
 
   void setMinArticularSurface(double x, double y) {
@@ -88,37 +131,37 @@ class ImageHandler {
     lateralLowerY = y;
   }
 
-  // getters for coords of key poits
+  // getters for coords of key points (in SCREEN PIXELS)
   double getMinArticularSurfaceX() {
-    return minArticularSurfaceX;
+    return minArticularSurfaceX * imageToScreenRatioFront;
   }
 
   double getMinArticularSurfaceY() {
-    return minArticularSurfaceY;
+    return minArticularSurfaceY * imageToScreenRatioFront;
   }
 
   double getRadialStyloidFrontX() {
-    return RadialStyloidFrontX;
+    return radialStyloidFrontX * imageToScreenRatioFront;
   }
 
   double getRadialStyloidFrontY() {
-    return RadialStyloidFrontY;
+    return radialStyloidFrontY * imageToScreenRatioFront;
   }
 
   double getLateralUpperX() {
-    return lateralUpperX;
+    return lateralUpperX * imageToScreenRatioLateral;
   }
 
   double getLateralUpperY() {
-    return lateralUpperY;
+    return lateralUpperY * imageToScreenRatioLateral;
   }
 
   double getLateralLowerX() {
-    return lateralLowerX;
+    return lateralLowerX * imageToScreenRatioLateral;
   }
 
   double getLateralLowerY() {
-    return lateralLowerY;
+    return lateralLowerY * imageToScreenRatioLateral;
   }
 
   // calculates Radial Inclination (angle of inclination) in DEGREES
@@ -127,7 +170,7 @@ class ImageHandler {
       print("Missing Point Coords");
       return 0;
     } else {
-      return atan(RadialStyloidFrontY / RadialStyloidFrontX) * 180 / pi;
+      return atan(radialStyloidFrontY / radialStyloidFrontX) * 180 / pi;
     }
   }
 
@@ -137,12 +180,22 @@ class ImageHandler {
       print("Missing Point Coords");
       return 0;
     } else {
-      return minArticularSurfaceY - RadialStyloidFrontY;
+      return minArticularSurfaceY - radialStyloidFrontY;
+    }
+  }
+
+  // calculates Volar Tilt (angle of inclination) in DEGREES
+  double getVolarTilt() {
+    if (isMissingPoints()) {
+      print("Missing Point Coords");
+      return 0;
+    } else {
+      return atan(lateralUpperY / lateralUpperX) * 180 / pi;
     }
   }
 
   bool isMissingPoints() {
-    return RadialStyloidFrontX == null || RadialStyloidFrontY == null || minArticularSurfaceX == null || minArticularSurfaceY == null;
+    return radialStyloidFrontX == null || radialStyloidFrontY == null || minArticularSurfaceX == null || minArticularSurfaceY == null;
   }
 
   // basic getters/setters
