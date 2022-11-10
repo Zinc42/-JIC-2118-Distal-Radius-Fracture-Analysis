@@ -133,14 +133,14 @@ class _DragScreenState extends State<DragScreen> {
 
     if (imageHandler.isFrontImage) {
       // Point 1 = Radial Styloid (Front)
-      firstPointInImageResolution = Coordinate(x: imageHandler.getRadialStyloidX() * screenToCameraRatioX - 10, y: imageHandler.getRadialStyloidY() * screenToCameraRatioY - 10);
+      firstPointInImageResolution = Coordinate(x: imageHandler.getRadialStyloidFrontX() * screenToCameraRatioX, y: imageHandler.getRadialStyloidFrontY() * screenToCameraRatioY);
       // Point 2 = Min Articular Surface (Front)
       secondPointInImageResolution = Coordinate(x: imageHandler.getMinArticularSurfaceX() * screenToCameraRatioX - 10, y: imageHandler.getMinArticularSurfaceY() * screenToCameraRatioY - 10);
     } else {
       // Point 1 in Side Image
-      firstPointInImageResolution = Coordinate(x: img.width! / 2, y: img.height! / 2);
+      firstPointInImageResolution = Coordinate(x: imageHandler.getLateralUpperX() * screenToCameraRatioX, y: imageHandler.getLateralUpperY() * screenToCameraRatioY);
       // Point 2 in Side Image
-      secondPointInImageResolution = Coordinate(x: firstPointInImageResolution.x + 50, y: firstPointInImageResolution.y + 50);
+      secondPointInImageResolution = Coordinate(x: imageHandler.getLateralLowerX() * screenToCameraRatioX, y: imageHandler.getLateralLowerY() * screenToCameraRatioY);
     } 
     
     draggableOne = Drag_Button(

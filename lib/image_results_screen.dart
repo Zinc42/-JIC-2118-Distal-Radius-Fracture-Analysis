@@ -1,6 +1,7 @@
 import 'package:distal_radius/image_handler.dart';
 import 'package:flutter/material.dart';
 import 'results_edit_screen.dart';
+import "screen_button.dart";
 
 import 'dart:io';
 
@@ -100,9 +101,10 @@ class ResultsWidgets {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        ElevatedButton(
-          child: const Text('Edit Image'),
-          onPressed: toEditImage,
+        ScreenButton(
+          buttonText: "Edit Points",
+          pressFunction: toEditImage,
+          width: 200,
         ),
       ],
     );
@@ -122,24 +124,21 @@ class ResultsPainter extends CustomPainter {
     final p2l; // reference point used to draw horizontal line
     final p2r;
     if (imageHandler.isFrontImage) {
-      p1 = Offset(
-          imageHandler.getRadialStyloidX(), imageHandler.getRadialStyloidY());
-      p2 = Offset(imageHandler.getMinArticularSurfaceX(),
-          imageHandler.getMinArticularSurfaceY());
+      p1 = Offset(imageHandler.getRadialStyloidFrontX(), imageHandler.getRadialStyloidFrontY());
+      p2 = Offset(imageHandler.getMinArticularSurfaceX(), imageHandler.getMinArticularSurfaceY());
 
-      p1l = Offset(0, imageHandler.getRadialStyloidY());
-      p1r = Offset(size.width, imageHandler.getRadialStyloidY());
+      p1l = Offset(0, imageHandler.getRadialStyloidFrontY());
+      p1r = Offset(size.width, imageHandler.getRadialStyloidFrontY());
       p2l = Offset(0, imageHandler.getMinArticularSurfaceY());
       p2r = Offset(size.width, imageHandler.getMinArticularSurfaceY());
     } else {
-      // Side Image not yet Implemented
-      // random default values used
-      p1 = Offset(0, 0);
-      p2 = Offset(size.width - 20, size.height - 20);
-      p1l = Offset(0, 0);
-      p1r = Offset(size.width, 0);
-      p2l = Offset(0, size.height - 2);
-      p2r = Offset(size.width, size.height - 2);
+      p1 = Offset(imageHandler.getLateralUpperX(), imageHandler.getLateralUpperY());
+      p2 = Offset(imageHandler.getLateralLowerX(), imageHandler.getLateralLowerY());
+
+      p1l = Offset(0, imageHandler.getLateralUpperY());
+      p1r = Offset(size.width, imageHandler.getLateralUpperY());
+      p2l = Offset(0, imageHandler.getLateralLowerY());
+      p2r = Offset(size.width, imageHandler.getLateralLowerY());
     }
 
     final paintRed = Paint()
