@@ -17,12 +17,22 @@ class ImageHandler {
   int fileID = 0;
 
   // coordinates of Radial Styloid (in Pixels) (set to random default values for now)
-  late double radialStyloidX = 100;
-  late double radialStyloidY = 200;
+  late double RadialStyloidFrontX = 100;
+  late double RadialStyloidFrontY = 200;
 
   // coordinates of minArticularSurface (in Pixels) (set to random default values for now)
   late double minArticularSurfaceX = 300;
   late double minArticularSurfaceY = 400;
+
+  // TODO：update variable names to reflect actual names for lateral projection
+
+  // coordinates of upper point in Lateral projection (in Pixels) (set to random default values for now)
+  late double lateralUpperX = 100;
+  late double lateralUpperY = 200;
+
+  // coordinates of lower point in Lateral projection (in Pixels) (set to random default values for now)
+  late double lateralLowerX = 300;
+  late double lateralLowerY = 400;
 
   factory ImageHandler() {
     return _instance;
@@ -37,9 +47,9 @@ class ImageHandler {
   }
 
   // Set coordinates of key points.
-  void setRadialStyloid(double x, double y) {
-    radialStyloidX = x;
-    radialStyloidY = y;
+  void setRadialStyloidFront(double x, double y) {
+    RadialStyloidFrontX = x;
+    RadialStyloidFrontY = y;
   }
 
   void setMinArticularSurface(double x, double y) {
@@ -47,6 +57,17 @@ class ImageHandler {
     minArticularSurfaceY = y;
   }
 
+  void setlateralUpper(double x, double y) {
+    lateralUpperX = x;
+    lateralUpperY = y;
+  }
+
+  void setlateralLower(double x, double y) {
+    lateralLowerX = x;
+    lateralLowerY = y;
+  }
+
+  // getters for coords of key poits
   double getMinArticularSurfaceX() {
     return minArticularSurfaceX;
   }
@@ -55,12 +76,28 @@ class ImageHandler {
     return minArticularSurfaceY;
   }
 
-  double getRadialStyloidX() {
-    return radialStyloidX;
+  double getRadialStyloidFrontX() {
+    return RadialStyloidFrontX;
   }
 
-  double getRadialStyloidY() {
-    return radialStyloidY;
+  double getRadialStyloidFrontY() {
+    return RadialStyloidFrontY;
+  }
+
+  double getLateralUpperX() {
+    return lateralUpperX;
+  }
+
+  double getLateralUpperY() {
+    return lateralUpperY;
+  }
+
+  double getLateralLowerX() {
+    return lateralLowerX;
+  }
+
+  double getLateralLowerY() {
+    return lateralLowerY;
   }
 
   // calculates Radial Inclination (angle of inclination) in DEGREES
@@ -69,7 +106,7 @@ class ImageHandler {
       print("Missing Point Coords");
       return 0;
     } else {
-      return atan(radialStyloidY / radialStyloidX) * 180 / pi;
+      return atan(RadialStyloidFrontY / RadialStyloidFrontX) * 180 / pi;
     }
   }
 
@@ -79,12 +116,12 @@ class ImageHandler {
       print("Missing Point Coords");
       return 0;
     } else {
-      return minArticularSurfaceY - radialStyloidY;
+      return minArticularSurfaceY - RadialStyloidFrontY;
     }
   }
 
   bool isMissingPoints() {
-    return radialStyloidX == null || radialStyloidY == null || minArticularSurfaceX == null || minArticularSurfaceY == null;
+    return RadialStyloidFrontX == null || RadialStyloidFrontY == null || minArticularSurfaceX == null || minArticularSurfaceY == null;
   }
 
   // basic getters/setters
