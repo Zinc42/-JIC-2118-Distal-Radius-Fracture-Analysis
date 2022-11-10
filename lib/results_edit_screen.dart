@@ -67,8 +67,8 @@ class _ResultsEditScreenView extends StatelessWidget {
     // can get Images from the Image Handler
 
     return Container(
-      height: state.getScreenHeight() - 220,
-      width: state.getScreenWidth() - 20,
+      height: (state.getScreenWidth() - 80) / 9 * 16,
+      width: state.getScreenWidth() - 80,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black),

@@ -73,8 +73,8 @@ class ResultsWidgets {
   }
 
   static Widget getImageInfo(width, height, imagePath) {
-    final displayWidth = width - 40;
-    final displayHeight = height - 220;
+    final displayWidth = width - 80;
+    final displayHeight = displayWidth / 9 * 16;
 
     var image = FileImage(File(imagePath));
 

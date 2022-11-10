@@ -24,6 +24,11 @@ class ImageHandler {
   late double minArticularSurfaceX = 300;
   late double minArticularSurfaceY = 400;
 
+  // length of the scale line(s) in cm (IRL)
+  double? frontalLineLength;
+  // length of the scale line(s) in pixels
+  double? frontalLineScreenLength;
+ 
   // TODO：update variable names to reflect actual names for lateral projection
 
   // coordinates of upper point in Lateral projection (in Pixels) (set to random default values for now)
@@ -39,6 +44,22 @@ class ImageHandler {
   }
   
   ImageHandler._internal();
+
+  // only need scale for frontal image
+  void setInputScale(double? lineLength, double? lineScreenLength) {
+    frontalLineLength = lineLength;
+    frontalLineScreenLength = lineScreenLength;
+  }
+
+  // get pixelToCm ratio (cm / pixels)
+  double getPixelToCm() {
+    if (frontalLineLength == null || frontalLineScreenLength == null) {
+      print("Missing Scale Input Values");
+      return 0;
+    } else {
+      return frontalLineLength! / frontalLineScreenLength!;
+    }
+  }
 
   String getNewFileID() {
     String newFileID = fileID.toString();
