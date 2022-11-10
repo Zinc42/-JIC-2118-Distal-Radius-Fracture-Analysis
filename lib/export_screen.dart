@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:distal_radius/screenshot_handler.dart';
+import 'package:distal_radius/results_screen.dart';
 import 'screen_button.dart';
 
 import 'package:permission_handler/permission_handler.dart';
@@ -14,12 +16,9 @@ class ExportScreen extends StatefulWidget {
 }
 
 class _ExportScreenState extends State<ExportScreen> {
+  ScreenshotHandler screenshotHandler = ScreenshotHandler();
   @override
   Widget build(BuildContext context) => _ExportScreenView(state: this);
-
-  void toSaveCameraRollScreen() {
-    print("Save to Camera Roll");
-  }
 
   void toTextMessageScreen() {
     print("Send through text message");
@@ -29,13 +28,53 @@ class _ExportScreenState extends State<ExportScreen> {
     print("Send through email");
   }
 
-  Future<PermissionStatus> getCameraPerms() async {
+  void returnToResults() {
+    Navigator.of(context).popUntil(ModalRoute.withName(ResultsScreen.id));
+  }
+
+  void toSaveCameraRollScreen() async {
+    await getCameraPerms();
+
+    bool succeeded = await screenshotHandler.saveAllFilesToCameraRoll();
+    await showCameraResults(succeeded);
+  }
+
+  Future<void> showCameraResults(bool succeeded) async {
+    Text titleText =
+        succeeded ? const Text("Save Succeeded") : const Text("Save Failed");
+    Text childText = succeeded
+        ? const Text("All photos were saved.")
+        : const Text("There was an error with saving.");
+
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: titleText,
+              content: SingleChildScrollView(
+                child: childText,
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Cancel"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    returnToResults();
+                  },
+                  child: const Text("To Results"),
+                )
+              ]);
+        });
+  }
+
+  Future<void> getCameraPerms() async {
     PermissionStatus cameraPermStatus = await Permission.camera.request();
     if (!cameraPermStatus.isGranted) {
       showCameraPermsAlert();
     }
-
-    return cameraPermStatus;
   }
 
   Future<void> showCameraPermsAlert() async {

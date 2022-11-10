@@ -1,4 +1,5 @@
 import 'package:distal_radius/image_handler.dart';
+import 'package:distal_radius/screenshot_handler.dart';
 import 'package:flutter/material.dart';
 import 'image_results_screen.dart';
 import 'export_screen.dart';
@@ -20,12 +21,18 @@ class ResultsScreen extends StatefulWidget {
 // contains all functions relevant to business logic
 class _ResultsScreenState extends State<ResultsScreen> {
   ImageHandler imageHandler = ImageHandler();
+  ScreenshotHandler screenshotHandler = ScreenshotHandler();
 
   void cancelResults() {
     Navigator.of(context).popUntil(ModalRoute.withName("welcome_screen"));
   }
 
-  void toExport() {
+  void toExport() async {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    await screenshotHandler.saveBothImages(screenHeight, screenWidth);
+    await screenshotHandler.saveTextResults(getResultsInfo());
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const ExportScreen()));
   }
@@ -68,7 +75,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
             onTap: () => toImageResults(false),
             child: Image(height: 300, width: imageWidth, image: sideImage))
       ]),
-      SizedBox(height: 20),
+      const SizedBox(height: 20),
       Container(
           padding: const EdgeInsets.all(10.0),
           decoration: BoxDecoration(
@@ -87,15 +94,14 @@ class _ResultsScreenState extends State<ResultsScreen> {
         margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
         child: Column(children: [
           getResultValue("Volar Tilt", volarTilt, 0.5, 1.5),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           getResultValue("Radial Height", radialHeight, 0.5, 1.5),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           getResultValue("Radial Inclination", radialInclination, 2.0, 3.5)
         ]));
   }
 
   Column getResultValue(String title, double value, double min, double max) {
-
     // parses a double as a string rounded to 1 decimal place
     String valueString = value.toStringAsFixed(1);
 
@@ -114,7 +120,8 @@ class _ResultsScreenState extends State<ResultsScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(title, textAlign: TextAlign.left),
+        Text(title,
+            textAlign: TextAlign.left, style: TextStyle(color: Colors.black)),
         Container(
             padding:
                 const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
