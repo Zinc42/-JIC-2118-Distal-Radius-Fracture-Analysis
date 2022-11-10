@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:distal_radius/screenshot_handler.dart';
+import 'package:distal_radius/results_screen.dart';
 import 'screen_button.dart';
 
 import 'package:permission_handler/permission_handler.dart';
@@ -27,8 +28,8 @@ class _ExportScreenState extends State<ExportScreen> {
     print("Send through email");
   }
 
-  void returnHome() {
-    Navigator.of(context).popUntil(ModalRoute.withName("welcome_screen"));
+  void returnToResults() {
+    Navigator.of(context).popUntil(ModalRoute.withName(ResultsScreen.id));
   }
 
   void toSaveCameraRollScreen() async {
@@ -61,9 +62,9 @@ class _ExportScreenState extends State<ExportScreen> {
                 ),
                 TextButton(
                   onPressed: () {
-                    returnHome();
+                    returnToResults();
                   },
-                  child: const Text("To Home"),
+                  child: const Text("To Results"),
                 )
               ]);
         });
