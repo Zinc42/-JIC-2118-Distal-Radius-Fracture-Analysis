@@ -26,9 +26,34 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
     Navigator.of(context).pushNamed(ResultsEditScreen.id);
   }
 
-  Widget getHeader() {
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    String? imagePath = widget.isFrontImage
+        ? imageHandler.frontImagePath
+        : imageHandler.sideImagePath;
+
+    return Scaffold(
+        body: Container(
+            margin: const EdgeInsets.symmetric(vertical: 35.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ResultsWidgets.getHeader(widget.isFrontImage),
+                  ResultsWidgets.getImageInfo(
+                      screenWidth, screenHeight, imagePath),
+                  ResultsWidgets.getBottomButtons(toEditImage)
+                ])));
+  }
+}
+
+// Created this class to be able to use the widgets in the screenshot handler
+class ResultsWidgets {
+  static Widget getHeader(isFrontImage) {
     String title;
-    if (widget.isFrontImage)
+    if (isFrontImage)
       title = "Main Image";
     else
       title = "Side Image";
@@ -47,18 +72,11 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
     );
   }
 
-  Widget getImageInfo() {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+  static Widget getImageInfo(width, height, imagePath) {
+    final displayWidth = width - 40;
+    final displayHeight = height - 220;
 
-    final displayWidth = screenWidth - 40;
-    final displayHeight = screenHeight - 220;
-
-    var image;
-    if (widget.isFrontImage)
-      image = FileImage(File(imageHandler.frontImagePath!));
-    else
-      image = FileImage(File(imageHandler.sideImagePath!));
+    var image = FileImage(File(imagePath));
 
     return ConstrainedBox(
         constraints: BoxConstraints(
@@ -79,7 +97,7 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
         ));
   }
 
-  Widget getBottomButtons() {
+  static Widget getBottomButtons(toEditImage) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -90,16 +108,6 @@ class _ImageResultsScreen extends State<ImageResultsScreen> {
         ),
       ],
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-            margin: const EdgeInsets.symmetric(vertical: 35.0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [getHeader(), getImageInfo(), getBottomButtons()])));
   }
 }
 
@@ -137,7 +145,7 @@ class ResultsPainter extends CustomPainter {
       ..color = Colors.red
       ..strokeWidth = 2;
 
-      final paintBlack = Paint()
+    final paintBlack = Paint()
       ..color = Colors.black
       ..strokeWidth = 2;
 
