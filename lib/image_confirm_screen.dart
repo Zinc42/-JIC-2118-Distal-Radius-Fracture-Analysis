@@ -32,6 +32,9 @@ class _ImageConfirmScreen extends State<ImageConfirmScreen> {
 
   final double lineScreenLength = 150;
 
+  late double imageDisplayWidth;
+  late double imageDisplayHeight;
+
   void cancelImage() {
     Navigator.of(context).popUntil(ModalRoute.withName(ImageUploadScreen.id));
   }
@@ -90,16 +93,11 @@ class _ImageConfirmScreen extends State<ImageConfirmScreen> {
   }
 
   Widget getImage() {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
-    final displayWidth = screenWidth - 80;
-    final displayHeight = displayWidth / 9 * 16;
-
+    setImageDisplayDims();
     return ConstrainedBox(
         constraints: BoxConstraints(
-          maxWidth: displayWidth,
-          maxHeight: displayHeight,
+          maxWidth: imageDisplayWidth,
+          maxHeight: imageDisplayHeight,
         ),
         child: Stack(
           alignment: Alignment.center,
@@ -119,6 +117,15 @@ class _ImageConfirmScreen extends State<ImageConfirmScreen> {
           ]
         ),
     );
+  }
+
+  void setImageDisplayDims() {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    imageDisplayWidth = screenWidth - 80;
+    imageDisplayHeight = imageDisplayWidth / 9 * 16;
+
+    imageHandler.setImageScreenDims(imageDisplayWidth, imageDisplayHeight);
   }
 
   Widget getHeader() {

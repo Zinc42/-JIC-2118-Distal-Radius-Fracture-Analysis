@@ -50,12 +50,13 @@ class _ResultsScreenState extends State<ResultsScreen> {
 
   void toImageResults(isFront) {
     imageHandler.isFrontImage = isFront;
+
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => ImageResultsScreen(
                   isFrontImage: isFront,
-                )));
+                ))).then((value) => setState(() {}));
   }
 
   Widget getHeader() {
@@ -97,9 +98,13 @@ class _ResultsScreenState extends State<ResultsScreen> {
   }
 
   Widget getResultsInfo() {
-    double volarTilt = 1.0;
+    double volarTilt = imageHandler.getVolarTilt();
     double radialHeight = imageHandler.getRadialHeight();
     double radialInclination = imageHandler.getRadialInclination();
+
+    print(volarTilt);
+    print(radialHeight);
+    print(radialInclination);
 
     return Container(
         margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
