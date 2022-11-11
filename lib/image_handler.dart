@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math.dart';
 import 'dart:math';
 import "dart:io";
 
@@ -45,6 +45,9 @@ class ImageHandler {
   // screen pixels / image pixels
   late double imageToScreenRatioFront;
   late double imageToScreenRatioLateral;
+
+  bool isSetImageToScreenRatio = false;
+
   // cm / screen pixels
   late double screenToCmRatio;
 
@@ -55,15 +58,19 @@ class ImageHandler {
   ImageHandler._internal();
 
   // only need set length scale for frontal image
+  // set in image_confirm screen
   void setInputScale(double? lineLength, double? lineScreenLength) {
     if (lineLength == null || lineScreenLength == null) {
       print("Input Lengths Failed to Parse");
       screenToCmRatio = 1;
       return;
     }
+    frontalLineLength = lineLength;
+    frontalLineScreenLength = lineScreenLength;
     screenToCmRatio = lineLength / lineScreenLength;
   }
 
+  // set in results_screen
   void setImageScreenDims(double width, double height) {
     imageDisplayWidth = width;
     imageDisplayHeight = height;
@@ -164,13 +171,15 @@ class ImageHandler {
     return lateralLowerY * imageToScreenRatioLateral;
   }
 
-  // calculates Radial Inclination (angle of inclination) in DEGREES
+  // calculates Radial Inclination in DEGREES
   double getRadialInclination() {
     if (isMissingPoints()) {
       print("Missing Point Coords");
       return 0;
     } else {
-      return atan(radialStyloidFrontY / radialStyloidFrontX) * 180 / pi;
+      Vector2 hVector = Vector2(radialStyloidFrontX - minArticularSurfaceX, 0);
+      Vector2 aVector = Vector2(radialStyloidFrontX - minArticularSurfaceX, radialStyloidFrontY - minArticularSurfaceY);
+      return hVector.angleTo(aVector) * 180 / pi;
     }
   }
 
@@ -180,17 +189,19 @@ class ImageHandler {
       print("Missing Point Coords");
       return 0;
     } else {
-      return minArticularSurfaceY - radialStyloidFrontY;
+      return (minArticularSurfaceY - radialStyloidFrontY) * imageToScreenRatioFront * screenToCmRatio;
     }
   }
 
-  // calculates Volar Tilt (angle of inclination) in DEGREES
+  // calculates Volar Tilt in DEGREES
   double getVolarTilt() {
     if (isMissingPoints()) {
       print("Missing Point Coords");
       return 0;
     } else {
-      return atan(lateralUpperY / lateralUpperX) * 180 / pi;
+      Vector2 hVector = Vector2(lateralUpperX - lateralLowerX, 0);
+      Vector2 aVector = Vector2(lateralUpperX - lateralLowerX, lateralUpperY - lateralLowerY);
+      return hVector.angleTo(aVector) * 180 / pi;
     }
   }
 

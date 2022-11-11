@@ -36,6 +36,7 @@ dependencies:
   path: ^1.8.2
   permission_handler: ^10.0.2
   image_pixels: ^3.0.0
+  vector_math: ^2.1.2
 
 
   # The following adds the Cupertino Icons font to your application.

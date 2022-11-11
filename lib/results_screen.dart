@@ -38,8 +38,6 @@ class _ResultsScreenState extends State<ResultsScreen> {
   }
 
   void toImageResults(isFront) {
-    setImageRatio(isFront);
-
     imageHandler.isFrontImage = isFront;
 
     Navigator.push(
@@ -48,19 +46,6 @@ class _ResultsScreenState extends State<ResultsScreen> {
             builder: (context) => ImageResultsScreen(
                   isFrontImage: isFront,
                 ))).then((value) => setState(() {}));
-  }
-
-  void setImageRatio(isFront) async {
-    File image;
-    if (isFront) {
-      image = File(imageHandler.frontImagePath!);
-      var decodedImage = await decodeImageFromList(image.readAsBytesSync());
-      imageHandler.setFrontImageScreenRatio(decodedImage.width.toDouble());
-    } else {
-      image = File(imageHandler.sideImagePath!);
-      var decodedImage = await decodeImageFromList(image.readAsBytesSync());
-      imageHandler.setLateralImageScreenRatio(decodedImage.width.toDouble());
-    }
   }
 
   Widget getHeader() {
