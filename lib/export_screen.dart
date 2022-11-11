@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:distal_radius/screenshot_handler.dart';
 import 'package:distal_radius/welcome_screen.dart';
 import 'screen_button.dart';
+import "text_and_email_export.dart";
 
 import 'package:permission_handler/permission_handler.dart';
 
@@ -22,6 +23,7 @@ class _ExportScreenState extends State<ExportScreen> {
 
   void toTextMessageScreen() {
     print("Send through text message");
+    ExportFilesBuilder.buildExportFiles();
   }
 
   void toEmailScreen() {
@@ -139,11 +141,13 @@ class _ExportScreenView extends StatelessWidget {
                     pressFunction: state.toSaveCameraRollScreen,
                   ),
                   ScreenButton(
-                      buttonText: "Send through Text Message",
+                      buttonText: "Send through Text or Email",
                       pressFunction: state.toTextMessageScreen),
+                  /*
                   ScreenButton(
                       buttonText: "Send Through Email",
                       pressFunction: state.toEmailScreen),
+                   */
                 ],
               ),
             ),
