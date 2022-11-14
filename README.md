@@ -25,11 +25,11 @@ Licensed under the MIT License.
 
 - Fixed angle calculations for radial inclination and volar tilt
 - Improved alignment/accuracy of displayed points when editing measurement points.
-- Displayed acceptable/healthy measurement values are arbitrary fixed values
 
 #### Known Issues
 
 - Terminology used to refer to the types of x-rays are incorrect (Frontal/Side View vs AP/Lateral Projection)
+- Displayed acceptable/healthy measurement values are arbitrary fixed values
 - Current analysis results are not cleared when exiting the results screen/returning home
 
 ### Version 0.3.0
