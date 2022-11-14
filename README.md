@@ -9,6 +9,29 @@ Licensed under the MIT License.
 
 ## Release Notes
 
+### Version 0.4.0
+
+#### New Features
+
+- Added measurement calculations to the results screen
+- Added ability to apply changes made in the measurement edit screen
+- Added scale input for length when uploading an x-ray image
+- Added results export menu
+- Added loading screen when exporting results
+- Added ability to export result images via text and email
+- Added ability to save result images to camera roll
+
+#### Bugfixes
+
+- Fixed angle calculations for radial inclination and volar tilt
+- Improved alignment/accuracy of displayed points when editing measurement points.
+- Displayed acceptable/healthy measurement values are arbitrary fixed values
+
+#### Known Issues
+
+- Terminology used to refer to the types of x-rays are incorrect (Frontal/Side View vs AP/Lateral Projection)
+- Current analysis results are not cleared when exiting the results screen/returning home
+
 ### Version 0.3.0
 
 #### New Features
