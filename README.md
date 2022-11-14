@@ -29,6 +29,7 @@ Licensed under the MIT License.
 #### Known Issues
 
 - Terminology used to refer to the types of x-rays are incorrect (Frontal/Side View vs AP/Lateral Projection)
+- Points in the measurement edit screen are too small and are sometimes difficult to drag and drop
 - Displayed acceptable/healthy measurement values are arbitrary fixed values
 - Current analysis results are not cleared when exiting the results screen/returning home
 
