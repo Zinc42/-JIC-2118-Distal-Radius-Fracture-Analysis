@@ -137,31 +137,49 @@ class _ImageEditScreenState extends State<ImageEditScreen> {
         maxWidth: 0.9 * screenWidth,
         maxHeight: 0.7 * screenHeight,
       ),
-      child: Crop(
-        onChanged: (decomposition) {
-          if (rotation != decomposition.rotation) {
-            setState(() {
-              rotation = ((decomposition.rotation + 180) % 360) - 180;
-            });
-          }
-        },
-        controller: controller,
-        shape: shape,
-        child: Image.file(File(path), fit: BoxFit.cover),
-        foreground: IgnorePointer(
-          ignoring: false,
-          child: Container(
-            alignment: Alignment.bottomRight,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Crop(
+            onChanged: (decomposition) {
+              if (rotation != decomposition.rotation) {
+                setState(() {
+                  rotation = ((decomposition.rotation + 180) % 360) - 180;
+                });
+              }
+            },
+            controller: controller,
+            shape: shape,
+            child: Image.file(File(path), fit: BoxFit.cover),
+            foreground: IgnorePointer(
+              ignoring: false,
+              child: Container(
+                alignment: Alignment.bottomRight,
+              ),
+            ),
+            helper: shape == BoxShape.rectangle
+                ? Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white, width: 1),
+                    ),
+                  )
+                : null,
           ),
-        ),
-        helper: shape == BoxShape.rectangle
-            ? Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 1),
-                ),
-              )
-            : null,
-      ),
+          Container(
+            alignment: Alignment.center,
+            constraints: BoxConstraints(
+                minHeight: screenHeight - 350,
+                maxHeight: screenHeight - 350),
+            child: const VerticalDivider(
+              color: Colors.red,
+              width: 5,
+              thickness: 5,
+              indent: 0,
+              endIndent: 0,
+            ),
+          ),
+        ]
+      )
     );
   }
 
