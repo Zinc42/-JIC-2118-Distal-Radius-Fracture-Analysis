@@ -58,8 +58,22 @@ class _MenuScreenState extends State<MenuScreen> {
       print(imageHandler.getImageDisplayWidth());
       await setImageRatio();
       print("outside if");
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const ResultsScreen()));
+
+      // run model here
+      // get images from ImageHandler
+      // file PATHS stored as string:
+      //  imageHandler.frontImagePath
+      //  imageHandler.sideImagepath
+
+      // loading screen if needed (refer to Results Screen)
+
+      // make sure to use await for any asunc function calls
+
+      // call image handler to set point values after model is run
+      // ex: imageHandler.LateralUpperX = value or there are setter functions in Image Handler
+
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ResultsScreen()));
     } else {
       _showNoImageAlert();
     }
@@ -70,12 +84,15 @@ class _MenuScreenState extends State<MenuScreen> {
     if (!imageHandler.isSetImageToScreenRatio) {
       print("inside if");
       File imageFront = File(imageHandler.frontImagePath!);
-      var decodedImageFront = await decodeImageFromList(imageFront.readAsBytesSync());
+      var decodedImageFront =
+          await decodeImageFromList(imageFront.readAsBytesSync());
       imageHandler.setFrontImageScreenRatio(decodedImageFront.width.toDouble());
 
       File imageLateral = File(imageHandler.sideImagePath!);
-      var decodedImageLateral = await decodeImageFromList(imageLateral.readAsBytesSync());
-      imageHandler.setLateralImageScreenRatio(decodedImageLateral.width.toDouble());
+      var decodedImageLateral =
+          await decodeImageFromList(imageLateral.readAsBytesSync());
+      imageHandler
+          .setLateralImageScreenRatio(decodedImageLateral.width.toDouble());
 
       print(imageHandler.imageToScreenRatioFront);
       print(imageHandler.imageToScreenRatioLateral);
