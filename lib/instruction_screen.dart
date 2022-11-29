@@ -16,11 +16,6 @@ class InstructionScreen extends StatefulWidget {
 }
 
 class _InstructionScreenState extends State<InstructionScreen> {
-  /** Widget listOfPages() {
-    return [welcomeInfo(), uploadInfo(), resultsInfo(), exportInfo()];
-  }
-  **/
-
   var descriptions = [
     "This is the first screen you will see when opening the app. "
         "There will be two buttons to choose one of two analysis types: \n"
@@ -67,7 +62,8 @@ class _InstructionScreenState extends State<InstructionScreen> {
         "If you click on the other button, a pop-up will appear with many options to export the images. You can click the email option, and "
         "a prompt will appear with the images already preloaded and will ask for the recipient's email. You can also click the text message option "
         "and another prompt will appear with the info preloaded and will ask for the recipient's phone number. \n\n"
-        "Once you've finished exporting, you can exit the app, or go back to the results screen."
+        "Once you've finished exporting, you can exit the app, or go back to the results screen.",
+    "This app allows you to "
   ];
 
   PageViewModel welcomeInfo() {
@@ -253,6 +249,15 @@ class _InstructionScreenState extends State<InstructionScreen> {
         ));
   }
 
+  PageViewModel introductionInfo() {
+    return PageViewModel(
+        title: "Introduction",
+        bodyWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text(descriptions[5])],
+        ));
+  }
+
   void returnHome() {
     Navigator.of(context).pop();
   }
@@ -261,6 +266,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
   Widget build(BuildContext context) {
     return IntroductionScreen(
         pages: [
+          introductionInfo(),
           welcomeInfo(),
           uploadInfo(),
           cameraInfo(),
