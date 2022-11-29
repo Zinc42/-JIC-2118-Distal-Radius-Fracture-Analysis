@@ -35,7 +35,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
   ImageProvider getFrontImageDisplay() {
     if (imageHandler.frontImagePath == null) {
-      return AssetImage("lib/images/image_placeholder.png");
+      return const AssetImage("lib/images/image_placeholder.png");
     } else {
       return FileImage(File(imageHandler.frontImagePath!));
     }
@@ -43,21 +43,61 @@ class _MenuScreenState extends State<MenuScreen> {
 
   ImageProvider getSideImageDisplay() {
     if (imageHandler.sideImagePath == null) {
-      return AssetImage("lib/images/image_placeholder.png");
+      return const AssetImage("lib/images/image_placeholder.png");
     } else {
       return FileImage(File(imageHandler.sideImagePath!));
     }
   }
 
-  void runAnalysis() {
+  void runAnalysis() async {
     if (!imageHandler.isMissingImages()) {
       // run analysis only if both images have been uploaded
       print("Run Analysis");
       // code to run analysis
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ResultsScreen()));
+      print(imageHandler.getImageDisplayHeight());
+      print(imageHandler.getImageDisplayWidth());
+      await setImageRatio();
+      print("outside if");
+
+      // run model here
+      // get images from ImageHandler
+      // file PATHS stored as string:
+      //  imageHandler.frontImagePath
+      //  imageHandler.sideImagepath
+
+      // loading screen if needed (refer to Results Screen)
+
+      // make sure to use await for any asunc function calls
+
+      // call image handler to set point values after model is run
+      // ex: imageHandler.LateralUpperX = value or there are setter functions in Image Handler
+
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ResultsScreen()));
     } else {
       _showNoImageAlert();
+    }
+  }
+
+  Future<void> setImageRatio() async {
+    print("setImageRatio");
+    if (!imageHandler.isSetImageToScreenRatio) {
+      print("inside if");
+      File imageFront = File(imageHandler.frontImagePath!);
+      var decodedImageFront =
+          await decodeImageFromList(imageFront.readAsBytesSync());
+      imageHandler.setFrontImageScreenRatio(decodedImageFront.width.toDouble());
+
+      File imageLateral = File(imageHandler.sideImagePath!);
+      var decodedImageLateral =
+          await decodeImageFromList(imageLateral.readAsBytesSync());
+      imageHandler
+          .setLateralImageScreenRatio(decodedImageLateral.width.toDouble());
+
+      print(imageHandler.imageToScreenRatioFront);
+      print(imageHandler.imageToScreenRatioLateral);
+
+      imageHandler.isSetImageToScreenRatio = true;
     }
   }
 

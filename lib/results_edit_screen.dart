@@ -16,6 +16,34 @@ class ResultsEditScreen extends StatefulWidget {
 class _ResultsEditScreenState extends State<ResultsEditScreen> {
   ImageHandler imageHandler = ImageHandler();
 
+  // store temp values of the key points while they are edited in the drag screen.
+  late double tempFirstPointX;
+  late double tempFirstPointY;
+  late double tempSecondPointX;
+  late double tempSecondPointY;
+
+  void setTempPoints(double firstX, double firstY, double secondX, double secondY) {
+    tempFirstPointX = firstX;
+    tempFirstPointY = firstY;
+    tempSecondPointX = secondX;
+    tempSecondPointY = secondY;
+  }
+
+  // update the image handler with the currently stored and modified temp points
+  void updatePoints() {
+    if (imageHandler.isFrontImage) {
+      print("Updated Radial Styloid: $tempFirstPointX $tempFirstPointY");
+      print("Updated Min Articular Surface: $tempSecondPointX $tempSecondPointY");
+      imageHandler.setRadialStyloidFront(tempFirstPointX, tempFirstPointY);
+      imageHandler.setMinArticularSurface(tempSecondPointX, tempSecondPointY);
+    } else {
+      print("Updated Lateral Upper: $tempFirstPointX $tempFirstPointY");
+      print("Updated Lateral Lower: $tempSecondPointX $tempSecondPointY");
+      imageHandler.setlateralUpper(tempFirstPointX, tempFirstPointY);
+      imageHandler.setlateralLower(tempSecondPointX, tempSecondPointY);
+    }
+  }
+
   // whether or not the current image for analysis is Front/Side is updated in the Image Handler
   // you can get the image path via imageHandler.getCurrImagepath()
 
@@ -37,8 +65,10 @@ class _ResultsEditScreenState extends State<ResultsEditScreen> {
   }
 
   void confirmEdit() {
-    // save edited measurement poiunts and return to results screen
+    // update points in Image Handler and return to results screen
     print("Confirm Edit");
+    updatePoints();
+    Navigator.of(context).pop();
   }
 
   @override
@@ -67,13 +97,13 @@ class _ResultsEditScreenView extends StatelessWidget {
     // can get Images from the Image Handler
 
     return Container(
-      height: state.getScreenHeight() - 220,
-      width: state.getScreenWidth() - 20,
+      height: (state.getScreenWidth() - 80) / 9 * 16,
+      width: state.getScreenWidth() - 80,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black),
       ),
-      child: DragScreen(passedImagePath: state.imageHandler.getCurrImagepath()!)
+      child: DragScreen(passedImagePath: state.imageHandler.getCurrImagepath()!, updateFunction: state.setTempPoints)
     );
   }
 

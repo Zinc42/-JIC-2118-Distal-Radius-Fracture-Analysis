@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:distal_radius/screenshot_handler.dart';
+import 'package:distal_radius/welcome_screen.dart';
 import 'screen_button.dart';
+import "text_and_email_export.dart";
 
 import 'package:permission_handler/permission_handler.dart';
 
@@ -14,28 +17,66 @@ class ExportScreen extends StatefulWidget {
 }
 
 class _ExportScreenState extends State<ExportScreen> {
+  ScreenshotHandler screenshotHandler = ScreenshotHandler();
   @override
   Widget build(BuildContext context) => _ExportScreenView(state: this);
 
-  void toSaveCameraRollScreen() {
-    print("Save to Camera Roll");
-  }
-
   void toTextMessageScreen() {
     print("Send through text message");
+    ExportFilesBuilder.buildExportFiles();
   }
 
   void toEmailScreen() {
     print("Send through email");
   }
 
-  Future<PermissionStatus> getCameraPerms() async {
+  void returnToHome() {
+    Navigator.of(context).popUntil(ModalRoute.withName(WelcomeScreen.id));
+  }
+
+  void toSaveCameraRollScreen() async {
+    await getCameraPerms();
+
+    bool succeeded = await screenshotHandler.saveAllFilesToCameraRoll();
+    await showCameraResults(succeeded);
+  }
+
+  Future<void> showCameraResults(bool succeeded) async {
+    Text titleText =
+        succeeded ? const Text("Save Succeeded") : const Text("Save Failed");
+    Text childText = succeeded
+        ? const Text("All photos were saved.")
+        : const Text("There was an error with saving.");
+
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: titleText,
+              content: SingleChildScrollView(
+                child: childText,
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Done"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    returnToHome();
+                  },
+                  child: const Text("To Home"),
+                )
+              ]);
+        });
+  }
+
+  Future<void> getCameraPerms() async {
     PermissionStatus cameraPermStatus = await Permission.camera.request();
     if (!cameraPermStatus.isGranted) {
       showCameraPermsAlert();
     }
-
-    return cameraPermStatus;
   }
 
   Future<void> showCameraPermsAlert() async {
@@ -100,11 +141,13 @@ class _ExportScreenView extends StatelessWidget {
                     pressFunction: state.toSaveCameraRollScreen,
                   ),
                   ScreenButton(
-                      buttonText: "Send through Text Message",
+                      buttonText: "Send through Text or Email",
                       pressFunction: state.toTextMessageScreen),
+                  /*
                   ScreenButton(
                       buttonText: "Send Through Email",
                       pressFunction: state.toEmailScreen),
+                   */
                 ],
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:distal_radius/image_handler.dart';
+import 'package:distal_radius/screenshot_handler.dart';
 import 'package:flutter/material.dart';
 import 'image_results_screen.dart';
 import 'export_screen.dart';
@@ -20,24 +21,42 @@ class ResultsScreen extends StatefulWidget {
 // contains all functions relevant to business logic
 class _ResultsScreenState extends State<ResultsScreen> {
   ImageHandler imageHandler = ImageHandler();
+  ScreenshotHandler screenshotHandler = ScreenshotHandler();
+
+  //This tracks whether screenshot handler is building the export results
+  bool isScreenshotHandlerBuilding = false;
 
   void cancelResults() {
     Navigator.of(context).popUntil(ModalRoute.withName("welcome_screen"));
   }
 
-  void toExport() {
+  void toExport() async {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    //This function changes the value of isScreenshotHandlerLoading to the passed value
+    //Then sets state depending on the value. true = display loading wheel. false = display the normal results screen
+    screenShotHandlerLoading(true);
+
+    await screenshotHandler.saveBothImages(screenHeight, screenWidth);
+    await screenshotHandler.saveTextResults(getResultsInfo());
+
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const ExportScreen()));
+
+    //changes results screen back to normal
+    screenShotHandlerLoading(false);
   }
 
   void toImageResults(isFront) {
     imageHandler.isFrontImage = isFront;
+
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => ImageResultsScreen(
                   isFrontImage: isFront,
-                )));
+                ))).then((value) => setState(() {}));
   }
 
   Widget getHeader() {
@@ -68,7 +87,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
             onTap: () => toImageResults(false),
             child: Image(height: 300, width: imageWidth, image: sideImage))
       ]),
-      SizedBox(height: 20),
+      const SizedBox(height: 20),
       Container(
           padding: const EdgeInsets.all(10.0),
           decoration: BoxDecoration(
@@ -79,23 +98,26 @@ class _ResultsScreenState extends State<ResultsScreen> {
   }
 
   Widget getResultsInfo() {
-    double volarTilt = 1.0;
+    double volarTilt = imageHandler.getVolarTilt();
     double radialHeight = imageHandler.getRadialHeight();
     double radialInclination = imageHandler.getRadialInclination();
+
+    print(volarTilt);
+    print(radialHeight);
+    print(radialInclination);
 
     return Container(
         margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
         child: Column(children: [
           getResultValue("Volar Tilt", volarTilt, 0.5, 1.5),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           getResultValue("Radial Height", radialHeight, 0.5, 1.5),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           getResultValue("Radial Inclination", radialInclination, 2.0, 3.5)
         ]));
   }
 
   Column getResultValue(String title, double value, double min, double max) {
-
     // parses a double as a string rounded to 1 decimal place
     String valueString = value.toStringAsFixed(1);
 
@@ -114,7 +136,8 @@ class _ResultsScreenState extends State<ResultsScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(title, textAlign: TextAlign.left),
+        Text(title,
+            textAlign: TextAlign.left, style: TextStyle(color: Colors.black)),
         Container(
             padding:
                 const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
@@ -152,18 +175,57 @@ class _ResultsScreenState extends State<ResultsScreen> {
     );
   }
 
+  screenShotHandlerLoading(bool isLoading) {
+    isScreenshotHandlerBuilding = isLoading;
+    setState(() {});
+  }
+//This returns all the widgets that are normally in the results screen
+  Widget getResultsScreen() {
+    return (Container(
+        margin: const EdgeInsets.symmetric(vertical: 35.0),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              getHeader(),
+              getImages(),
+              getResultsInfo(),
+              getBottomButtons()
+            ])));
+  }
+
+  Widget getLoadingIndicator() {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        //Progress indicator
+        SizedBox(
+          width: 175,
+          height: 175,
+          child: CircularProgressIndicator(
+            strokeWidth: 15,
+            backgroundColor: Colors.grey,
+          ),
+        ),
+        //Space between the text and the circular progress indicator
+        SizedBox(height: 50),
+        //Text
+        Text(
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+            "Getting results ready \n for export..."),
+      ],
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            margin: const EdgeInsets.symmetric(vertical: 35.0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  getHeader(),
-                  getImages(),
-                  getResultsInfo(),
-                  getBottomButtons()
-                ])));
+        body: isScreenshotHandlerBuilding
+            ? getLoadingIndicator()
+            : getResultsScreen());
   }
 }

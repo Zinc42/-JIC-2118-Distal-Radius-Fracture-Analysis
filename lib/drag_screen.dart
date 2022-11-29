@@ -17,10 +17,14 @@ Still have to draw lines between squares on the screen
    //TODO: Make a class that contains the callback functions that can be used for both buttons rather than having a bunch of diff callbacks
 */
 
+typedef PointUpdateCallback = void Function(double, double, double, double);
+
 class DragScreen extends StatefulWidget {
   final String passedImagePath;
 
-  const DragScreen({super.key, required this.passedImagePath});
+  final PointUpdateCallback updateFunction;
+
+  const DragScreen({super.key, required this.passedImagePath, required this.updateFunction});
 
   //const DragScreen({Key? key}) : super(key: key);
   static const String id = "drag_screen";
@@ -120,8 +124,8 @@ class _DragScreenState extends State<DragScreen> {
     heightOfImage = img.height!;
 
     //These values should be the same as the width and height of the widget in dragable.dart
-    heightOfDraggable = imgContainerHeight * 0.027;
-    widthOfDraggable = imgContainerWidth * 0.065;
+    heightOfDraggable = 20; //* 0.027;
+    widthOfDraggable = 20; //* 0.065;
 
     //This function call sets the scalars that allow us to go from the image file's resolution to the screen resolution and back
     setScreenRatios(img.width!, img.height!);
@@ -133,30 +137,32 @@ class _DragScreenState extends State<DragScreen> {
 
     if (imageHandler.isFrontImage) {
       // Point 1 = Radial Styloid (Front)
-      firstPointInImageResolution = Coordinate(x: imageHandler.getRadialStyloidX() * screenToCameraRatioX, y: imageHandler.getRadialStyloidY() * screenToCameraRatioY);
+      firstPointInImageResolution = Coordinate(x: imageHandler.getRadialStyloidFrontX() * screenToCameraRatioX, y: imageHandler.getRadialStyloidFrontY() * screenToCameraRatioY);
       // Point 2 = Min Articular Surface (Front)
       secondPointInImageResolution = Coordinate(x: imageHandler.getMinArticularSurfaceX() * screenToCameraRatioX, y: imageHandler.getMinArticularSurfaceY() * screenToCameraRatioY);
     } else {
       // Point 1 in Side Image
-      firstPointInImageResolution = Coordinate(x: img.width! / 2, y: img.height! / 2);
+      firstPointInImageResolution = Coordinate(x: imageHandler.getLateralUpperX() * screenToCameraRatioX, y: imageHandler.getLateralUpperY() * screenToCameraRatioY);
       // Point 2 in Side Image
-      secondPointInImageResolution = Coordinate(x: firstPointInImageResolution.x + 50, y: firstPointInImageResolution.y + 50);
+      secondPointInImageResolution = Coordinate(x: imageHandler.getLateralLowerX() * screenToCameraRatioX, y: imageHandler.getLateralLowerY() * screenToCameraRatioY);
     } 
+
+    widget.updateFunction(firstPointInImageResolution.x, firstPointInImageResolution.y, secondPointInImageResolution.x, secondPointInImageResolution.y);
     
     draggableOne = Drag_Button(
         startDragFunction: firstDragableStartCallback,
         pressFunction: firstDragableUpdateCallback,
         endDragFunction: firstDragableEndDragCallback,
-        leftPos: firstPointInImageResolution.x * cameraToScreenRatioX,
-        topPos: firstPointInImageResolution.y * cameraToScreenRatioY,
+        leftPos: firstPointInImageResolution.x * cameraToScreenRatioX - widthOfDraggable / 2,
+        topPos: firstPointInImageResolution.y * cameraToScreenRatioY - heightOfDraggable / 2,
         color: Colors.red);
 
     draggableTwo = Drag_Button(
         startDragFunction: secondDragableStartCallback,
         pressFunction: secondDragableUpdateCallback,
         endDragFunction: secondDragableEndDragCallback,
-        leftPos: secondPointInImageResolution.x * cameraToScreenRatioX,
-        topPos: secondPointInImageResolution.y * cameraToScreenRatioY,
+        leftPos: secondPointInImageResolution.x * cameraToScreenRatioX - widthOfDraggable / 2,
+        topPos: secondPointInImageResolution.y * cameraToScreenRatioY - heightOfDraggable / 2,
         color: Colors.blue);
 
     initialized = true;
@@ -188,10 +194,10 @@ class _DragScreenState extends State<DragScreen> {
     if (draggableOne != null) {
       //values for where to redraw the draggable widget after set state
       // min(container X or y - widthX or Y of the draggable it self, max(0 x and y, draggablelocation)
-      double newTop = min(imgContainerHeight - (heightOfDraggable),
-          max(0, draggableOne.getTop() + details.delta.dy));
-      double newLeft = min(imgContainerWidth - (widthOfDraggable),
-          max(0, draggableOne.getLeft() + details.delta.dx));
+      double newTop = min(imgContainerHeight - heightOfDraggable / 2,
+          max(-(heightOfDraggable / 2), draggableOne.getTop() + details.delta.dy));
+      double newLeft = min(imgContainerWidth - widthOfDraggable / 2,
+          max(-(heightOfDraggable / 2), draggableOne.getLeft() + details.delta.dx));
 
       //update the draggable reference
       draggableOne = Drag_Button(
@@ -229,6 +235,8 @@ Here the offset is calculted and used to update the coordinates in the native im
         "New first point in camera resolution: ${firstPointInImageResolution.x} ${firstPointInImageResolution.y}");
     //Set local offset varable back to 0 otherwise if u just click but dont drag, it will use same offset that was used in last
     //drag end despite not actually moving
+
+    widget.updateFunction(firstPointInImageResolution.x, firstPointInImageResolution.y, secondPointInImageResolution.x, secondPointInImageResolution.y);
   }
 
   //Will make code cleaner
@@ -242,10 +250,10 @@ Here the offset is calculted and used to update the coordinates in the native im
   void secondDragableUpdateCallback(details) {
     if (draggableTwo != null) {
       //values for where to redraw the draggable widget after set state
-      double newTop = min(imgContainerHeight - (heightOfDraggable),
-          max(0, draggableTwo.getTop() + details.delta.dy));
-      double newLeft = min(imgContainerWidth - (widthOfDraggable),
-          max(0, draggableTwo.getLeft() + details.delta.dx));
+      double newTop = min(imgContainerHeight - heightOfDraggable / 2,
+          max(-(heightOfDraggable / 2), draggableTwo.getTop() + details.delta.dy));
+      double newLeft = min(imgContainerWidth - widthOfDraggable / 2,
+          max(-(heightOfDraggable / 2), draggableTwo.getLeft() + details.delta.dx));
 
       //update the draggable reference
       draggableTwo = Drag_Button(
@@ -281,6 +289,8 @@ Here the offset is calculted and used to update the coordinates in the native im
         "New second point in camera resolution: ${secondPointInImageResolution.x} ${secondPointInImageResolution.y}");
     //Set local offset varable back to 0 otherwise if u just click but dont drag, it will use same offset that was used in last
     //drag end despite not actually moving
+
+    widget.updateFunction(firstPointInImageResolution.x, firstPointInImageResolution.y, secondPointInImageResolution.x, secondPointInImageResolution.y);
   }
 }
 
@@ -295,8 +305,8 @@ class _DragScreenView extends StatelessWidget {
     var screenHeight = MediaQuery.of(context).size.height;
 
     //width and height of container from result_edit_screen.dart
-    state.imgContainerWidth = screenWidth - 20;
-    state.imgContainerHeight = screenHeight - 220;
+    state.imgContainerWidth = screenWidth - 80;
+    state.imgContainerHeight = (screenWidth - 80) / 9 * 16;
 
     /*
         state.imgContainerWidth = (screenWidth * 0.9);
