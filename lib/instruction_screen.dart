@@ -18,24 +18,22 @@ class InstructionScreen extends StatefulWidget {
 class _InstructionScreenState extends State<InstructionScreen> {
   var descriptions = [
     "This is the first screen you will see when opening the app. "
-        "There will be two buttons to choose one of two analysis types: \n"
-        "\u2022 Pre-op analysis \n"
-        "\u2022 Post-op analysis \n"
-        "The last button will take you to the instructions if you need to refer back to them.",
+        "There will be two buttons to choose from. The first one will start a pre-op analysis and take you to the next screen "
+        "in the process. The second button will take you to the instructions if you need to refer back to them.",
     "The second step is to import the two images you will use. As you can see from the Import Screen, "
-        "you must import the frontal and side images by clicking on the corresponding button. You can also "
+        "you must import the AP/PA and Lateral images by clicking on the corresponding button. You can also "
         "see each image after importing. Once both images are available, you can click the Run Analysis "
         "button to continue to the next step. \n\n"
         "Once you have clicked on one of the two import buttons, you will be taken to the Import Method screen. "
         "On this screen, there are 2 ways to import that we've implemented: \n"
-        "\u2022 Camera Roll \n"
-        "\u2022 Camera \n"
+        " \u2022 Camera Roll \n"
+        " \u2022 Camera \n"
         "Once you click on each of the two buttons, you'll be taken to a corresponding page to import the image.",
     "This step comes right after importing an image but before we run the analysis. After you choose a picture "
         "from your camera roll or take the picture from the Camera Screen, you must edit the image to have an accurate analysis.\n\n"
         "First, you will go to the Image Alignment Screen. This screen lets you zoom, rotate, and move the image. Once you feel that "
-        "the image looks aligned, you can click the Crop Image button to crop it.\n\n"
-        "Second, the cropped image is used in the Alignment Confirm Screen. This screen lets you see the cropping result and make sure "
+        "the image looks aligned, you can click the Crop Image button to crop it.\n\n",
+    "Second, the cropped image is used in the Alignment Confirm Screen. This screen lets you see the cropping result and make sure "
         "that it looks correct. If not, you can go back to the Image Alignment Screen and try again. This screen also has a red line on "
         "the image. There is a text box right below that asks for the length of that red line. This is because our analysis needs to have "
         "a scale to use in the calculations. After you put in a valid number, you can click the Confirm Image button to finish editing.\n\n"
@@ -47,8 +45,8 @@ class _InstructionScreenState extends State<InstructionScreen> {
         "inside the range, yellow means it's close but not inside it, and red means that it's far away from the range.\n\n"
         "You can also click on each of the two images to see more info about the points. Once you've clicked on one, the Results X-ray Display Screen "
         "will pop up. This screen shows the image and the points found for that image. If you believe that these points are incorrect, "
-        "you can click on the Edit Points button to go to a new screen and edit them.\n\n"
-        "The Measurement Edit Screen allows you to edit these points by holding a point and dragging it somewhere else on the image. Once you've finished, "
+        "you can click on the Edit Points button to go to a new screen and edit them.\n\n",
+    "The Measurement Edit Screen allows you to edit these points by holding a point and dragging it somewhere else on the image. Once you've finished, "
         "you can click the Confirm Edit button to confirm your changes. Then you will return to the previous screen with the new points, and the "
         "Results Screen will also update its measurements when necessary.\n\n"
         "Once you've approved the results, you can export the results by clicking the Export Button.",
@@ -63,12 +61,19 @@ class _InstructionScreenState extends State<InstructionScreen> {
         "a prompt will appear with the images already preloaded and will ask for the recipient's email. You can also click the text message option "
         "and another prompt will appear with the info preloaded and will ask for the recipient's phone number. \n\n"
         "Once you've finished exporting, you can exit the app, or go back to the results screen.",
-    "This app allows you to "
+    "This app allows you to take 2 pictures of an x-ray showing a frontal (AP/PA) view and a side (Lateral) view. With these pictures, the app will run an "
+        "analysis on these images to find a few key points. These points are shown in the pictures above as an example.\n\n"
+        "With these points, we can get some of the following measurements: \n"
+        " \u2022 Volar Tilt \n"
+        " \u2022 Radial Height \n"
+        " \u2022 Radial Inclination \n\n"
+        "Once the results have been found, you can export the values and the 2 pictures by sending an email/text message, or saving to camera roll. The next "
+        "few pages will give instructions on each step in the process."
   ];
 
   PageViewModel welcomeInfo() {
     return PageViewModel(
-        title: "1. Choose Analysis Type",
+        title: "\n1. Choose Analysis Type",
         bodyWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -78,7 +83,8 @@ class _InstructionScreenState extends State<InstructionScreen> {
                   image: const AssetImage("lib/images/welcome.png"),
                   height: 400.0,
                 )),
-            Text("Welcome Screen"),
+            Text("Welcome Screen",
+                style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 25),
             Text(descriptions[0])
           ],
@@ -87,7 +93,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
 
   PageViewModel uploadInfo() {
     return PageViewModel(
-        title: "2. Import Image",
+        title: "\n2. Import Image",
         bodyWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -101,7 +107,8 @@ class _InstructionScreenState extends State<InstructionScreen> {
                         image: const AssetImage("lib/images/importScreen.png"),
                         height: 400.0,
                       )),
-                  Text("Import Screen"),
+                  Text("Import Screen",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ]),
                 const SizedBox(width: 20),
                 Column(children: [
@@ -111,7 +118,8 @@ class _InstructionScreenState extends State<InstructionScreen> {
                         image: const AssetImage("lib/images/importMethod.png"),
                         height: 400.0,
                       )),
-                  Text("Import Method Screen"),
+                  Text("Import Method Screen",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ])
               ],
             ),
@@ -123,7 +131,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
 
   PageViewModel cameraInfo() {
     return PageViewModel(
-        title: "2.5 Edit Image",
+        title: "\n2.5 Edit Image",
         bodyWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -137,7 +145,8 @@ class _InstructionScreenState extends State<InstructionScreen> {
                         image: const AssetImage("lib/images/cameraTake.png"),
                         height: 400.0,
                       )),
-                  Text("Camera Screen"),
+                  Text("Camera Screen",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ]),
                 const SizedBox(width: 20),
                 Column(children: [
@@ -147,75 +156,32 @@ class _InstructionScreenState extends State<InstructionScreen> {
                         image: const AssetImage("lib/images/alignImage.png"),
                         height: 400.0,
                       )),
-                  Text("Image Alignment Screen"),
+                  Text("Image Alignment Screen",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ]),
-                const SizedBox(width: 20),
-                Column(children: [
-                  Container(
-                      decoration: BoxDecoration(border: Border.all(width: 0.5)),
-                      child: Image(
-                        image: const AssetImage("lib/images/alignConfirm.png"),
-                        height: 400.0,
-                      )),
-                  Text("Alignment Confirm Screen"),
-                ])
               ],
             ),
             const SizedBox(height: 25),
-            Text(descriptions[2])
-          ],
-        ));
-  }
-
-  PageViewModel resultsInfo() {
-    return PageViewModel(
-        title: "3. View and Edit Results",
-        bodyWidget: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(children: [
-                  Container(
-                      decoration: BoxDecoration(border: Border.all(width: 0.5)),
-                      child: Image(
-                        image: const AssetImage("lib/images/results.png"),
-                        height: 400.0,
-                      )),
-                  Text("Results Screen"),
-                ]),
-                const SizedBox(width: 20),
-                Column(children: [
-                  Container(
-                      decoration: BoxDecoration(border: Border.all(width: 0.5)),
-                      child: Image(
-                        image: const AssetImage("lib/images/resultPoints.png"),
-                        height: 400.0,
-                      )),
-                  Text("Results X-Ray Screen"),
-                ]),
-                const SizedBox(width: 20),
-                Column(children: [
-                  Container(
-                      decoration: BoxDecoration(border: Border.all(width: 0.5)),
-                      child: Image(
-                        image: const AssetImage("lib/images/adjustPoints.png"),
-                        height: 400.0,
-                      )),
-                  Text("Measurement Edit Screen"),
-                ])
-              ],
-            ),
+            Text(descriptions[2]),
+            Column(children: [
+              Container(
+                  decoration: BoxDecoration(border: Border.all(width: 0.5)),
+                  child: Image(
+                    image: const AssetImage("lib/images/alignConfirm.png"),
+                    height: 400.0,
+                  )),
+              Text("Alignment Confirm Screen",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            ]),
             const SizedBox(height: 25),
             Text(descriptions[3])
           ],
         ));
   }
 
-  PageViewModel exportInfo() {
+  PageViewModel resultsInfo() {
     return PageViewModel(
-        title: "3. View and Edit Results",
+        title: "\n3. View and Edit Results",
         bodyWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -229,7 +195,8 @@ class _InstructionScreenState extends State<InstructionScreen> {
                         image: const AssetImage("lib/images/results.png"),
                         height: 400.0,
                       )),
-                  Text("Export Screen"),
+                  Text("Results Screen",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ]),
                 const SizedBox(width: 20),
                 Column(children: [
@@ -239,22 +206,102 @@ class _InstructionScreenState extends State<InstructionScreen> {
                         image: const AssetImage("lib/images/resultPoints.png"),
                         height: 400.0,
                       )),
-                  Text("Export Pop-up"),
+                  Text("Results X-Ray Screen",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ]),
               ],
             ),
             const SizedBox(height: 25),
-            Text(descriptions[4])
+            Text(descriptions[4]),
+            Column(children: [
+              Container(
+                  decoration: BoxDecoration(border: Border.all(width: 0.5)),
+                  child: Image(
+                    image: const AssetImage("lib/images/adjustPoints.png"),
+                    height: 400.0,
+                  )),
+              Text("Measurement Edit Screen",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            ]),
+            const SizedBox(height: 25),
+            Text(descriptions[5])
+          ],
+        ));
+  }
+
+  PageViewModel exportInfo() {
+    return PageViewModel(
+        title: "\n4. Export Results",
+        bodyWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(children: [
+                  Container(
+                      decoration: BoxDecoration(border: Border.all(width: 0.5)),
+                      child: Image(
+                        image: const AssetImage("lib/images/exportScreen.png"),
+                        height: 400.0,
+                      )),
+                  Text("Export Screen",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ]),
+                const SizedBox(width: 20),
+                Column(children: [
+                  Container(
+                      decoration: BoxDecoration(border: Border.all(width: 0.5)),
+                      child: Image(
+                        image: const AssetImage("lib/images/exportPopup.png"),
+                        height: 400.0,
+                      )),
+                  Text("Export Pop-up",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ]),
+              ],
+            ),
+            const SizedBox(height: 25),
+            Text(descriptions[6])
           ],
         ));
   }
 
   PageViewModel introductionInfo() {
     return PageViewModel(
-        title: "Introduction",
+        title: "\nIntroduction",
         bodyWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text(descriptions[5])],
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(children: [
+                  Container(
+                      decoration: BoxDecoration(border: Border.all(width: 0.5)),
+                      child: Image(
+                        image: const AssetImage("lib/images/frontResults.png"),
+                        width: 175.0,
+                      )),
+                  Text("AP/PA Results",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ]),
+                const SizedBox(width: 20),
+                Column(children: [
+                  Container(
+                      decoration: BoxDecoration(border: Border.all(width: 0.5)),
+                      child: Image(
+                        image: const AssetImage("lib/images/sideResults.png"),
+                        width: 175.0,
+                      )),
+                  Text("Lateral Results",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ]),
+              ],
+            ),
+            const SizedBox(height: 25.0),
+            Text(descriptions[7])
+          ],
         ));
   }
 
