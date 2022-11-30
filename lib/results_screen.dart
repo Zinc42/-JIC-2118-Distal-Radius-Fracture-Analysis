@@ -81,11 +81,47 @@ class _ResultsScreenState extends State<ResultsScreen> {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         GestureDetector(
-            onTap: () => toImageResults(true),
-            child: Image(height: 300, width: imageWidth, image: frontImage)),
+          onTap: () => toImageResults(true),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Image(height: 300, width: imageWidth, image: frontImage),
+              Container(
+                  alignment: Alignment.center,
+                  constraints: const BoxConstraints(
+                      minHeight: 200,
+                      maxHeight: 200),
+                  child: const VerticalDivider(
+                    color: Colors.red,
+                    width: 3,
+                    thickness: 3,
+                    indent: 0,
+                    endIndent: 0,
+              )),
+            ]
+          ),
+        ),
         GestureDetector(
-            onTap: () => toImageResults(false),
-            child: Image(height: 300, width: imageWidth, image: sideImage))
+          onTap: () => toImageResults(false),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Image(height: 300, width: imageWidth, image: sideImage),
+              Container(
+                  alignment: Alignment.center,
+                  constraints: const BoxConstraints(
+                      minHeight: 200,
+                      maxHeight: 200),
+                  child: const VerticalDivider(
+                    color: Colors.red,
+                    width: 3,
+                    thickness: 3,
+                    indent: 0,
+                    endIndent: 0,
+              )),
+            ]
+          ),
+        ),
       ]),
       const SizedBox(height: 20),
       Container(
