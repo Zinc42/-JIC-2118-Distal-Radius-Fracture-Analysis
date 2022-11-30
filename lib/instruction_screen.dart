@@ -16,6 +16,7 @@ class InstructionScreen extends StatefulWidget {
 }
 
 class _InstructionScreenState extends State<InstructionScreen> {
+  var globalImageHeight = 350.0;
   var descriptions = [
     "This is the first screen you will see when opening the app. "
         "There will be two buttons to choose from. The first one will start a pre-op analysis and take you to the next screen "
@@ -81,7 +82,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                 decoration: BoxDecoration(border: Border.all(width: 0.5)),
                 child: Image(
                   image: const AssetImage("lib/images/welcome.png"),
-                  height: 400.0,
+                  height: globalImageHeight,
                 )),
             Text("Welcome Screen",
                 style: TextStyle(fontWeight: FontWeight.bold)),
@@ -106,7 +107,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                       decoration: BoxDecoration(border: Border.all(width: 0.5)),
                       child: Image(
                         image: const AssetImage("lib/images/importScreen.png"),
-                        height: 400.0,
+                        height: globalImageHeight,
                       )),
                   Text("Import Screen",
                       style: TextStyle(fontWeight: FontWeight.bold)),
@@ -117,7 +118,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                       decoration: BoxDecoration(border: Border.all(width: 0.5)),
                       child: Image(
                         image: const AssetImage("lib/images/importMethod.png"),
-                        height: 400.0,
+                        height: globalImageHeight,
                       )),
                   Text("Import Method Screen",
                       style: TextStyle(fontWeight: FontWeight.bold)),
@@ -144,7 +145,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                       decoration: BoxDecoration(border: Border.all(width: 0.5)),
                       child: Image(
                         image: const AssetImage("lib/images/cameraTake.png"),
-                        height: 400.0,
+                        height: globalImageHeight,
                       )),
                   Text("Camera Screen",
                       style: TextStyle(fontWeight: FontWeight.bold)),
@@ -155,7 +156,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                       decoration: BoxDecoration(border: Border.all(width: 0.5)),
                       child: Image(
                         image: const AssetImage("lib/images/alignImage.png"),
-                        height: 400.0,
+                        height: globalImageHeight,
                       )),
                   Text("Image Alignment Screen",
                       style: TextStyle(fontWeight: FontWeight.bold)),
@@ -169,7 +170,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                   decoration: BoxDecoration(border: Border.all(width: 0.5)),
                   child: Image(
                     image: const AssetImage("lib/images/alignConfirm.png"),
-                    height: 400.0,
+                    height: globalImageHeight,
                   )),
               Text("Alignment Confirm Screen",
                   style: TextStyle(fontWeight: FontWeight.bold)),
@@ -194,7 +195,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                       decoration: BoxDecoration(border: Border.all(width: 0.5)),
                       child: Image(
                         image: const AssetImage("lib/images/results.png"),
-                        height: 400.0,
+                        height: globalImageHeight,
                       )),
                   Text("Results Screen",
                       style: TextStyle(fontWeight: FontWeight.bold)),
@@ -205,7 +206,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                       decoration: BoxDecoration(border: Border.all(width: 0.5)),
                       child: Image(
                         image: const AssetImage("lib/images/resultPoints.png"),
-                        height: 400.0,
+                        height: globalImageHeight,
                       )),
                   Text("Results X-Ray Screen",
                       style: TextStyle(fontWeight: FontWeight.bold)),
@@ -219,7 +220,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                   decoration: BoxDecoration(border: Border.all(width: 0.5)),
                   child: Image(
                     image: const AssetImage("lib/images/adjustPoints.png"),
-                    height: 400.0,
+                    height: globalImageHeight,
                   )),
               Text("Measurement Edit Screen",
                   style: TextStyle(fontWeight: FontWeight.bold)),
@@ -244,7 +245,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                       decoration: BoxDecoration(border: Border.all(width: 0.5)),
                       child: Image(
                         image: const AssetImage("lib/images/exportScreen.png"),
-                        height: 400.0,
+                        height: globalImageHeight,
                       )),
                   Text("Export Screen",
                       style: TextStyle(fontWeight: FontWeight.bold)),
@@ -255,7 +256,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                       decoration: BoxDecoration(border: Border.all(width: 0.5)),
                       child: Image(
                         image: const AssetImage("lib/images/exportPopup.png"),
-                        height: 400.0,
+                        height: globalImageHeight,
                       )),
                   Text("Export Pop-up",
                       style: TextStyle(fontWeight: FontWeight.bold)),

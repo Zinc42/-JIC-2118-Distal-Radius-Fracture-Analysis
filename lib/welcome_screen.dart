@@ -74,9 +74,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ScreenButton(
                     buttonText: "Advanced Instructions",
                     pressFunction: () {
-                      print("test");
-                      //Code to navigate to next screen goes here
-                      //might look like navigator.push(context, static id of next screen when its made
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const InstructionScreen()));
                     },
                   ),
                 ],
