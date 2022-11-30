@@ -92,6 +92,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
   }
 
   PageViewModel uploadInfo() {
+    final screenWidth = MediaQuery.of(context).size.width;
     return PageViewModel(
         title: "\n2. Import Image",
         bodyWidget: Column(
@@ -110,7 +111,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                   Text("Import Screen",
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ]),
-                const SizedBox(width: 20),
+                const SizedBox(width: 5),
                 Column(children: [
                   Container(
                       decoration: BoxDecoration(border: Border.all(width: 0.5)),
@@ -148,7 +149,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                   Text("Camera Screen",
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ]),
-                const SizedBox(width: 20),
+                const SizedBox(width: 5),
                 Column(children: [
                   Container(
                       decoration: BoxDecoration(border: Border.all(width: 0.5)),
@@ -198,7 +199,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                   Text("Results Screen",
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ]),
-                const SizedBox(width: 20),
+                const SizedBox(width: 5),
                 Column(children: [
                   Container(
                       decoration: BoxDecoration(border: Border.all(width: 0.5)),
@@ -248,7 +249,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                   Text("Export Screen",
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ]),
-                const SizedBox(width: 20),
+                const SizedBox(width: 5),
                 Column(children: [
                   Container(
                       decoration: BoxDecoration(border: Border.all(width: 0.5)),
@@ -286,7 +287,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                   Text("AP/PA Results",
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ]),
-                const SizedBox(width: 20),
+                const SizedBox(width: 5),
                 Column(children: [
                   Container(
                       decoration: BoxDecoration(border: Border.all(width: 0.5)),
