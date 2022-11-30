@@ -72,21 +72,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     },
                   ),
                   ScreenButton(
-                    buttonText: "Post-Operation Analysis",
-                    pressFunction: () {
-                      Navigator.pushNamed(context, MenuScreen.id,
-                          arguments: MenuScreenArguments(
-                              analysisType: "Post-Operation Analysis"));
-                    },
-                  ),
-                  ScreenButton(
                     buttonText: "Advanced Instructions",
                     pressFunction: () {
-                      print(InstructionScreen.id);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const InstructionScreen()));
+                      print("test");
+                      //Code to navigate to next screen goes here
+                      //might look like navigator.push(context, static id of next screen when its made
                     },
                   ),
                 ],

@@ -54,9 +54,9 @@ class ResultsWidgets {
   static Widget getHeader(isFrontImage) {
     String title;
     if (isFrontImage)
-      title = "Main Image";
+      title = "AP/PA View";
     else
-      title = "Side Image";
+      title = "Lateral View";
 
     return Stack(
       alignment: Alignment.center,
