@@ -8,7 +8,18 @@ import "loading_screen.dart";
 import "results_edit_screen.dart";
 
 
-void main() {
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
+import 'dart:io';
+
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  ByteData data = await PlatformAssetBundle().load('lets-encrypt-r3.pem');
+  SecurityContext.defaultContext.setTrustedCertificatesBytes(data.buffer.asUint8List());
+
   runApp(const DistalRadius());
 }
 
