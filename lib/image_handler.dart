@@ -57,6 +57,39 @@ class ImageHandler {
   
   ImageHandler._internal();
 
+  void reset() {
+    // delete image files
+    if (frontImagePath != null) {
+      File imageFile = File(frontImagePath!);
+      imageFile.deleteSync();
+    }
+    if (sideImagePath != null) {
+      File imageFile = File(sideImagePath!);
+      imageFile.deleteSync();
+    }
+
+    frontImagePath = null;
+    sideImagePath = null;
+
+    // screen/image/cm ratios and values
+    isSetImageToScreenRatio = false;
+    imageToScreenRatioFront = 1;
+    imageToScreenRatioLateral = 1;
+    screenToCmRatio = 1;
+    frontalLineLength = null;
+    frontalLineScreenLength = null;
+
+    // reset point values to defaults (probably not needed)
+    setRadialStyloidFront(200, 400);
+    setMinArticularSurface(400, 800);
+    setlateralUpper(300, 500);
+    setlateralLower(700, 700);
+
+    // not sure if this is needed, since this is set throughout the app
+    // as needed, but will just reset to original default value
+    isFrontImage = true;
+  }
+
   // only need set length scale for frontal image
   // set in image_confirm screen
   void setInputScale(double? lineLength, double? lineScreenLength) {

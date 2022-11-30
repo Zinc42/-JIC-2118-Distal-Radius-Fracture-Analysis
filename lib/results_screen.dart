@@ -27,6 +27,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
   bool isScreenshotHandlerBuilding = false;
 
   void cancelResults() {
+    imageHandler.reset();
     Navigator.of(context).popUntil(ModalRoute.withName("welcome_screen"));
   }
 
@@ -224,6 +225,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
     isScreenshotHandlerBuilding = isLoading;
     setState(() {});
   }
+
 //This returns all the widgets that are normally in the results screen
   Widget getResultsScreen() {
     return (Container(
