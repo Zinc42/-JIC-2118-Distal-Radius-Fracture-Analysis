@@ -145,11 +145,11 @@ class _ResultsScreenState extends State<ResultsScreen> {
     return Container(
         margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
         child: Column(children: [
-          getResultValue("Volar Tilt", volarTilt, 0.5, 1.5),
+          getResultValue("Volar Tilt", volarTilt, 10, 20), //degrees
           const SizedBox(height: 20),
-          getResultValue("Radial Height", radialHeight, 0.5, 1.5),
+          getResultValue("Radial Height", radialHeight, 8, 14), //millimeters
           const SizedBox(height: 20),
-          getResultValue("Radial Inclination", radialInclination, 2.0, 3.5)
+          getResultValue("Radial Inclination", radialInclination, 15, 25) //degrees
         ]));
   }
 
@@ -168,6 +168,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
       color = Colors.red;
 
     String rangeText = '$min - $max';
+    String units = getUnits(title);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -182,13 +183,21 @@ class _ResultsScreenState extends State<ResultsScreen> {
                 borderRadius: BorderRadius.circular(15.0)),
             child: Row(
               children: [
-                Text(valueString, style: TextStyle(color: color)),
+                Text(("$valueString $units"), style: TextStyle(color: color)),
                 Spacer(),
-                Text(rangeText, style: TextStyle(color: Colors.green))
+                Text(("$rangeText $units"), style: TextStyle(color: Colors.green))
               ],
             ))
       ],
     );
+  }
+  //Gets the units of measurement to be displayed next to results values
+  String getUnits(String title) {
+    if (title == "Radial Height") {
+      return "mm";
+    } else {
+      return "°";
+    }
   }
 
   TextEditingController textController(text) {
