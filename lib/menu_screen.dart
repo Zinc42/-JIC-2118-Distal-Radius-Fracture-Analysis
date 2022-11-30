@@ -97,11 +97,11 @@ class _MenuScreenState extends State<MenuScreen> {
 
     print(result);
 
-    imageHandler.setRadialStyloidFront(double.parse(result[9]),double.parse(result[10]));
+    imageHandler.setRadialStyloidFront(double.parse(result[9]), double.parse(result[10]));
     imageHandler.setMinArticularSurface((double.parse(result[0])+double.parse(result[3]))/2, (double.parse(result[1])+double.parse(result[4]))/2);
   }
 
-  //upload front function
+  //upload lateral function
   uploadLateral(File imageFile) async {
     // open a bytestream
     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
@@ -137,20 +137,16 @@ class _MenuScreenState extends State<MenuScreen> {
     tempString=tempString.replaceAll(" ","");
     tempString=tempString.replaceAll("\"","");
 
-
     print(tempString);
 
     List<String> result = tempString.split(',');
 
     print(result);
 
-    imageHandler.setlateralUpper(double.parse(result[0]),double.parse(result[1]));
-    imageHandler.setMinArticularSurface(double.parse(result[3]),double.parse(result[4]));
-
+    imageHandler.setlateralLower(double.parse(result[0]),double.parse(result[1]));
+    imageHandler.setlateralUpper(double.parse(result[3]),double.parse(result[4]));
   }
   
-
-
 
   void runAnalysis() async {
     if (!imageHandler.isMissingImages()) {
@@ -174,14 +170,12 @@ class _MenuScreenState extends State<MenuScreen> {
 
       // make sure to use await for any asunc function calls
       if (imageHandler.frontImagePath!= null){
-        await uploadFront(File(imageHandler.frontImagePath));
+        await uploadFront(File(imageHandler.frontImagePath!));
       }
 
       if (imageHandler.sideImagePath!= null){
-        await uploadLateral(File(imageHandler.sideImagePath));
+        await uploadLateral(File(imageHandler.sideImagePath!));
       }
-
-
 
       // call image handler to set point values after model is run
       // ex: imageHandler.LateralUpperX = value or there are setter functions in Image Handler

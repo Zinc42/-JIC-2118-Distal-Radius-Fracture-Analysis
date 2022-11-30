@@ -8,8 +8,8 @@ class ImageHandler {
   static final ImageHandler _instance = ImageHandler._internal();
 
   // stores paths to image files
-  String frontImagePath = "lib/images/image_placeholder.png";
-  String sideImagePath = "lib/images/image_placeholder.png";
+  String? frontImagePath;
+  String? sideImagePath;
 
   // boolean value indicating which image is currently
   // selected for upload
