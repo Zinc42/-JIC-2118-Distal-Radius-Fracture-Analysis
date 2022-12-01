@@ -9,6 +9,11 @@ import "results_screen.dart";
 
 import 'dart:io';
 
+import 'package:async/async.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:path/path.dart' as Path;
+
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
 
@@ -49,6 +54,100 @@ class _MenuScreenState extends State<MenuScreen> {
     }
   }
 
+  //upload front function
+  uploadFront(File imageFile) async {
+    // open a bytestream
+    var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    // get file length
+    var length = await imageFile.length();
+
+    // string to uri
+    var uri = Uri.parse("https://distalradiusinspectionapi.com/predict-ap");
+
+    // create multipart request
+    var request = new http.MultipartRequest("POST", uri);
+
+    // multipart that takes file
+    var multipartFile = new http.MultipartFile('file', stream, length,
+        filename: Path.basename(imageFile.path));
+
+    // add file to multipart
+    request.files.add(multipartFile);
+
+    // send
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    var tempString = response.body;
+    tempString = tempString.substring(11);
+    tempString=tempString.replaceAll("[","");
+    tempString=tempString.replaceAll("]","");
+    tempString=tempString.replaceAll("{","");
+    tempString=tempString.replaceAll("}","");
+    tempString=tempString.replaceAll(" ","");
+    tempString=tempString.replaceAll("\"","");
+
+
+    print(tempString);
+
+    List<String> result = tempString.split(',');
+
+    print(result);
+
+    imageHandler.setRadialStyloidFront(double.parse(result[9]), double.parse(result[10]));
+    imageHandler.setMinArticularSurface((double.parse(result[0])+double.parse(result[3]))/2, (double.parse(result[1])+double.parse(result[4]))/2);
+  }
+
+  //upload lateral function
+  uploadLateral(File imageFile) async {
+    // open a bytestream
+    var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    // get file length
+    var length = await imageFile.length();
+
+    // string to uri
+    var uri = Uri.parse("https://distalradiusinspectionapi.com/predict-laterals");
+
+    // create multipart request
+    var request = new http.MultipartRequest("POST", uri);
+
+    // multipart that takes file
+    var multipartFile = new http.MultipartFile('file', stream, length,
+        filename: Path.basename(imageFile.path));
+
+    // add file to multipart
+    request.files.add(multipartFile);
+
+    // send
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    var tempString = response.body;
+    tempString = tempString.substring(11);
+    tempString=tempString.replaceAll("[","");
+    tempString=tempString.replaceAll("]","");
+    tempString=tempString.replaceAll("{","");
+    tempString=tempString.replaceAll("}","");
+    tempString=tempString.replaceAll(" ","");
+    tempString=tempString.replaceAll("\"","");
+
+    print(tempString);
+
+    List<String> result = tempString.split(',');
+
+    print(result);
+
+    imageHandler.setlateralLower(double.parse(result[0]),double.parse(result[1]));
+    imageHandler.setlateralUpper(double.parse(result[3]),double.parse(result[4]));
+  }
+  
+
   void runAnalysis() async {
     if (!imageHandler.isMissingImages()) {
       // run analysis only if both images have been uploaded
@@ -60,7 +159,9 @@ class _MenuScreenState extends State<MenuScreen> {
       print("outside if");
 
       // run model here
+
       // get images from ImageHandler
+
       // file PATHS stored as string:
       //  imageHandler.frontImagePath
       //  imageHandler.sideImagepath
@@ -68,6 +169,13 @@ class _MenuScreenState extends State<MenuScreen> {
       // loading screen if needed (refer to Results Screen)
 
       // make sure to use await for any asunc function calls
+      if (imageHandler.frontImagePath!= null){
+        await uploadFront(File(imageHandler.frontImagePath!));
+      }
+
+      if (imageHandler.sideImagePath!= null){
+        await uploadLateral(File(imageHandler.sideImagePath!));
+      }
 
       // call image handler to set point values after model is run
       // ex: imageHandler.LateralUpperX = value or there are setter functions in Image Handler
