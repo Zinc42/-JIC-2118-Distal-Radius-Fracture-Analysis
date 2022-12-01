@@ -131,5 +131,17 @@ Once you have these installed, you should also get the following tools:
   ```
   and receive a long list of commands you can use.
 
+### 2. Clone this repo
 
-  
+For this part, you can either clone the repo through the **Terminal**, or download a zip of the files that you must extract on your own.
+
+To clone the repo, you must have a github account, so create one if you haven't already. Afterwards, go in the **Terminal** and find a folder where you want to put the files into. In this folder, you can type in:
+  ```bash
+  $ git clone https://github.com/Zinc42/-JIC-2118-Distal-Radius-Fracture-Analysis.git
+  ```
+to get the files. It might show an error if you are not logged in, but it will usually give you instructions to fix the issue. Once it's cloned, you should enter the folder for the next step.
+
+To download the zip file, go to the top of the github page for this repo. Click the green button that opens a dropdown and click the download zip option. Put the files in whatever folder you want, and extract the files into the same folder. For the next step, you must open the **Terminal** and go to this folder to continue.
+
+### 3. Build the app
+
