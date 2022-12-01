@@ -7,6 +7,14 @@ Users can import images via the camera for analysis.
 
 Licensed under the MIT License.
 
+## Table of Contents
+* [Release Notes](#release-notes)
+  - [Version 0.4.0](#version-040)
+  - [Version 0.3.0](#version-030)
+  - [Version 0.2.0](#version-020)
+  - [Version 0.1.0](#version-010)
+* [Installation Guide](#installation-guide)
+
 ## Release Notes
 
 ### Version 0.4.0
@@ -82,4 +90,6 @@ Licensed under the MIT License.
 #### Bugfixes
 
 - N/A
+
+## Installation Guide
 
