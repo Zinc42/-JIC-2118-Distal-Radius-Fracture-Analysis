@@ -93,11 +93,13 @@ Licensed under the MIT License.
 
 ## Installation Guide
 
-This guide will allow you to run the app, and it assumes that you want to run the app on your iOS device.
+This guide will allow you to run the app and assumes that you want to run it on your iOS device.
 
 ### 1. Get the prerequisites
 
-First, you need to have a macOS device to build iOS apps. To use the macOS device for building apps, you should have:
+First, you need to have a macOS device to build iOS apps. You should also get an [Apple Developer Account](https://developer.apple.com/account/) for us to use later in the guide. You only need a free account, so there is no need to spend money for a paid one. 
+
+To use the macOS device for building apps, you should have:
 
 - **Terminal**, the standard command line terminal for macOS
   Every mac device should have this pre-installed.
@@ -105,6 +107,8 @@ First, you need to have a macOS device to build iOS apps. To use the macOS devic
   To install, you can use one of the links below:
   - [Map App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12) - Recommended Way
   - [Apple Developer Website](https://developer.apple.com/download/all/?q=Xcode)
+  
+  After installation, you should open the app, and sign in to your developer account if prompted. Otherwise continue through the rest of the guide.
 
 Once you have these installed, you should also get the following tools:
 - **Xcode Command Line Tools**, a set of standard tools used with Xcode
@@ -145,3 +149,24 @@ To download the zip file, go to the top of the github page for this repo. Click 
 
 ### 3. Build the app
 
+In this step, you should have the **Terminal** open in the folder that contains all the files in this repository. You should then run the command:
+  ```bash
+  $ flutter build ios
+  ```
+to build all the necessary files for it. There will probably be an error that states:
+  ```bash
+  Error (Xcode): Signing for (Name) requires a development team. Select a development team in the Signing & Capabilities editor.
+  ```
+To fix this, you should go in your file explorer to the ios folder inside the project. There will be a file called Runner.xcworkspace that has a white icon. You should click on this file to open the app in Xcode. 
+
+Note: If you haven't opened Xcode since you installed it, there may be prompts to sign in and setup parts of the app.
+
+Once Xcode is open, you should also connect the iOS device you will use to install the app. In the top of the window, you should see:
+
+If you connected your device and it can run the app, it should appear in the middle with its name. If not, first replug your device, or you should click on the area of the screenshot where it says **Any iOS Device** to change which device you use. As a last resort, you can use the mac to build as an iPad app.
+
+Once that's done, you should click the run button to the left. Since we haven't fixed the issue yet, there should be a notification that the build failed. It should open a window to the left that shows the errors, but if not, there should be a red x icon in the top right that you can click to take you there.
+
+Once you see the list of errors, you should click on it, and it should automatically take you to the necessary place. If the error looks like:
+
+Then you should look at the **Team**
