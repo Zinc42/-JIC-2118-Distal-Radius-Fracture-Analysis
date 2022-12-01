@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 import "camera_screen.dart";
 import 'screen_button.dart';
 import "menu_screen.dart";
+import "instruction_screen.dart";
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -73,9 +74,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ScreenButton(
                     buttonText: "Advanced Instructions",
                     pressFunction: () {
-                      print("test");
-                      //Code to navigate to next screen goes here
-                      //might look like navigator.push(context, static id of next screen when its made
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const InstructionScreen()));
                     },
                   ),
                 ],
