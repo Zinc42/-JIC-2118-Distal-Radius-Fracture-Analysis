@@ -194,6 +194,7 @@ class _MenuScreenState extends State<MenuScreen> {
       //  imageHandler.sideImagepath
 
       // loading screen if needed (refer to Results Screen)
+      //tells app analysis is running and to display loading indicator
       setIsAnalysisRunning(true);
       // make sure to use await for any asunc function calls
       if (imageHandler.frontImagePath!= null){
@@ -242,6 +243,7 @@ class _MenuScreenState extends State<MenuScreen> {
       if (!mounted){
         return;
       }
+      //turns loading indicator off
       setIsAnalysisRunning(false);
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const ResultsScreen()));
@@ -340,6 +342,8 @@ class _MenuScreenState extends State<MenuScreen> {
               ]);
         });
   }
+
+  //Code for rendering MenuScreen
   Widget getMenuScreen(MenuScreenArguments args) {
     return(Container(
       margin: const EdgeInsets.fromLTRB(0, 35, 0, 0),
@@ -391,6 +395,7 @@ class _MenuScreenState extends State<MenuScreen> {
       ),
     ));
   }
+  //Code for getting loading indicator during analysis
   Widget getLoadingIndicator() {
     return Center(
         child: Column(
@@ -418,6 +423,7 @@ class _MenuScreenState extends State<MenuScreen> {
           ],
         ));
   }
+  //Sets bool for whether analysis is running or not.
   void setIsAnalysisRunning(bool value) {
     setState(() {
       isAnalysisRunning = value;
@@ -436,6 +442,7 @@ class _MenuScreenView extends StatelessWidget {
     final MenuScreenArguments args =
         ModalRoute.of(context)!.settings.arguments as MenuScreenArguments;
     return Scaffold(
+      //if analysis is running, display loading wheel, else display menu screen
         body: state.isAnalysisRunning? state.getLoadingIndicator() : state.getMenuScreen(args));
   }
 }
