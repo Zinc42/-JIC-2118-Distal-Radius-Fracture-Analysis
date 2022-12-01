@@ -114,20 +114,6 @@ class _ImageUploadScreenView extends StatelessWidget {
                       buttonText: "From Camera Roll",
                       pressFunction: state.toCameraRollScreen
                     ),
-                    ScreenButton(
-                      buttonText: "From Files",
-                      pressFunction: () {
-                        print("Files");
-                        // Implementation TBD
-                      },
-                    ),
-                    ScreenButton(
-                      buttonText: "From Google Drive",
-                      pressFunction: () {
-                        print("Google Drive");
-                        // Implementation TBD
-                      },
-                    ),
                   ],
                 ),
               ),
