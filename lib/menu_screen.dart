@@ -37,6 +37,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
   bool analysisError = false;
   bool gatewayError = false;
+  bool isAnalysisRunning = false;
 
   @override
   Widget build(BuildContext context) => _MenuScreenView(state: this);
@@ -193,7 +194,8 @@ class _MenuScreenState extends State<MenuScreen> {
       //  imageHandler.sideImagepath
 
       // loading screen if needed (refer to Results Screen)
-
+      //tells app analysis is running and to display loading indicator
+      setIsAnalysisRunning(true);
       // make sure to use await for any asunc function calls
       if (imageHandler.frontImagePath!= null){
         await uploadFront(File(imageHandler.frontImagePath!));
@@ -203,12 +205,14 @@ class _MenuScreenState extends State<MenuScreen> {
         _showImageErrorAlert();
         analysisError = false;
         gatewayError = false;
+        setIsAnalysisRunning(false);
         return;
       }
       if (gatewayError) {
         _showGatewayErrorAlert();
         analysisError = false;
         gatewayError = false;
+        setIsAnalysisRunning(false);
         return;
       }
 
@@ -220,12 +224,14 @@ class _MenuScreenState extends State<MenuScreen> {
         _showImageErrorAlert();
         analysisError = false;
         gatewayError = false;
+        setIsAnalysisRunning(false);
         return;
       }
       if (gatewayError) {
         _showGatewayErrorAlert();
         analysisError = false;
         gatewayError = false;
+        setIsAnalysisRunning(false);
         return;
       }
 
@@ -237,7 +243,8 @@ class _MenuScreenState extends State<MenuScreen> {
       if (!mounted){
         return;
       }
-
+      //turns loading indicator off
+      setIsAnalysisRunning(false);
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const ResultsScreen()));
     } else {
@@ -335,21 +342,10 @@ class _MenuScreenState extends State<MenuScreen> {
               ]);
         });
   }
-}
 
-// View class that purely builds the UI elements
-class _MenuScreenView extends StatelessWidget {
-  const _MenuScreenView({super.key, required this.state});
-
-  final _MenuScreenState state;
-
-  @override
-  Widget build(BuildContext context) {
-    final MenuScreenArguments args =
-        ModalRoute.of(context)!.settings.arguments as MenuScreenArguments;
-
-    return Scaffold(
-        body: Container(
+  //Code for rendering MenuScreen
+  Widget getMenuScreen(MenuScreenArguments args) {
+    return(Container(
       margin: const EdgeInsets.fromLTRB(0, 35, 0, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -367,36 +363,86 @@ class _MenuScreenView extends StatelessWidget {
           const SizedBox(height: 40),
           ScreenButton(
             buttonText: "Import AP/PA View",
-            pressFunction: () => state.toImageUploadScreen(true),
+            pressFunction: () => toImageUploadScreen(true),
           ),
           const SizedBox(height: 20),
           Image(
             height: 200,
             width: 200,
-            image: state.getFrontImageDisplay(),
+            image: getFrontImageDisplay(),
           ),
           const SizedBox(
             height: 30,
           ),
           ScreenButton(
             buttonText: "Import Lateral View",
-            pressFunction: () => state.toImageUploadScreen(false),
+            pressFunction: () => toImageUploadScreen(false),
           ),
           const SizedBox(height: 20),
           Image(
             height: 200,
             width: 200,
-            image: state.getSideImageDisplay(),
+            image: getSideImageDisplay(),
           ),
           const SizedBox(
             height: 50,
           ),
           ScreenButton(
             buttonText: "Run Analysis",
-            pressFunction: state.runAnalysis,
+            pressFunction: runAnalysis,
           ),
         ],
       ),
     ));
+  }
+  //Code for getting loading indicator during analysis
+  Widget getLoadingIndicator() {
+    return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            //Progress indicator
+            SizedBox(
+              width: 175,
+              height: 175,
+              child: CircularProgressIndicator(
+                strokeWidth: 15,
+                backgroundColor: Colors.grey,
+              ),
+            ),
+            //Space between the text and the circular progress indicator
+            SizedBox(height: 50),
+            //Text
+            Text(
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+                "Running Analysis..."),
+          ],
+        ));
+  }
+  //Sets bool for whether analysis is running or not.
+  void setIsAnalysisRunning(bool value) {
+    setState(() {
+      isAnalysisRunning = value;
+    });
+  }
+}
+
+// View class that purely builds the UI elements
+class _MenuScreenView extends StatelessWidget {
+  const _MenuScreenView({super.key, required this.state});
+
+  final _MenuScreenState state;
+
+  @override
+  Widget build(BuildContext context) {
+    final MenuScreenArguments args =
+        ModalRoute.of(context)!.settings.arguments as MenuScreenArguments;
+    return Scaffold(
+      //if analysis is running, display loading wheel, else display menu screen
+        body: state.isAnalysisRunning? state.getLoadingIndicator() : state.getMenuScreen(args));
   }
 }
