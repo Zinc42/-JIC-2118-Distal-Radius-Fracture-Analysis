@@ -93,3 +93,43 @@ Licensed under the MIT License.
 
 ## Installation Guide
 
+This guide will allow you to run the app, and it assumes that you want to run the app on your iOS device.
+
+### 1. Get the prerequisites
+
+First, you need to have a macOS device to build iOS apps. To use the macOS device for building apps, you should have:
+
+- **Terminal**, the standard command line terminal for macOS
+  Every mac device should have this pre-installed.
+- **Xcode**, an IDE for Apple app development
+  To install, you can use one of the links below:
+  - [Map App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12) - Recommended Way
+  - [Apple Developer Website](https://developer.apple.com/download/all/?q=Xcode)
+
+Once you have these installed, you should also get the following tools:
+- **Xcode Command Line Tools**, a set of standard tools used with Xcode
+
+  This is necessary for Xcode to work with our app.
+  To install, you should open the **Terminal** and once it's open, type:
+  ```bash
+  $ xcode-select --install
+  ```
+  and follow the instructions. You may need to restart your device.
+  
+- **Flutter**, the main software that allows our app to run
+
+  Assuming you are on macOS, you can use the install guide linked below:
+  - [Flutter Install Guide](https://docs.flutter.dev/get-started/install/macos)
+  
+  This will require you to use the **Terminal** to input commands. You may also be asked to download other tools like **Android Studio**, but these are used for running the app on other platforms like Android and web. Only install if you want to.
+
+- **Git**, a tool we use to get the code found in this repository
+
+  If you followed the instructions to download **Xcode Command Line Tools**, it should already be installed on your device. To check, you can use the **Terminal** to type:
+  ```bash
+  $ git
+  ```
+  and receive a long list of commands you can use.
+
+
+  
