@@ -329,6 +329,14 @@ class _InstructionScreenState extends State<InstructionScreen> {
         showDoneButton: true,
         done: const Text("Done"),
         onSkip: returnHome,
-        onDone: returnHome);
+        onDone: returnHome,
+        dotsDecorator: DotsDecorator(
+          size: const Size.square(10.0),
+          activeColor: Theme.of(context).colorScheme.secondary,
+          color: Colors.black26,
+          spacing: const EdgeInsets.symmetric(horizontal: 5.0),
+  ),
+      );
+        
   }
 }
