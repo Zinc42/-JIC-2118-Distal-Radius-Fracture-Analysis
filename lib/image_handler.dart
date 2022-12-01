@@ -94,7 +94,7 @@ class ImageHandler {
   // set in image_confirm screen
   void setInputScale(double? lineLength, double? lineScreenLength) {
     if (lineLength == null || lineScreenLength == null) {
-      print("Input Lengths Failed to Parse");
+      // print("Input Lengths Failed to Parse");
       screenToCmRatio = 1;
       return;
     }
@@ -111,7 +111,7 @@ class ImageHandler {
 
   double getPixelToCm() {
     if (frontalLineLength == null || frontalLineScreenLength == null) {
-      print("Missing Scale Input Values");
+      // print("Missing Scale Input Values");
       return 0;
     } else {
       return frontalLineLength! / frontalLineScreenLength!;
@@ -120,7 +120,7 @@ class ImageHandler {
 
   void setFrontImageScreenRatio(double frontImageWidth) {
     if (imageDisplayWidth == null) {
-      print("Image Display Size Not Set");
+      // print("Image Display Size Not Set");
       return;
     }
     imageToScreenRatioFront = imageDisplayWidth! / frontImageWidth;
@@ -128,7 +128,7 @@ class ImageHandler {
 
   void setLateralImageScreenRatio(double lateralImageWidth) {
     if (imageDisplayWidth == null) {
-      print("Image Display Size Not Set");
+      // print("Image Display Size Not Set");
       return;
     }
     imageToScreenRatioLateral = imageDisplayWidth! / lateralImageWidth;
@@ -136,7 +136,7 @@ class ImageHandler {
 
   double getImageDisplayWidth() {
     if (imageDisplayHeight == null) {
-      print("Image Display Dims not Set");
+      // print("Image Display Dims not Set");
       return 0;
     }
     return imageDisplayWidth!;
@@ -144,7 +144,7 @@ class ImageHandler {
   
   double getImageDisplayHeight() {
     if (imageDisplayHeight == null) {
-      print("Image Display Dims not Set");
+      // print("Image Display Dims not Set");
       return 0;
     }
     return imageDisplayHeight!;
@@ -207,7 +207,7 @@ class ImageHandler {
   // calculates Radial Inclination in DEGREES
   double getRadialInclination() {
     if (isMissingPoints()) {
-      print("Missing Point Coords");
+      // print("Missing Point Coords");
       return 0;
     } else {
       Vector2 hVector = Vector2(radialStyloidFrontX - minArticularSurfaceX, 0);
@@ -219,7 +219,7 @@ class ImageHandler {
   // calcualtes Radial Height - currently still in pixels, not converted to IRL measurements
   double getRadialHeight() {
     if (isMissingPoints()) {
-      print("Missing Point Coords");
+      // print("Missing Point Coords");
       return 0;
     } else {
       return (minArticularSurfaceY - radialStyloidFrontY) * imageToScreenRatioFront * screenToCmRatio;
@@ -229,7 +229,7 @@ class ImageHandler {
   // calculates Volar Tilt in DEGREES
   double getVolarTilt() {
     if (isMissingPoints()) {
-      print("Missing Point Coords");
+      // print("Missing Point Coords");
       return 0;
     } else {
       Vector2 hVector = Vector2(lateralUpperX - lateralLowerX, 0);

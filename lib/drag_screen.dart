@@ -119,7 +119,7 @@ class _DragScreenState extends State<DragScreen> {
 
   //The function that initializes data for the screen
   void dataInitializer(BuildContext context, ImgDetails img) {
-    print("Width of image: ${img.width} Height of img: ${img.height}");
+    // print("Width of image: ${img.width} Height of img: ${img.height}");
     widthOfImage = img.width!;
     heightOfImage = img.height!;
 
@@ -187,7 +187,7 @@ class _DragScreenState extends State<DragScreen> {
   void firstDragableStartCallback(dragStartDetails) {
     prevDragableOneLocationX = draggableOne.getLeft();
     prevDragableOneLocationY = draggableOne.getTop();
-    print("Started Drag");
+    // print("Started Drag");
   }
 
   void firstDragableUpdateCallback(details) {
@@ -231,8 +231,8 @@ Here the offset is calculted and used to update the coordinates in the native im
         widthOfImage,
         heightOfImage);
     //shows new coordinates in console
-    print(
-        "New first point in camera resolution: ${firstPointInImageResolution.x} ${firstPointInImageResolution.y}");
+    // print(
+    //     "New first point in camera resolution: ${firstPointInImageResolution.x} ${firstPointInImageResolution.y}");
     //Set local offset varable back to 0 otherwise if u just click but dont drag, it will use same offset that was used in last
     //drag end despite not actually moving
 
@@ -244,7 +244,7 @@ Here the offset is calculted and used to update the coordinates in the native im
   void secondDragableStartCallback(dragStartDetails) {
     prevDragableTwoLocationX = draggableTwo.getLeft();
     prevDragableTwoLocationY = draggableTwo.getTop();
-    print("Started Drag");
+    // print("Started Drag");
   }
 
   void secondDragableUpdateCallback(details) {
@@ -285,8 +285,8 @@ Here the offset is calculted and used to update the coordinates in the native im
 
 
     //shows new coordinates in console
-    print(
-        "New second point in camera resolution: ${secondPointInImageResolution.x} ${secondPointInImageResolution.y}");
+    // print(
+    //     "New second point in camera resolution: ${secondPointInImageResolution.x} ${secondPointInImageResolution.y}");
     //Set local offset varable back to 0 otherwise if u just click but dont drag, it will use same offset that was used in last
     //drag end despite not actually moving
 

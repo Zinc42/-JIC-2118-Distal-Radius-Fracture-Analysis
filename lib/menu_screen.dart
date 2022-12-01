@@ -78,8 +78,8 @@ class _MenuScreenState extends State<MenuScreen> {
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
 
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    // print('Response status: ${response.statusCode}');
+    // print('Response body: ${response.body}');
 
     var tempString = response.body;
     tempString = tempString.substring(11);
@@ -91,11 +91,11 @@ class _MenuScreenState extends State<MenuScreen> {
     tempString=tempString.replaceAll("\"","");
 
 
-    print(tempString);
+    // print(tempString);
 
     List<String> result = tempString.split(',');
 
-    print(result);
+    // print(result);
 
     imageHandler.setRadialStyloidFront(double.parse(result[9]), double.parse(result[10]));
     imageHandler.setMinArticularSurface((double.parse(result[0])+double.parse(result[3]))/2, (double.parse(result[1])+double.parse(result[4]))/2);
@@ -125,8 +125,8 @@ class _MenuScreenState extends State<MenuScreen> {
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
 
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    // print('Response status: ${response.statusCode}');
+    // print('Response body: ${response.body}');
 
     var tempString = response.body;
     tempString = tempString.substring(11);
@@ -137,11 +137,11 @@ class _MenuScreenState extends State<MenuScreen> {
     tempString=tempString.replaceAll(" ","");
     tempString=tempString.replaceAll("\"","");
 
-    print(tempString);
+    // print(tempString);
 
     List<String> result = tempString.split(',');
 
-    print(result);
+    // print(result);
 
     imageHandler.setlateralLower(double.parse(result[0]),double.parse(result[1]));
     imageHandler.setlateralUpper(double.parse(result[3]),double.parse(result[4]));
@@ -151,12 +151,11 @@ class _MenuScreenState extends State<MenuScreen> {
   void runAnalysis() async {
     if (!imageHandler.isMissingImages()) {
       // run analysis only if both images have been uploaded
-      print("Run Analysis");
+      // print("Run Analysis");
       // code to run analysis
-      print(imageHandler.getImageDisplayHeight());
-      print(imageHandler.getImageDisplayWidth());
+      // print(imageHandler.getImageDisplayHeight());
+      // print(imageHandler.getImageDisplayWidth());
       await setImageRatio();
-      print("outside if");
 
       // run model here
 
@@ -188,9 +187,8 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Future<void> setImageRatio() async {
-    print("setImageRatio");
+    // print("setImageRatio");
     if (!imageHandler.isSetImageToScreenRatio) {
-      print("inside if");
       File imageFront = File(imageHandler.frontImagePath!);
       var decodedImageFront =
           await decodeImageFromList(imageFront.readAsBytesSync());
@@ -202,8 +200,8 @@ class _MenuScreenState extends State<MenuScreen> {
       imageHandler
           .setLateralImageScreenRatio(decodedImageLateral.width.toDouble());
 
-      print(imageHandler.imageToScreenRatioFront);
-      print(imageHandler.imageToScreenRatioLateral);
+      // print(imageHandler.imageToScreenRatioFront);
+      // print(imageHandler.imageToScreenRatioLateral);
 
       imageHandler.isSetImageToScreenRatio = true;
     }

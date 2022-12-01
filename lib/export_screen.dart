@@ -22,12 +22,12 @@ class _ExportScreenState extends State<ExportScreen> {
   Widget build(BuildContext context) => _ExportScreenView(state: this);
 
   void toTextMessageScreen() {
-    print("Send through text message");
+    // print("Send through text message");
     ExportFilesBuilder.buildExportFiles();
   }
 
   void toEmailScreen() {
-    print("Send through email");
+    // print("Send through email");
   }
 
   void returnToHome() {

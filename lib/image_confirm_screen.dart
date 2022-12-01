@@ -44,8 +44,8 @@ class _ImageConfirmScreen extends State<ImageConfirmScreen> {
     // sets value to null if nothing is entered
     if (imageHandler.isFrontImage) {
       imageHandler.setInputScale(double.tryParse(textController.text), lineScreenLength);
-      print("Length in Cm: ${imageHandler.frontalLineLength}");
-      print("Length in Px: ${imageHandler.frontalLineScreenLength}");
+      // print("Length in Cm: ${imageHandler.frontalLineLength}");
+      // print("Length in Px: ${imageHandler.frontalLineScreenLength}");
     }
 
     // overwrites original image path with new image
@@ -164,7 +164,7 @@ class _ImageConfirmScreen extends State<ImageConfirmScreen> {
                 if (text.isNotEmpty) double.parse(text);
                 return newValue;
               } catch (e) {
-                print(e);
+                debugPrint("$e");
               }
               return oldValue;
             }),

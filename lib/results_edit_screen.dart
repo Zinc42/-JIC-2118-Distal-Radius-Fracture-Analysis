@@ -32,13 +32,13 @@ class _ResultsEditScreenState extends State<ResultsEditScreen> {
   // update the image handler with the currently stored and modified temp points
   void updatePoints() {
     if (imageHandler.isFrontImage) {
-      print("Updated Radial Styloid: $tempFirstPointX $tempFirstPointY");
-      print("Updated Min Articular Surface: $tempSecondPointX $tempSecondPointY");
+      // print("Updated Radial Styloid: $tempFirstPointX $tempFirstPointY");
+      // print("Updated Min Articular Surface: $tempSecondPointX $tempSecondPointY");
       imageHandler.setRadialStyloidFront(tempFirstPointX, tempFirstPointY);
       imageHandler.setMinArticularSurface(tempSecondPointX, tempSecondPointY);
     } else {
-      print("Updated Lateral Upper: $tempFirstPointX $tempFirstPointY");
-      print("Updated Lateral Lower: $tempSecondPointX $tempSecondPointY");
+      // print("Updated Lateral Upper: $tempFirstPointX $tempFirstPointY");
+      // print("Updated Lateral Lower: $tempSecondPointX $tempSecondPointY");
       imageHandler.setlateralUpper(tempFirstPointX, tempFirstPointY);
       imageHandler.setlateralLower(tempSecondPointX, tempSecondPointY);
     }
@@ -60,13 +60,13 @@ class _ResultsEditScreenState extends State<ResultsEditScreen> {
 
   void cancelEdit() {
     // cancel edit and return to results screen
-    print("Cancel Edit");
+    // print("Cancel Edit");
     Navigator.of(context).pop();
   }
 
   void confirmEdit() {
     // update points in Image Handler and return to results screen
-    print("Confirm Edit");
+    // print("Confirm Edit");
     updatePoints();
     Navigator.of(context).pop();
   }

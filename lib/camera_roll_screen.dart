@@ -29,7 +29,7 @@ class _CameraRollScreenState extends State<CameraRollScreen> {
       });
     } on PlatformException catch (e) {
       //To do: Handle exception when user does not allow permission to camera roll
-      print("Failed to pick image: $e");
+      debugPrint("Failed to pick image: $e");
     }
   }
 
