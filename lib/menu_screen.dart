@@ -35,6 +35,9 @@ class MenuScreenArguments {
 class _MenuScreenState extends State<MenuScreen> {
   ImageHandler imageHandler = ImageHandler();
 
+  bool analysisError = false;
+  bool gatewayError = false;
+
   @override
   Widget build(BuildContext context) => _MenuScreenView(state: this);
 
@@ -80,6 +83,18 @@ class _MenuScreenState extends State<MenuScreen> {
 
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
+
+    if (response.statusCode != 200) {
+      gatewayError = true;
+      return;
+    }
+
+    var body = json.decode(response.body);
+    if (body["error"] != null) {
+      analysisError = true;
+      return;
+    }
+    
 
     var tempString = response.body;
     tempString = tempString.substring(11);
@@ -128,6 +143,17 @@ class _MenuScreenState extends State<MenuScreen> {
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
 
+    if (response.statusCode != 200) {
+      gatewayError = true;
+      return;
+    }
+
+    var body = json.decode(response.body);
+    if (body["error"] != null) {
+      analysisError = true;
+      return;
+    }
+
     var tempString = response.body;
     tempString = tempString.substring(11);
     tempString=tempString.replaceAll("[","");
@@ -173,12 +199,44 @@ class _MenuScreenState extends State<MenuScreen> {
         await uploadFront(File(imageHandler.frontImagePath!));
       }
 
+      if (analysisError) {
+        _showImageErrorAlert();
+        analysisError = false;
+        gatewayError = false;
+        return;
+      }
+      if (gatewayError) {
+        _showGatewayErrorAlert();
+        analysisError = false;
+        gatewayError = false;
+        return;
+      }
+
       if (imageHandler.sideImagePath!= null){
         await uploadLateral(File(imageHandler.sideImagePath!));
       }
 
+      if (analysisError) {
+        _showImageErrorAlert();
+        analysisError = false;
+        gatewayError = false;
+        return;
+      }
+      if (gatewayError) {
+        _showGatewayErrorAlert();
+        analysisError = false;
+        gatewayError = false;
+        return;
+      }
+
       // call image handler to set point values after model is run
       // ex: imageHandler.LateralUpperX = value or there are setter functions in Image Handler
+
+
+
+      if (!mounted){
+        return;
+      }
 
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const ResultsScreen()));
@@ -224,6 +282,48 @@ class _MenuScreenState extends State<MenuScreen> {
               title: const Text("Missing Image"),
               content: const SingleChildScrollView(
                 child: Text("Required Images are Missing."),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ]);
+        });
+  }
+
+  Future<void> _showImageErrorAlert() async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: const Text("Image Error"),
+              content: const SingleChildScrollView(
+                child: Text("The images could not be analyzed. Try reuploading the image(s)."),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ]);
+        });
+  }
+
+  Future<void> _showGatewayErrorAlert() async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: const Text("Error"),
+              content: const SingleChildScrollView(
+                child: Text("An error occurred in the analysis. Try Again."),
               ),
               actions: <Widget>[
                 TextButton(
