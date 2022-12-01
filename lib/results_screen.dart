@@ -139,9 +139,9 @@ class _ResultsScreenState extends State<ResultsScreen> {
     double radialHeight = imageHandler.getRadialHeight();
     double radialInclination = imageHandler.getRadialInclination();
 
-    print(volarTilt);
-    print(radialHeight);
-    print(radialInclination);
+    // print(volarTilt);
+    // print(radialHeight);
+    // print(radialInclination);
 
     return Container(
         margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),

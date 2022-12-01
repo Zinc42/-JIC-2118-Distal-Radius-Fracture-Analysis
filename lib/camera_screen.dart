@@ -73,7 +73,6 @@ class _CameraScreenState extends State<CameraScreen> {
                 foregroundColor: Colors.grey.shade300,
               ),
               onPressed: () {
-                print("Shutter");
                 takeImage();
               },
               child: Container(
@@ -141,7 +140,7 @@ class _CameraScreenState extends State<CameraScreen> {
             builder: (context) => ImageEditScreen(imagePath: image.path)));
       }
     } catch (e) {
-      print(e);
+      debugPrint("$e");
     }
   }
 }

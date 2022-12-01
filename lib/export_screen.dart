@@ -3,6 +3,7 @@ import 'package:distal_radius/screenshot_handler.dart';
 import 'package:distal_radius/welcome_screen.dart';
 import 'screen_button.dart';
 import "text_and_email_export.dart";
+import "image_handler.dart";
 
 import 'package:permission_handler/permission_handler.dart';
 
@@ -18,19 +19,21 @@ class ExportScreen extends StatefulWidget {
 
 class _ExportScreenState extends State<ExportScreen> {
   ScreenshotHandler screenshotHandler = ScreenshotHandler();
+  ImageHandler imageHandler = ImageHandler();
   @override
   Widget build(BuildContext context) => _ExportScreenView(state: this);
 
   void toTextMessageScreen() {
-    print("Send through text message");
+    // print("Send through text message");
     ExportFilesBuilder.buildExportFiles();
   }
 
   void toEmailScreen() {
-    print("Send through email");
+    // print("Send through email");
   }
 
   void returnToHome() {
+    imageHandler.reset();
     Navigator.of(context).popUntil(ModalRoute.withName(WelcomeScreen.id));
   }
 
