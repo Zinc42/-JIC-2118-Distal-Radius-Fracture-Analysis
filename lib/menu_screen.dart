@@ -266,7 +266,7 @@ class _MenuScreenView extends StatelessWidget {
           ]),
           const SizedBox(height: 40),
           ScreenButton(
-            buttonText: "Import Frontal View",
+            buttonText: "Import AP/PA View",
             pressFunction: () => state.toImageUploadScreen(true),
           ),
           const SizedBox(height: 20),
@@ -279,7 +279,7 @@ class _MenuScreenView extends StatelessWidget {
             height: 30,
           ),
           ScreenButton(
-            buttonText: "Import Side View",
+            buttonText: "Import Lateral View",
             pressFunction: () => state.toImageUploadScreen(false),
           ),
           const SizedBox(height: 20),
