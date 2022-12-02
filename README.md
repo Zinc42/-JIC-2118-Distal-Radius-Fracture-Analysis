@@ -169,4 +169,4 @@ Once that's done, you should click the run button to the left. Since we haven't 
 
 Once you see the list of errors, you should click on it, and it should automatically take you to the necessary place. If the error looks like:
 
-Then you should look at the **Team**
+Then you should look at the **Team** dropdown under the Signing and Capabilities heading. You should change the team to be your personal developer account. This will allow the app to build on the device.
