@@ -14,6 +14,10 @@ Licensed under the MIT License.
   - [Version 0.2.0](#version-020)
   - [Version 0.1.0](#version-010)
 * [Installation Guide](#installation-guide)
+  - [Get the Prerequisites](#get-the-prerequisites)
+  - [Clone this repo](#clone-this-repo)
+  - [Build the app](#build-the-app)
+  - 
 
 ## Release Notes
 
@@ -105,7 +109,7 @@ To use the macOS device for building apps, you should have:
   Every mac device should have this pre-installed.
 - **Xcode**, an IDE for Apple app development
   To install, you can use one of the links below:
-  - [Map App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12) - Recommended Way
+  - [Mac App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12) - Recommended Way
   - [Apple Developer Website](https://developer.apple.com/download/all/?q=Xcode)
   
   After installation, you should open the app, and sign in to your developer account if prompted. Otherwise continue through the rest of the guide.
