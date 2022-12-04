@@ -163,17 +163,26 @@ Note: If you haven't opened Xcode since you installed it, there may be prompts t
 
 Once Xcode is open, you should also connect the iOS device you will use to install the app. In the top of the window, you should see:
 
+![choose Device](./lib/images/changeDevice.png)
+
 If you connected your device and it can run the app, it should appear in the middle with its name. If not, first replug your device, or you should click on the area of the screenshot where it says **Any iOS Device** to change which device you use. As a last resort, you can use the mac to build as an iPad app.
 
 Once that's done, you should click the run button to the left. Since we haven't fixed the issue yet, there should be a notification that the build failed. It should open a window to the left that shows the errors, but if not, there should be a red x icon in the top right that you can click to take you there.
 
 Once you see the list of errors, you should click on it, and it should automatically take you to the necessary place. If the error looks like:
 
-Then you should look at the **Team** dropdown under the Signing and Capabilities heading. You should change the team to be your personal developer account. This will allow the app to build on the device.
+![Signing Issue](./lib/images/signingIssue.png)
+
+Then you should look at the **Team** dropdown under the Signing and Capabilities heading like below:
+
+![choose Team](./lib/images/chooseTeam.png)
+
+You should change the team to be your personal developer account. This will allow the app to build on the device.
 
 Click the run button again, and it should build for your device. Once that's done, the device should automatically open the app. The app will keep running until you either exit through your device, or if you stop running through Xcode by clicking the stop button.
 
 To keep it running outside of Xcode, you can run hold the run button to show this popup:
-![text](./lib/images/chooseRunType.png)
+
+![choose Type](./lib/images/chooseRunType.png)
 
 Then click on profile, and then run the app again. This will open another window that gives you options to analyze how the app runs, but you can just ignore it. Once it's done putting the app on your device, you can open it on your own without the use of Xcode. This will last for 7 days because the app was signed onto the device with a temporary license that lasts for 7 days.
