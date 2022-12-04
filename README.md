@@ -160,9 +160,13 @@ to build all the necessary files for it. There will probably be an error that st
   ```bash
   Error (Xcode): Signing for (Name) requires a development team. Select a development team in the Signing & Capabilities editor.
   ```
-To fix this, you should go in your file explorer to the ios folder inside the project. There will be a file called Runner.xcworkspace that has a white icon. You should click on this file to open the app in Xcode. 
+To fix this, you should go in your file explorer to the ios folder inside the project:
 
-Note: If you haven't opened Xcode since you installed it, there may be prompts to sign in and setup parts of the app.
+![Xcode files](./lib/images/openXcode.png)
+
+There will be a file called `Runner.xcworkspace` that has a white icon. You should click on this file to open the app in Xcode. 
+
+> Note: If you haven't opened Xcode since you installed it, there may be prompts to sign in and setup parts of the app.
 
 Once Xcode is open, you should also connect the iOS device you will use to install the app. In the top of the window, you should see:
 
@@ -182,10 +186,14 @@ Then you should look at the **Team** dropdown under the Signing and Capabilities
 
 You should change the team to be your personal developer account. This will allow the app to build on the device.
 
-Click the run button again, and it should build for your device. Once that's done, the device should automatically open the app. The app will keep running until you either exit through your device, or if you stop running through Xcode by clicking the stop button.
+Click the run button again, and it should build for your device. Once that's done, the device should automatically open the app. 
+
+> Note: The app will keep running until you either exit through your device, or if you stop running through Xcode by clicking the stop button.
 
 To keep it running outside of Xcode, you can run hold the run button to show this popup:
 
 ![choose Type](./lib/images/chooseRunType.png)
 
-Then click on profile, and then run the app again. This will open another window that gives you options to analyze how the app runs, but you can just ignore it. Once it's done putting the app on your device, you can open it on your own without the use of Xcode. This will last for 7 days because the app was signed onto the device with a temporary license that lasts for 7 days.
+Then click on profile, and then run the app again. This will open another window that gives you options to analyze how the app runs, but you can just ignore it. Once it's done putting the app on your device, you can open it on your own without the use of Xcode. 
+
+> Note: This will last for 7 days because the app was signed onto the device with a temporary license that lasts for 7 days.
