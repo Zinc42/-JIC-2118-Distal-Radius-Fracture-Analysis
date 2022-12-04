@@ -14,6 +14,9 @@ Licensed under the MIT License.
   - [Version 0.2.0](#version-020)
   - [Version 0.1.0](#version-010)
 * [Installation Guide](#installation-guide)
+  - [1. Get the Prerequisites](#1-get-the-prerequisites)
+  - [2. Clone this repo](#2-clone-this-repo)
+  - [3. Build the app](#3-build-the-app)
 
 ## Release Notes
 
@@ -105,7 +108,7 @@ To use the macOS device for building apps, you should have:
   Every mac device should have this pre-installed.
 - **Xcode**, an IDE for Apple app development
   To install, you can use one of the links below:
-  - [Map App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12) - Recommended Way
+  - [Mac App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12) - Recommended Way
   - [Apple Developer Website](https://developer.apple.com/download/all/?q=Xcode)
   
   After installation, you should open the app, and sign in to your developer account if prompted. Otherwise continue through the rest of the guide.
@@ -165,7 +168,7 @@ Once Xcode is open, you should also connect the iOS device you will use to insta
 
 ![choose Device](./lib/images/changeDevice.png)
 
-If you connected your device and it can run the app, it should appear in the middle with its name. If not, first replug your device, or you should click on the area of the screenshot where it says **Any iOS Device** to change which device you use. As a last resort, you can use the mac to build as an iPad app.
+If you connected your device and it can run the app, it should appear in the middle with its name. If not, first replug your device, or you should click on the area of the screenshot where it says **Any iOS Device** or **My Mac** to change which device you use. As a last resort, you can use the mac to build as an iPad app.
 
 Once that's done, you should click the run button to the left. Since we haven't fixed the issue yet, there should be a notification that the build failed. It should open a window to the left that shows the errors, but if not, there should be a red x icon in the top right that you can click to take you there.
 
