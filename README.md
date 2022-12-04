@@ -165,7 +165,7 @@ Once Xcode is open, you should also connect the iOS device you will use to insta
 
 ![choose Device](./lib/images/changeDevice.png)
 
-If you connected your device and it can run the app, it should appear in the middle with its name. If not, first replug your device, or you should click on the area of the screenshot where it says **Any iOS Device** to change which device you use. As a last resort, you can use the mac to build as an iPad app.
+If you connected your device and it can run the app, it should appear in the middle with its name. If not, first replug your device, or you should click on the area of the screenshot where it says **Any iOS Device** or **My Mac** to change which device you use. As a last resort, you can use the mac to build as an iPad app.
 
 Once that's done, you should click the run button to the left. Since we haven't fixed the issue yet, there should be a notification that the build failed. It should open a window to the left that shows the errors, but if not, there should be a red x icon in the top right that you can click to take you there.
 
