@@ -14,10 +14,9 @@ Licensed under the MIT License.
   - [Version 0.2.0](#version-020)
   - [Version 0.1.0](#version-010)
 * [Installation Guide](#installation-guide)
-  - [Get the Prerequisites](#get-the-prerequisites)
-  - [Clone this repo](#clone-this-repo)
-  - [Build the app](#build-the-app)
-  - 
+  - [1. Get the Prerequisites](#1-get-the-prerequisites)
+  - [2. Clone this repo](#2-clone-this-repo)
+  - [3. Build the app](#3-build-the-app)
 
 ## Release Notes
 
