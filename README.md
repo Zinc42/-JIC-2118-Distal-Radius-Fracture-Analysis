@@ -174,5 +174,6 @@ Then you should look at the **Team** dropdown under the Signing and Capabilities
 Click the run button again, and it should build for your device. Once that's done, the device should automatically open the app. The app will keep running until you either exit through your device, or if you stop running through Xcode by clicking the stop button.
 
 To keep it running outside of Xcode, you can run hold the run button to show this popup:
+![text](./lib/images/chooseRunType.png)
 
 Then click on profile, and then run the app again. This will open another window that gives you options to analyze how the app runs, but you can just ignore it. Once it's done putting the app on your device, you can open it on your own without the use of Xcode. This will last for 7 days because the app was signed onto the device with a temporary license that lasts for 7 days.
