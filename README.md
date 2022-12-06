@@ -17,6 +17,7 @@ Licensed under the MIT License.
   - [1. Get the Prerequisites](#1-get-the-prerequisites)
   - [2. Clone this repo](#2-clone-this-repo)
   - [3. Build the app](#3-build-the-app)
+  - [4. Run the app](#4-run-the-app)
 
 ## Release Notes
 
@@ -201,13 +202,15 @@ Then click on profile, and then run the app again. This will open another window
 ### 4. Run the app
 
 If you ran the Xcode build through the profile setting, there should be an app on your device titled Distal Radius like below:
-
+![App Icon](./lib/images/appIcon.png)
 
 If you click on the app, it should let you run the app as often as you want without your mac device. Once the temporary license has expired after 7 days, it will show this error message when you try to open the app:
-
+![Run Error](./lib/images/appRunError.png)
 
 You will need to rebuild the app through Xcode to get another license.
 
 If you ran the Xcode build through the normal run setting, the app will open and run automatically through your device. 
 
 > Note: If you exit the app through your mobile device and not Xcode, you may have to stop the current Xcode run before starting a new one. This is because Xcode only finishes running if you signal through Xcode and not the mobile device. 
+
+
