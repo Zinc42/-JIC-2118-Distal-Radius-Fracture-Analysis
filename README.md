@@ -149,7 +149,10 @@ To clone the repo, you must have a github account, so create one if you haven't 
   ```
 to get the files. It might show an error if you are not logged in, but it will usually give you instructions to fix the issue. Once it's cloned, you should enter the folder for the next step.
 
-To download the zip file, go to the top of the github page for this repo. Click the green button that opens a dropdown and click the download zip option. Put the files in whatever folder you want, and extract the files into the same folder. For the next step, you must open the **Terminal** and go to this folder to continue.
+To download the zip file, go to the top of the github page for this repo. Click the green button that opens a dropdown and click the download zip option. It should look like:
+![Download Options](./lib/images/donwloadOptions.png)
+
+Put the files in whatever folder you want, and extract the files into the same folder. MacOS automatically comes with an unzip tool to handle this, so you should only have to double click on the zip file. For the next step, you must open the **Terminal** and go to this folder to continue.
 
 ### 3. Build the app
 
