@@ -205,6 +205,7 @@ Then click on profile, and then run the app again. This will open another window
 ### 4. Run the app
 
 If you ran the Xcode build through the profile setting, there should be an app on your device titled Distal Radius like below:
+
 <img src="./lib/images/appIcon.png" alt="App Icon" width="500" />
 
 If you click on the app, it should let you run the app as often as you want without your mac device. Once the temporary license has expired after 7 days, it will show this error message when you try to open the app:
