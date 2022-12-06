@@ -197,3 +197,17 @@ To keep it running outside of Xcode, you can run hold the run button to show thi
 Then click on profile, and then run the app again. This will open another window that gives you options to analyze how the app runs, but you can just ignore it. Once it's done putting the app on your device, you can open it on your own without the use of Xcode. 
 
 > Note: This will last for 7 days because the app was signed onto the device with a temporary license that lasts for 7 days.
+
+### 4. Run the app
+
+If you ran the Xcode build through the profile setting, there should be an app on your device titled Distal Radius like below:
+
+
+If you click on the app, it should let you run the app as often as you want without your mac device. Once the temporary license has expired after 7 days, it will show this error message when you try to open the app:
+
+
+You will need to rebuild the app through Xcode to get another license.
+
+If you ran the Xcode build through the normal run setting, the app will open and run automatically through your device. 
+
+> Note: If you exit the app through your mobile device and not Xcode, you may have to stop the current Xcode run before starting a new one. This is because Xcode only finishes running if you signal through Xcode and not the mobile device. 
