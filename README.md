@@ -150,7 +150,8 @@ To clone the repo, you must have a github account, so create one if you haven't 
 to get the files. It might show an error if you are not logged in, but it will usually give you instructions to fix the issue. Once it's cloned, you should enter the folder for the next step.
 
 To download the zip file, go to the top of the github page for this repo. Click the green button that opens a dropdown and click the download zip option. It should look like:
-![Download Options](./lib/images/donwloadOptions.png)
+
+<img src="./lib/images/downloadOptions.png" alt="Download Options" width="400" height="400"/>
 
 Put the files in whatever folder you want, and extract the files into the same folder. MacOS automatically comes with an unzip tool to handle this, so you should only have to double click on the zip file. For the next step, you must open the **Terminal** and go to this folder to continue.
 
@@ -166,7 +167,7 @@ to build all the necessary files for it. There will probably be an error that st
   ```
 To fix this, you should go in your file explorer to the ios folder inside the project:
 
-![Xcode files](./lib/images/openXcode.png)
+<img src="./lib/images/openXcode.png" alt="Xcode Files" width="500" />
 
 There will be a file called `Runner.xcworkspace` that has a white icon. You should click on this file to open the app in Xcode. 
 
@@ -174,7 +175,7 @@ There will be a file called `Runner.xcworkspace` that has a white icon. You shou
 
 Once Xcode is open, you should also connect the iOS device you will use to install the app. In the top of the window, you should see:
 
-![choose Device](./lib/images/changeDevice.png)
+<img src="./lib/images/changeDevice.png" alt="Choose Device" width="500" />
 
 If you connected your device and it can run the app, it should appear in the middle with its name. If not, first replug your device, or you should click on the area of the screenshot where it says **Any iOS Device** or **My Mac** to change which device you use. As a last resort, you can use the mac to build as an iPad app.
 
@@ -185,8 +186,7 @@ Once you see the list of errors, you should click on it, and it should automatic
 ![Signing Issue](./lib/images/signingIssue.png)
 
 Then you should look at the **Team** dropdown under the Signing and Capabilities heading like below:
-
-![choose Team](./lib/images/chooseTeam.png)
+<img src="./lib/images/chooseTeam.png" alt="Choose Team" width="500" />
 
 You should change the team to be your personal developer account. This will allow the app to build on the device.
 
@@ -205,10 +205,11 @@ Then click on profile, and then run the app again. This will open another window
 ### 4. Run the app
 
 If you ran the Xcode build through the profile setting, there should be an app on your device titled Distal Radius like below:
-![App Icon](./lib/images/appIcon.png)
+<img src="./lib/images/appIcon.png" alt="App Icon" width="500" />
 
 If you click on the app, it should let you run the app as often as you want without your mac device. Once the temporary license has expired after 7 days, it will show this error message when you try to open the app:
-![Run Error](./lib/images/appRunError.png)
+
+<img src="./lib/images/appRunError.png" alt="Run Error" width="500" height="300"/>
 
 You will need to rebuild the app through Xcode to get another license.
 
